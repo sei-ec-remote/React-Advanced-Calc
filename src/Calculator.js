@@ -5,7 +5,7 @@ const Calculator = props => {
   // operand for maths
   const [operand, setOperand] = useState(0);
   // true if equals button has been clicked already
-  const [alreaadyClicked, setalreadyClicked] = useState(false);
+  const [alreadyClicked, setAlreadyClicked] = useState(false);
   // set to true to restart displayValue concatenation
   const [updateDisplay, setUpdateDisplay] = useState(false);
   // currently selected math operation
@@ -19,9 +19,9 @@ const Calculator = props => {
     setUpdateDisplay(true);
     switch(op){
       case '/':
-        if(!alreaadyClicked){
+        if(!alreadyClicked){
           // first press of equals button
-          setalreadyClicked(true);
+          setAlreadyClicked(true);
           let newDisplayValue = operand / displayValue;
           setOperand(displayValue);
           setDisplayValue(newDisplayValue);
@@ -34,9 +34,9 @@ const Calculator = props => {
         setDisplayValue( operand * displayValue);
         break;
       case '-':
-        if(!alreaadyClicked){
+        if(!alreadyClicked){
           // first press of equals button
-          setalreadyClicked(true);
+          setAlreadyClicked(true);
           let newDisplayValue = operand - displayValue;
           setOperand(displayValue);
           setDisplayValue(newDisplayValue);
@@ -46,7 +46,7 @@ const Calculator = props => {
         }
         break;
       case '+':
-        setDisplayValue( operand + displayValue);
+        setDisplayValue(operand + displayValue);
         break;
       default:
         break;
@@ -68,7 +68,8 @@ const Calculator = props => {
       // user clicked an operation
       // restart displayed number 
       setUpdateDisplay(false);
-      let newDisplayValue = 0;
+      // check if user wants a decimal
+      let newDisplayValue = displayValue === '0.' ? displayValue : 0;
       newDisplayValue += e.target.innerText;
       newDisplayValue = parseFloat(newDisplayValue);
       setDisplayValue(newDisplayValue)
@@ -94,14 +95,23 @@ const Calculator = props => {
     // reset to init state 
     setDisplayValue(0);
     setOperation(false);
-    setalreadyClicked(false);
+    setAlreadyClicked(false);
   }
 
   function handleDecimalClick(e){
-    // display value is left as a string here
-    let newDisplayValue = displayValue;
-    newDisplayValue += '.';
-    setDisplayValue(newDisplayValue)
+    // if decimal is clicked after operator button, display value should be 0.
+    // TODO fix
+    if(updateDisplay){
+      setDisplayValue('0.');
+    }
+    // only add a decimal if there isn't one at the end already
+    // TODO why does != throw a console warning but still work here?
+    if(displayValue[displayValue.length - 1] !== '.'){
+      // display value is left as a string here so it can concat with next number press
+      let newDisplayValue = displayValue;
+      newDisplayValue += '.';
+      setDisplayValue(newDisplayValue)
+    }
   }
 
   function handleNegetiveClick(e){
