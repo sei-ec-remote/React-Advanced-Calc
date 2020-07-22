@@ -4,9 +4,9 @@ const Calculator = props => {
   // Declare state variables
   // operand for maths
   const [operand, setOperand] = useState(0);
-  // check if equals has been clicked already
+  // true if equals button has been clicked already
   const [alreaadyClicked, setalreadyClicked] = useState(false);
-  // check if to start a new number to display
+  // set to true to restart displayValue concatenation
   const [updateDisplay, setUpdateDisplay] = useState(false);
   // currently selected math operation
   const [operation, setOperation] = useState(false);
@@ -118,7 +118,7 @@ const Calculator = props => {
     <div className="container">
       <h1>React Calculator</h1>
       <div className="calc-container">
-        <p>Values: </p>
+        {/* <p>Values: </p> */}
         <div className="answer-box">{ displayValue }</div>
         <div className="calc-row">
           <button className="calc-button calc-button-top"
