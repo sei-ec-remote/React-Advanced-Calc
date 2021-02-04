@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { Component } from 'react'
 
-const Calculator = props => {
+class Calculator extends Component {
     // Declare state variables
 
-
+render(){
     return (
         <div className="container">
             <h1>React Calculator</h1>
@@ -42,6 +42,7 @@ const Calculator = props => {
             </div>
         </div>
     )
+}
 }
 
 export default Calculator
