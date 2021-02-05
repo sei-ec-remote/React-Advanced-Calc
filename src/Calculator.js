@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 
 class Calculator extends Component {
-    state = {
-        readyForNewNum: false,
+
+    state= {
         display: '',
         total: null,
         operator: null,
+        readyForNewNum: true
     }
 
     inputNum = (e) => {
@@ -15,22 +16,60 @@ class Calculator extends Component {
                 readyForNewNum: false
             })
         } else {
-            this.setState({display: this.state.display+e.target.innerText})
-        }
-    } 
-
-    setOperator = (e) => {
-        if(this.state.display) {
-            let newTotal = this.state.display
             this.setState({
-                readyForNewNum: true,
-                operator: e.target.innerText,
-                total: newTotal
+                display: this.state.display + e.target.innerText
             })
         }
     }
 
-    clearAll = () => {
+    setOperator = (e) => {
+        if(this.state.display && !this.state.total) {
+            let newTotal = this.state.display
+            this.setState({
+                operator: e.target.innerText,
+                readyForNewNum: true,
+                total: newTotal
+            })
+        } else if (this.state.display && this.state.total) {
+            let runningTotal = this.operate()
+            this.setState({
+                total: runningTotal,
+                operator: e.target.innerText,
+                readyForNewNum: true,
+                display: runningTotal
+            })
+        }
+    }
+
+    operate = () => {
+        switch(this.state.operator) {
+            case '+':
+                return parseFloat(this.state.total) + parseFloat(this.state.display)
+            case '-':
+                return parseFloat(this.state.total) - parseFloat(this.state.display)
+            case '/':
+                return parseFloat(this.state.total) / parseFloat(this.state.display)
+            case '%':
+                return parseFloat(this.state.total) % parseFloat(this.state.display)
+            case 'x':
+                return parseFloat(this.state.total) * parseFloat(this.state.display)
+            default:
+                console.log('defaulting')
+        }
+    }
+
+    calculate = () => {
+        if(this.state.total) {
+            let result = this.operate()
+            this.setState({
+                display: result,
+                readyForNewNum: true,
+                total: null
+            })
+        }
+    }
+
+    clearAll = () =>{
         this.setState({
             total: null,
             operator: null,
@@ -38,35 +77,18 @@ class Calculator extends Component {
             readyForNewNum: true
         })
     }
-    
-    calculate = () => {
-        let result
-        switch(this.state.operator) {
-            case '+':
-                result = parseFloat(this.state.total) + parseFloat(this.state.display)
-                break
-            case '-':
-                result = parseFloat(this.state.total) - parseFloat(this.state.display)
-                break
-            case 'x':
-                console.log(`multiplying ${this.state.total} by ${this.state.display}`)
-                result = parseFloat(this.state.total) * parseFloat(this.state.display)
-                break
-            case '/':
-                console.log('dividing')
-                result = parseFloat(this.state.total) / parseFloat(this.state.display)
-                break
-            case '%':
-                result = parseFloat(this.state.total) % parseFloat(this.state.display)
-                break
-            default:
-                console.log("defaulting")
+
+    changeSign = () => {
+        if(!this.state.readyForNewNum) {
+            this.setState({
+                display: this.state.display*(-1)
+            })
+        } else {
+            this.setState({
+                display: '-',
+                readyForNewNum: false
+            })
         }
-        this.setState({
-            readyForNewNum: true,
-            display: result,
-            total: null,
-        })
     }
 
     render(){
@@ -78,7 +100,7 @@ class Calculator extends Component {
                     <div className="answer-box">{this.state.display}</div>
                     <div className="calc-row">
                         <button onClick={this.clearAll} className="calc-button calc-button-top">AC</button>
-                        <button className="calc-button calc-button-top">+/-</button>
+                        <button onClick={this.changeSign} className="calc-button calc-button-top">+/-</button>
                         <button onClick={this.setOperator} className="calc-button calc-button-top">%</button>
                         <button onClick={this.setOperator} className="calc-button calc-button-op">/</button>
                     </div>
@@ -92,7 +114,7 @@ class Calculator extends Component {
                         <button onClick={this.inputNum} className="calc-button">4</button>
                         <button onClick={this.inputNum} className="calc-button">5</button>
                         <button onClick={this.inputNum} className="calc-button">6</button>
-                        <button onClick={this.setOperator} className="calc-button calc-button-op">-</button>
+                        <button  onClick={this.setOperator} className="calc-button calc-button-op">-</button>
                     </div>
                     <div className="calc-row">
                         <button onClick={this.inputNum} className="calc-button">1</button>
@@ -101,8 +123,8 @@ class Calculator extends Component {
                         <button onClick={this.setOperator} className="calc-button calc-button-op">+</button>
                     </div>
                     <div className="calc-row">
-                        <button className="calc-button width-2">0</button>
-                        <button className="calc-button">.</button>
+                        <button onClick={this.inputNum} className="calc-button width-2">0</button>
+                        <button onClick={this.inputNum} className="calc-button">.</button>
                         <button onClick={this.calculate} className="calc-button calc-button-op">=</button>
                     </div>
                 </div>
