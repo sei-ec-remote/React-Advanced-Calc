@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Component } from 'react'
 
 const Calculator = props => {
   // Declare state variables
@@ -237,6 +237,7 @@ const Calculator = props => {
       </div>
     </div>
   )
+}
 }
 
 export default Calculator
