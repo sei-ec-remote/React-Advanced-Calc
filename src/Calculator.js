@@ -5,16 +5,37 @@ class Calculator extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            total:''
+            num1:'',
+            num2:'',
+            total:'',
+            operator:''
         }
     }
 
     numberInput = (e) => {
         console.log('number is clicked')
+        let newNumber = this.state.num1 + e
+        if(parseInt(this.state.num1) == parseInt(this.state.num2)){
+            this.setState({
+                num1:e
+            })
+        } else {
+            this.setState({
+                num1:newNumber
+            })
+        }
     }
 
     signInput = (e) => {
         console.log('operator is clicked')
+    }
+
+    clearInput = () => {
+        console.log('clear calc')
+    }
+
+    resultInput = () => {
+        console.log('result is clicked')
     }
 
 render(){
@@ -23,9 +44,9 @@ render(){
             <h1>React Calculator</h1>
             <div className="calc-container">
                 <p>Values: </p>
-                <div className="answer-box">TBD</div>
+                <div className="answer-box">{this.state.num1}</div>
                 <div className="calc-row">
-                    <button className="calc-button calc-button-top">AC</button>
+                    <button onClick={this.clearInput} className="calc-button calc-button-top">AC</button>
                     <button onClick={this.signInput} className="calc-button calc-button-top">+/-</button>
                     <button onClick={this.signInput} className="calc-button calc-button-top">%</button>
                     <button onClick={this.signInput} className="calc-button calc-button-op">/</button>
@@ -51,7 +72,7 @@ render(){
                 <div className="calc-row">
                     <button onClick={this.numberInput} className="calc-button width-2">0</button>
                     <button onClick={this.numberInput} className="calc-button">.</button>
-                    <button className="calc-button calc-button-op">=</button>
+                    <button onClick={this.resultInput} className="calc-button calc-button-op">=</button>
                 </div>
             </div>
         </div>
