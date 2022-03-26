@@ -5,25 +5,19 @@ class Calculator extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            num1:'',
-            num2:'',
+            number:'',
             total:'',
             operator:''
         }
     }
 
     numberInput = (e) => {
-        console.log('number is clicked')
-        let newNumber = this.state.num1 + e
-        if(parseInt(this.state.num1) == parseInt(this.state.num2)){
-            this.setState({
-                num1:e
-            })
-        } else {
-            this.setState({
-                num1:newNumber
-            })
-        }
+        // console.log('number is clicked')
+        const numberClicked = e.target.innerText
+        // console.log('the number clicked:', numberClicked)
+        this.setState({
+            display:numberClicked
+        })
     }
 
     signInput = (e) => {
@@ -44,7 +38,7 @@ render(){
             <h1>React Calculator</h1>
             <div className="calc-container">
                 <p>Values: </p>
-                <div className="answer-box">{this.state.num1}</div>
+                <div className="answer-box">{this.state.display}</div>
                 <div className="calc-row">
                     <button onClick={this.clearInput} className="calc-button calc-button-top">AC</button>
                     <button onClick={this.signInput} className="calc-button calc-button-top">+/-</button>
