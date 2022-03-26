@@ -7,7 +7,8 @@ class Calculator extends Component {
         this.state = {
             numValueOne: "",
             numValueTwo: "",
-            operator: ""
+            operator: "",
+            evalNum: ""
   
         }
     }
@@ -69,16 +70,52 @@ class Calculator extends Component {
 
     //FUNCTION - evaluates the num1 & num2 with the operator selected
     eval = (e) => {
+        //assigns display div to variable
+        const display = document.getElementById('display')
+
         this.setState((prevState,props) => {
+            if (prevState.numValueOne===""||prevState.numValueTwo===""||prevState.operator==="") return 
+            else {
+                if (prevState.operator==="x") {
+                    //updates the display with the evalNum
+                    display.textContent=+this.state.numValueOne/(+this.state.numValueTwo)
+                    return {
+                        evalNum: parseInt(prevState.numValueOne)/parseInt(prevState.numValueTwo)
+                    }
+
+                }
+                else if (prevState.operator==="/") {
+                    //updates the display with the evalNum
+                    display.textContent=+this.state.numValueOne/(+this.state.numValueTwo)
+                    return {
+                        evalNum: parseInt(prevState.numValueOne)/parseInt(prevState.numValueTwo)
+                    }
+
+                }
+                else if (prevState.operator==="+") {
+                    //updates the display with the evalNum
+                    display.textContent=+this.state.numValueOne+(+this.state.numValueTwo)
+                    return {
+                        evalNum: parseInt(prevState.numValueOne)+parseInt(prevState.numValueTwo)
+                    }
+
+                }
+                else {
+                    //updates the display with the evalNum
+                    display.textContent=+this.state.numValueOne-(+this.state.numValueTwo)
+                    return {
+                        evalNum: parseInt(prevState.numValueOne)-parseInt(prevState.numValueTwo)
+                    }
+
+                }
+
+            }
 
         })
     }
 
 render(){
-    console.log('current num1 --->',this.state.numValueOne)
-    console.log('current num2 --->',this.state.numValueTwo)
-    console.log('current op --->',this.state.operator)
-    
+
 
     return (
         <div className="container">
@@ -113,7 +150,7 @@ render(){
                 <div className="calc-row">
                     <button onClick={this.enterNum} className="calc-button width-2">0</button>
                     <button className="calc-button">.</button>
-                    <button className="calc-button calc-button-op">=</button>
+                    <button onClick={this.eval} className="calc-button calc-button-op">=</button>
                 </div>
             </div>
         </div>
