@@ -8,8 +8,7 @@ class Calculator extends Component {
             numValueOne: "",
             numValueTwo: "",
             operator: ""
-
-            
+  
         }
     }
     //FUNCTION - sets the operator to state var (operator)
@@ -17,9 +16,11 @@ class Calculator extends Component {
         //defines selected operator to variable
         const selectedOperator = e.target.textContent
         this.setState((prevState,props)=> {
+            //prevents user from reselecting another operator once one is selected
             if (prevState.operator!=="") return
             else {
                 return {
+                    //assigns selected operator to state variable
                     operator: selectedOperator
                 }
             }
@@ -27,35 +28,64 @@ class Calculator extends Component {
     }
 
 
-    //FUNCTION - concats number selected from calc to state var (numValue)
+    //FUNCTION - concats number selected from calc to state variables (numValueOne & numValueTwo)
+        // also updates the display
     enterNum = (e) => {
         //defines selected number to a variable
         const selectedNum = e.target.textContent
-        //adds
+        //assigns display div to variable
+        const display = document.getElementById('display')
         this.setState((prevState,props) => {
-            //prevents user from entering 0 as first number
-            if (+prevState.numValueOne===0&&+selectedNum===0) return
-            else {
-                return {
-                    //concats number selected to previous number
-                    numValueOne: prevState.numValueOne+selectedNum
+            //allows numValueOne to still be updated
+            if (prevState.operator==="") {
+                //prevents user from entering 0 as first number
+                if (+prevState.numValueOne===0&&+selectedNum===0) return
+                else {
+                    //updates the display with the selectedNum
+                    display.textContent=this.state.numValueOne+selectedNum
+                    return {
+                        //concats number selected to previous number
+                        numValueOne: prevState.numValueOne+selectedNum
+                    }
                 }
             }
+            //switches to numValueTwo to be updated
+            else {
+                //prevents user from entering 0 as first number
+                if (+prevState.numValueTwo===0&&+selectedNum===0) return
+                else {
+                    //updates the display with the selectedNum
+                    display.textContent=this.state.numValueTwo+selectedNum
+                    return {
+                        //concats number selected to previous number
+                        numValueTwo: prevState.numValueTwo+selectedNum
+                    }
+                }
 
+            }
+
+        })
+    }
+
+    //FUNCTION - evaluates the num1 & num2 with the operator selected
+    eval = (e) => {
+        this.setState((prevState,props) => {
 
         })
     }
 
 render(){
-    console.log('current num --->',this.state.numValueOne)
+    console.log('current num1 --->',this.state.numValueOne)
+    console.log('current num2 --->',this.state.numValueTwo)
     console.log('current op --->',this.state.operator)
+    
 
     return (
         <div className="container">
             <h1>React Calculator</h1>
             <div className="calc-container">
                 <p>Values: </p>
-                <div className="answer-box">TBD</div>
+                <div id='display' className="answer-box">0</div>
                 <div className="calc-row">
                     <button className="calc-button calc-button-top">AC</button>
                     <button className="calc-button calc-button-top">+/-</button>
