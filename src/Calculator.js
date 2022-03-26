@@ -2,32 +2,34 @@ import React, { Component } from 'react'
 import AnswerBox from './AnswerBox'
 import ButtonPane from './ButtonPane'
 
-class Calculator extends Component {
-    // Declare state variables
+export default class Calculator extends Component {
 
-constructor(props) {
-    super(props);
-    this.state = {
+    // Declare state variables
+    state = {
         display: 0
     }
-}
 
-buttonSubmit = (btnType) => {
-    
-}
+    clearState() {
+        this.setState({
+            display: 0,
+            operation: null;
+        })
+    }
 
-render(){
-    return (
-        <div className="container">
-            <h1>React Calculator</h1>
-            <div className="calc-container">
-                <p>Values: </p>
-                < AnswerBox display={this.state.display}/>
-                < ButtonPane onclick={buttonSubmit} />
+    buttonSubmit = (name)=> {
+        console.log("Hitting button submit for: ", name);
+    };
+
+    render(){
+        return (
+            <div className="container">
+                <h1>React Calculator</h1>
+                <div className="calc-container">
+                    <p>Values: </p>
+                    < AnswerBox display={this.state.display}/>
+                    < ButtonPane onclick={this.buttonSubmit} />
+                </div>
             </div>
-        </div>
-    )
+        )
+    }
 }
-}
-
-export default Calculator
