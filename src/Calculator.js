@@ -5,9 +5,28 @@ class Calculator extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            numValue: ""
+            numValueOne: "",
+            numValueTwo: "",
+            operator: ""
+
+            
         }
     }
+    //FUNCTION - sets the operator to state var (operator)
+    setOperator = (e) => {
+        //defines selected operator to variable
+        const selectedOperator = e.target.textContent
+        this.setState((prevState,props)=> {
+            if (prevState.operator!=="") return
+            else {
+                return {
+                    operator: selectedOperator
+                }
+            }
+        })
+    }
+
+
     //FUNCTION - concats number selected from calc to state var (numValue)
     enterNum = (e) => {
         //defines selected number to a variable
@@ -15,11 +34,11 @@ class Calculator extends Component {
         //adds
         this.setState((prevState,props) => {
             //prevents user from entering 0 as first number
-            if (+prevState.numValue===0&&+selectedNum===0) return
+            if (+prevState.numValueOne===0&&+selectedNum===0) return
             else {
                 return {
                     //concats number selected to previous number
-                    numValue: prevState.numValue+selectedNum
+                    numValueOne: prevState.numValueOne+selectedNum
                 }
             }
 
@@ -28,7 +47,9 @@ class Calculator extends Component {
     }
 
 render(){
-    console.log('current num --->',this.state.numValue)
+    console.log('current num --->',this.state.numValueOne)
+    console.log('current op --->',this.state.operator)
+
     return (
         <div className="container">
             <h1>React Calculator</h1>
@@ -39,25 +60,25 @@ render(){
                     <button className="calc-button calc-button-top">AC</button>
                     <button className="calc-button calc-button-top">+/-</button>
                     <button className="calc-button calc-button-top">%</button>
-                    <button className="calc-button calc-button-op">/</button>
+                    <button onClick={this.setOperator} className="calc-button calc-button-op">/</button>
                 </div>
                 <div className="calc-row">
                     <button onClick={this.enterNum} className="calc-button">7</button>
                     <button onClick={this.enterNum} className="calc-button">8</button>
                     <button onClick={this.enterNum} className="calc-button">9</button>
-                    <button className="calc-button calc-button-op">x</button>
+                    <button onClick={this.setOperator} className="calc-button calc-button-op">x</button>
                 </div>
                 <div className="calc-row">
                     <button onClick={this.enterNum} className="calc-button">4</button>
                     <button onClick={this.enterNum} className="calc-button">5</button>
                     <button onClick={this.enterNum} className="calc-button">6</button>
-                    <button className="calc-button calc-button-op">-</button>
+                    <button onClick={this.setOperator} className="calc-button calc-button-op">-</button>
                 </div>
                 <div className="calc-row">
                     <button onClick={this.enterNum} className="calc-button">1</button>
                     <button onClick={this.enterNum} className="calc-button">2</button>
                     <button onClick={this.enterNum} className="calc-button">3</button>
-                    <button className="calc-button calc-button-op">+</button>
+                    <button onClick={this.setOperator} className="calc-button calc-button-op">+</button>
                 </div>
                 <div className="calc-row">
                     <button onClick={this.enterNum} className="calc-button width-2">0</button>
