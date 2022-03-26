@@ -9,7 +9,14 @@ export default class CalculatorRow extends Component
             {
                 if(index !== this.props.inputs.length - 1)
                 {
-                    return <button className="calc-button calc-button-top" key={index}>{input}</button>
+                    if(input === 'AC')
+                    {
+                        return <button className="calc-button calc-button-top" key={index} onClick={this.props.clear}>{input}</button>
+                    }
+                    else
+                    {
+                        return <button className="calc-button calc-button-top" key={index}>{input}</button>
+                    }
                 }
                 else
                 {
