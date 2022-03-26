@@ -5,8 +5,8 @@ export default class Calculator extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            numValueOne: null,
-            numValueTwo: null,
+            numValueOne: 'emp',
+            numValueTwo: 'emp',
             operator: "",
             evalNum: "",
             evalBool: false
@@ -43,7 +43,7 @@ export default class Calculator extends Component {
                 //prevents user from entering 0 as first number
                 if (+prevState.numValueOne===0&&+selectedNum===0) return
                 else {
-                    if (prevState.numValueOne===null) {
+                    if (prevState.numValueOne==='emp') {
                         //updates the display with the selectedNum
                         display.textContent=selectedNum
                         return {numValueOne: selectedNum}
@@ -63,7 +63,7 @@ export default class Calculator extends Component {
                 if (prevState.evalBool) return 
                 if (+prevState.numValueTwo===0&&+selectedNum===0) return
                 else {
-                    if (prevState.numValueTwo===null) {
+                    if (prevState.numValueTwo==='emp') {
                         //updates the display with the selectedNum
                         display.textContent=selectedNum
                         return {numValueTwo: selectedNum}
@@ -83,7 +83,7 @@ export default class Calculator extends Component {
 
     //FUNCTION - evaluates the num1 & num2 with the operator selected & updates display
     eval = (e) => {
-        if (this.state.numValueOne===""||this.state.numValueTwo===""||this.state.operator==="") return 
+        if (this.state.numValueOne===""||this.state.numValueTwo===""||this.state.operator===""||this.state.evalBool) return 
         //assigns display div to variable
         const display = document.getElementById('display')
         this.setState((prevState,props) => {
@@ -97,6 +97,10 @@ export default class Calculator extends Component {
 
             }
             else if (prevState.operator==="/") {
+                if(+prevState.numValueTwo===0) {
+                    display.textContent="Not a Number"
+                    return {evalBool:true}
+                }
                 //updates the display with the evalNum
                 display.textContent=+this.state.numValueOne/(+this.state.numValueTwo)
                 return {
@@ -126,7 +130,10 @@ export default class Calculator extends Component {
         display.textContent=this.state.evalNum
     }
 
+
+
 render(){
+    console.log('number2',this.state.numValueTwo)
 
 
     return (
