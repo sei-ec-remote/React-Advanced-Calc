@@ -6,7 +6,7 @@ class Calculator extends Component {
     constructor(props) {
         super(props)
         this.state ={
-            display: 0,
+            display: [0],
             firstNum: "",
             secondNum: "",
             operator: "",
@@ -17,7 +17,7 @@ class Calculator extends Component {
     // Function to clear/reset the calculator
     clearCalc = () => {
         this.setState({
-            display: 0,
+            display: [0],
             firstNum: "",
             secondNum: "",
             operator: "",
@@ -32,14 +32,15 @@ class Calculator extends Component {
     //     })
     // }
 
-    // Capture the assigned text value of the calculator button clicked
-    handleButton = (e) => {
+    // Capture the assigned text value of the calculator number button clicked
+    handleNumButton = (e) => {
         console.log("Clicked number:", e.target.innerText)
-        // this.setState({
-        //     firstNum: this.state.num
-        // })
+        const clickedNum = e.target.innerText
+        this.setState({
+            display: [...this.state.display, clickedNum]
+        })
     }
-    
+
     render(){
     console.log("This is state:", this.state)
     return (
@@ -55,25 +56,25 @@ class Calculator extends Component {
                     <button className="calc-button calc-button-op">/</button>
                 </div>
                 <div className="calc-row">
-                    <button onClick={(this.handleButton)} className="calc-button">7</button>
-                    <button onClick={(this.handleButton)} className="calc-button">8</button>
-                    <button onClick={(this.handleButton)} className="calc-button">9</button>
+                    <button onClick={(this.handleNumButton)} className="calc-button">7</button>
+                    <button onClick={(this.handleNumButton)} className="calc-button">8</button>
+                    <button onClick={(this.handleNumButton)} className="calc-button">9</button>
                     <button className="calc-button calc-button-op">x</button>
                 </div>
                 <div className="calc-row">
-                    <button onClick={(this.handleButton)} className="calc-button">4</button>
-                    <button onClick={(this.handleButton)} className="calc-button">5</button>
-                    <button onClick={(this.handleButton)} className="calc-button">6</button>
+                    <button onClick={(this.handleNumButton)} className="calc-button">4</button>
+                    <button onClick={(this.handleNumButton)} className="calc-button">5</button>
+                    <button onClick={(this.handleNumButton)} className="calc-button">6</button>
                     <button className="calc-button calc-button-op">-</button>
                 </div>
                 <div className="calc-row">
-                    <button onClick={(this.handleButton)} className="calc-button">1</button>
-                    <button onClick={(this.handleButton)} className="calc-button">2</button>
-                    <button onClick={(this.handleButton)} className="calc-button">3</button>
+                    <button onClick={(this.handleNumButton)} className="calc-button">1</button>
+                    <button onClick={(this.handleNumButton)} className="calc-button">2</button>
+                    <button onClick={(this.handleNumButton)} className="calc-button">3</button>
                     <button className="calc-button calc-button-op">+</button>
                 </div>
                 <div className="calc-row">
-                    <button onClick={(this.handleButton)} className="calc-button width-2">0</button>
+                    <button onClick={(this.handleNumButton)} className="calc-button width-2">0</button>
                     <button className="calc-button">.</button>
                     <button className="calc-button calc-button-op">=</button>
                 </div>

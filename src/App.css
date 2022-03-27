@@ -37,3 +37,7 @@
   text-align: right;
   min-height: 90px;
 }
+
+.bordertown {
+  border: 2px solid white;
+}
