@@ -9,7 +9,8 @@ class Calculator extends Component {
             firstNum: '',
             secondNum: '',
             operator: '',
-            display: ''
+            display: '',
+            error: false
         }
     }
 
@@ -20,24 +21,32 @@ class Calculator extends Component {
             firstNum: '',
             secondNum: '',
             operator: '',
-            display: ''
+            display: '',
+            error: false
 
         })
     }
 
     // handleNums determine if firstNum AND operator already have a value if not put number into firstNum if so add the number to second Num
-    //  handlenums + console
+
     handleNums = (num) => {
         console.log("num2", num)
+        // check if error else continue
+        // if <error check>
+        //  return handleError()
+
+
+
+
         if (this.state.operator === '') {
             // console.log("hit IF");
             this.setState({
-                firstNum: num + this.state.firstNum
+                firstNum: this.state.firstNum + num
             })
         } else {
             // console.log("hit ELSE");
             this.setState({
-                secondNum: num + this.state.secondNum
+                secondNum: this.state.secondNum + num
             })
         }
         this.handleDisplay(num)
@@ -46,7 +55,9 @@ class Calculator extends Component {
 
     // handleOperator which will add selected operator to state
     handleOperator = (operator) => {
-        console.log('operator', operator)
+        // check if error else continue
+
+        // console.log('operator', operator)
         // if firstNum has a value
         this.setState({
             operator: operator
@@ -57,31 +68,42 @@ class Calculator extends Component {
     // handleEquals which will evaluate firstNum Operator secondNum and add it to value
 
     handleEquals = () => {
+
+        // checkForError()
+
         if (this.state.operator === '+') {
             this.setState({
-                value: parseInt(this.state.firstNum) + parseInt(this.state.secondNum)
+                value: parseFloat(this.state.firstNum) + parseFloat(this.state.secondNum)
             })
 
         } else if (this.state.operator === '-') {
             this.setState({
-                value: parseInt(this.state.firstNum) - parseInt(this.state.secondNum)
+                value: parseFloat(this.state.firstNum) - parseFloat(this.state.secondNum)
             })
         } else if (this.state.operator === '/') {
             this.setState({
-                value: parseInt(this.state.firstNum) / parseInt(this.state.secondNum)
+                value: parseFloat(this.state.firstNum) / parseFloat(this.state.secondNum)
             })
         } else if (this.state.operator === '*') {
             this.setState({
-                value: parseInt(this.state.firstNum) * parseInt(this.state.secondNum)
+                value: parseFloat(this.state.firstNum) * parseFloat(this.state.secondNum)
             })
         }
+
+
     }
 
     // handleDisplay to show each number
+    // add in error message here?
     handleDisplay = (n) => {
         this.setState({
             display: this.state.display + n
         })
+    }
+
+    // handleError to display error if selecting 2 operators or starting new equation before hitting AC or trying to add more than 1 decimal or selecting 0 as first # (if first input is ., add 0 in front)
+    handleError = () => {
+        //error state set error to true 
     }
 
     render() {
@@ -91,7 +113,11 @@ class Calculator extends Component {
                 <h1>React Calculator</h1>
                 <div className="calc-container">
                     <p>Values: </p>
-                    <div className="answer-box">{this.state.display}</div>
+                    {this.state.error ? (
+                        <div>you don fucked up</div>
+                    ) : (
+                        <div className="answer-box">{this.state.display}</div>
+                    )}
                     <div className="answer-box">{this.state.value}</div>
                     <div className="calc-row">
                         <button onClick={this.handleClear} className="calc-button calc-button-top">AC</button>
@@ -118,8 +144,8 @@ class Calculator extends Component {
                         <button onClick={() => this.handleOperator('+')} className="calc-button calc-button-op">+</button>
                     </div>
                     <div className="calc-row">
-                        <button className="calc-button width-2">0</button>
-                        <button className="calc-button">.</button>
+                        <button onClick={() => this.handleNums('0')} className="calc-button width-2">0</button>
+                        <button onClick={() => this.handleNums('.')} className="calc-button">.</button>
                         <button onClick={this.handleEquals} className="calc-button calc-button-op">=</button>
                     </div>
                 </div>
