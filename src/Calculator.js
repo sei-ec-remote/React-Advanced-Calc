@@ -5,7 +5,8 @@ class Calculator extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            number:'',
+            number1:'',
+            number2:'',
             total:'',
             operator:''
         }
@@ -33,10 +34,29 @@ class Calculator extends Component {
 
     clearInput = () => {
         console.log('clear calc')
+        this.setState({
+            display:'',
+            total:0,
+            operator:''
+        })
     }
 
+
     resultInput = () => {
-        console.log('result is clicked')
+        // console.log('result is clicked')
+        let result = 0
+        if (this.state.operator === '+') {
+            result = parseInt(this.state.number1) + parseInt(this.state.number2)
+        } else if (this.state.operator === '-') {
+            result = parseInt(this.state.number1) - parseInt(this.state.number2)
+        } else if (this.state.operator === 'x') {
+            result = parseInt(this.state.number1) * parseInt(this.state.number2)
+        } else if (this.state.operator === '/') {
+            result = parseInt(this.state.number1) / parseInt(this.state.number2)
+        }
+        this.setState({
+            display: result
+        })
     }
 
 render(){
