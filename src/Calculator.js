@@ -13,9 +13,11 @@ class Calculator extends Component {
   }
 
   clickedNum = (e) => {
+    let display = document.getElementsByClassName("answer-box")
     if (this.state.operator === null) {
       this.setState({
         firstNum: this.state.firstNum + e.target.innerText,
+        display: this.state.firstNum,
       })
     } else if (this.state.operator !== null) {
       this.setState({
@@ -59,7 +61,10 @@ class Calculator extends Component {
         <h1>React Calculator</h1>
         <div className="calc-container">
           <p>Values: </p>
-          <div className="answer-box">0</div>
+          <div className="answer-box">
+            {this.state.firstNum} {this.state.operator} {this.state.secondNum}=
+            {this.state.sum}
+          </div>
           <div className="calc-row">
             <button
               onClick={this.clearCalc}
