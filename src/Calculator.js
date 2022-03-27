@@ -21,7 +21,14 @@ class Calculator extends Component {
     }
 
     signInput = (e) => {
-        console.log('operator is clicked')
+        // console.log('operator is clicked')
+        if(this.state.display){
+            let result = this.state.display
+            // console.log(result,'this should log after a number is clicked')
+            this.setState({
+                operator: e.target.innerText,
+            })
+        }
     }
 
     clearInput = () => {
