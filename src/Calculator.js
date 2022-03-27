@@ -5,30 +5,34 @@ class Calculator extends Component {
     constructor(props) {
         super (props)
         this.state = {
+            operator: [],
             input1: [],
             input2: [],
-            operator: [],
             answer: []
         }
     }
     setInputs = (e) =>{
-        if(this.state.operator.length ===0){
-            let buttonNum = e.target.innerText
-            this.setState({
-                    input1: [...this.state.input1, buttonNum]
-            })
+        if(this.state.answer.length > 0){
+            this.clearDisplay()
         } else {
-            let buttonNum = e.target.innerText
-            this.setState({
-                    input2: [...this.state.input2, buttonNum]
-            })
+            if(this.state.operator.length ===0){
+                let buttonNum = e.target.innerText
+                this.setState({
+                        input1: [...this.state.input1, buttonNum]
+                })
+            } else {
+                let buttonNum = e.target.innerText
+                this.setState({
+                        input2: [...this.state.input2, buttonNum]
+                })
+            }
         }
     }
     clearDisplay = (e) =>{
         this.setState({
+            operator: [],
             input1: [],
             input2: [],
-            operator: [],
             answer: []
         })
     }
@@ -39,29 +43,27 @@ class Calculator extends Component {
         console.log(this.state.operator)
     }
     runMath = () =>{
+        let num1 = parseFloat(this.state.input1.join(''))
+        let num2 = parseFloat(this.state.input2.join(''))
         if(this.state.operator === '+'){
-            let num1 = parseFloat(this.state.input1.join(''))
-            let num2 = parseFloat(this.state.input2.join(''))
             this.setState({
-                answer: (num1 + num2)
+                answer: [(num1 + num2)]
             })
         } else if(this.state.operator === '-'){
-            let num1 = parseFloat(this.state.input1.join(''))
-            let num2 = parseFloat(this.state.input2.join(''))
             this.setState({
-                answer: (num1 - num2)
+                answer: [(num1 - num2)]
             })
         } else if(this.state.operator === 'x'){
-            let num1 = parseFloat(this.state.input1.join(''))
-            let num2 = parseFloat(this.state.input2.join(''))
             this.setState({
-                answer: (num1 * num2)
+                answer: [(num1 * num2)]
             })
-        } else if(this.state.operator === '/'){
-            let num1 = parseFloat(this.state.input1.join(''))
-            let num2 = parseFloat(this.state.input2.join(''))
+        } else if(this.state.operator === '/' && num2 === 0){
             this.setState({
-                answer: (num1 / num2)
+                answer: ["Error cannot divide by 0"]
+            })
+        }else if(this.state.operator === '/'){
+            this.setState({
+                answer: [(num1 / num2)]
             })
         }
     }
@@ -101,7 +103,7 @@ render(){
                 </div>
                 <div className="calc-row">
                     <button className="calc-button width-2" onClick={this.setInputs}>0</button>
-                    <button className="calc-button">.</button>
+                    <button className="calc-button" onClick={this.setInputs}>.</button>
                     <button className="calc-button calc-button-op" onClick={this.runMath}>=</button>
                 </div>
             </div>
