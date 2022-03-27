@@ -9,7 +9,9 @@ export default class Calculator extends Component {
             numValueTwo: 'emp',
             operator: "",
             evalNum: "",
-            evalBool: false
+            evalBool: false,
+            decimalOne: false,
+            decimalTwo: false
   
         }
     }
@@ -131,10 +133,11 @@ export default class Calculator extends Component {
         })
         display.textContent=this.state.evalNum
     }
-
+    // FUNCTION - clears the calculator and resets all values
     clr = () => {
         //assigns display div to variable
         const display = document.getElementById('display')
+        // resets variables and display
         display.textContent=0
         this.setState((prevState,props) => {
             return {
@@ -142,19 +145,66 @@ export default class Calculator extends Component {
                 numValueTwo: 'emp',
                 operator: "",
                 evalNum: "",
-                evalBool: false
+                evalBool: false,
+                decimalOne: false,
+                decimalTwo: false
             }
         })
     }
-
-    setDec = () => {
+    // FUNCTION - sets a decimal for either entry with conditonal checks
+    setDecimal = () => {
+        // assigns display div to variable
         const display = document.getElementById('display')
+        this.setState((prevState,props)=> {
+            // assigns the decimal as the start the of the number entry
+            if (prevState.numValueOne==="emp"||prevState.numValueOne==="0") {
+                // prevents decimal for being used twice
+                if (prevState.decimalOne) return
+                // sets display & state variable to initial decimal entry
+                display.textContent="0."
+                return {
+                    decimalOne: true,
+                    numValueOne: "0."
+                }
+            // checks if a decimal has been used for numValueOne
+            } else if (!prevState.decimalOne&&prevState.operator==="") {
+                //updates display and concats decimal to entry
+                display.textContent=prevState.numValueOne+"."
+                return {
+                    decimalOne: true,
+                    numValueOne: prevState.numValueOne+"."
+
+                }
+            }
+            // assigns the decimal as the start the of the number entry
+            else if (prevState.numValueTwo==="emp"||prevState.numValueTwo==="0") {
+                // prevents decimal being used twice & updating second entry if still at first entry
+                if (prevState.decimalTwo||prevState.operator==="") return
+                // sets display & state variable to initial decimal entry
+                display.textContent="0."
+                return {
+                    decimalTwo: true,
+                    numValueTwo: "0."
+                }
+            // checks if a decimal has been used for numValueTwo
+            } else if (!prevState.decimalTwo) {
+                if(prevState.operator==='') return
+                //updates display and concats decimal to entry
+                display.textContent=prevState.numValueTwo+"."
+                return {
+                    decimalTwo: true,
+                    numValueTwo: prevState.numValueTwo+"."
+
+                }
+            } else return
+        })
     }
 
 
 
 render(){
-    console.log('number2',this.state.numValueTwo)
+    console.log('number1',this.state.numValueOne)
+    console.log('decimalOne?',this.state.decimalOne)
 
 
     return (
@@ -189,7 +239,7 @@ render(){
                 </div>
                 <div className="calc-row">
                     <button onClick={this.enterNum} className="calc-button width-2">0</button>
-                    <button className="calc-button">.</button>
+                    <button onClick={this.setDecimal} className="calc-button">.</button>
                     <button onClick={this.eval} className="calc-button calc-button-op">=</button>
                 </div>
             </div>
