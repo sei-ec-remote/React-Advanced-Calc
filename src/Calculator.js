@@ -42,6 +42,37 @@ class Calculator extends Component {
         })
         console.log(this.state.operator)
     }
+
+    addDecimal = (e)=> {
+        let lastIndex1 = (this.state.input1.length -1)
+        let lastIndex2 = (this.state.input2.length -1)
+        if(this.state.input1.length > 0 && Number.isInteger(parseFloat(this.state.input1.join(''))) && this.state.operator.length === 0 && this.state.input1[lastIndex1] !== '.'){
+            let decimal = e.target.innerText
+            this.setState({
+                    input1: [...this.state.input1, decimal]
+            })
+        } else if (this.state.input2.length > 0 && Number.isInteger(parseFloat(this.state.input2.join(''))) && this.state.operator.length > 0 && this.state.input2[lastIndex2] !== '.'){
+            let decimal = e.target.innerText
+            this.setState({
+                    input2: [...this.state.input2, decimal]
+            })
+        }
+    }
+
+    addZero = (e) =>{
+        if((parseInt(this.state.input1[0]) > 0 || this.state.input1.length ===0 || this.state.input1[1] === '.') && this.state.operator.length === 0 ){
+            let zero = e.target.innerText
+            this.setState({
+                    input1: [...this.state.input1, zero]
+            })
+        } else if ((parseInt(this.state.input2[0]) > 0 || this.state.input2.length ===0 || this.state.input2[1] === '.') && this.state.operator.length > 0 ){
+            let zero = e.target.innerText
+            this.setState({
+                    input2: [...this.state.input2, zero]
+            })
+        }
+    }
+
     runMath = () =>{
         let num1 = parseFloat(this.state.input1.join(''))
         let num2 = parseFloat(this.state.input2.join(''))
@@ -68,6 +99,7 @@ class Calculator extends Component {
         }
     }
 render(){
+    // let num1 = this.state.input1.length > 0 && Number.isInteger(parseFloat(this.state.input1.join('')))
     return (
         <div className="container">
             <h1>React Calculator</h1>
@@ -102,8 +134,8 @@ render(){
                     <button className="calc-button calc-button-op" onClick={this.setOperator}>+</button>
                 </div>
                 <div className="calc-row">
-                    <button className="calc-button width-2" onClick={this.setInputs}>0</button>
-                    <button className="calc-button" onClick={this.setInputs}>.</button>
+                    <button className="calc-button width-2" onClick={this.addZero}>0</button>
+                    <button className="calc-button" onClick={this.addDecimal}>.</button>
                     <button className="calc-button calc-button-op" onClick={this.runMath}>=</button>
                 </div>
             </div>
