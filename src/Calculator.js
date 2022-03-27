@@ -32,18 +32,26 @@ class Calculator extends Component {
     handleNums = (num) => {
         console.log("num2", num)
         // check if error else continue
+        // if 
         // if <error check>
         //  return handleError()
 
-
-
-
         if (this.state.operator === '') {
+            if (num === '.' && this.state.firstNum.includes('.')) {
+                return this.handleError()
+            } else if (num === '0' && !this.state.firstNum) {
+                return this.handleError()
+            }
             // console.log("hit IF");
             this.setState({
                 firstNum: this.state.firstNum + num
             })
         } else {
+            if (num === '.' && this.state.secondNum.includes('.')) {
+                return this.handleError()
+            } else if (num === '0' && !this.state.secondNum) {
+                return this.handleError()
+            }
             // console.log("hit ELSE");
             this.setState({
                 secondNum: this.state.secondNum + num
@@ -52,12 +60,12 @@ class Calculator extends Component {
         this.handleDisplay(num)
     }
 
-
     // handleOperator which will add selected operator to state
     handleOperator = (operator) => {
-        // check if error else continue
+        if (this.state.operator) {
+            return this.handleError()
+        }
 
-        // console.log('operator', operator)
         // if firstNum has a value
         this.setState({
             operator: operator
@@ -68,8 +76,6 @@ class Calculator extends Component {
     // handleEquals which will evaluate firstNum Operator secondNum and add it to value
 
     handleEquals = () => {
-
-        // checkForError()
 
         if (this.state.operator === '+') {
             this.setState({
@@ -104,6 +110,9 @@ class Calculator extends Component {
     // handleError to display error if selecting 2 operators or starting new equation before hitting AC or trying to add more than 1 decimal or selecting 0 as first # (if first input is ., add 0 in front)
     handleError = () => {
         //error state set error to true 
+        this.setState({
+            error: true
+        })
     }
 
     render() {
@@ -114,7 +123,7 @@ class Calculator extends Component {
                 <div className="calc-container">
                     <p>Values: </p>
                     {this.state.error ? (
-                        <div>you don fucked up</div>
+                        <div>ERROR</div>
                     ) : (
                         <div className="answer-box">{this.state.display}</div>
                     )}
