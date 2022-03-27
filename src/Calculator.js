@@ -36,8 +36,20 @@ class Calculator extends Component {
     handleNumButton = (e) => {
         console.log("Clicked number:", e.target.innerText)
         const clickedNum = e.target.innerText
+        // Add a conditional for if first array index is 0 and second isn't decimal to drop zero.
         this.setState({
             display: [...this.state.display, clickedNum]
+        })
+    }
+    
+    handleOpButton = (e) => {
+        console.log("Clicked operator:", e.target.innerText)
+        const clickedOp = e.target.innerText
+        const firstNum = this.state.display.join("")
+        console.log("firstNum:", firstNum)
+        this.setState({
+            operator: clickedOp,
+            firstNum: firstNum
         })
     }
 
@@ -53,25 +65,25 @@ class Calculator extends Component {
                     <button onClick={(this.clearCalc)} className="calc-button calc-button-top">AC</button>
                     <button className="calc-button calc-button-top">+/-</button>
                     <button className="calc-button calc-button-top">%</button>
-                    <button className="calc-button calc-button-op">/</button>
+                    <button onClick={(this.handleOpButton)} className="calc-button calc-button-op">/</button>
                 </div>
                 <div className="calc-row">
                     <button onClick={(this.handleNumButton)} className="calc-button">7</button>
                     <button onClick={(this.handleNumButton)} className="calc-button">8</button>
                     <button onClick={(this.handleNumButton)} className="calc-button">9</button>
-                    <button className="calc-button calc-button-op">x</button>
+                    <button onClick={(this.handleOpButton)} className="calc-button calc-button-op">x</button>
                 </div>
                 <div className="calc-row">
                     <button onClick={(this.handleNumButton)} className="calc-button">4</button>
                     <button onClick={(this.handleNumButton)} className="calc-button">5</button>
                     <button onClick={(this.handleNumButton)} className="calc-button">6</button>
-                    <button className="calc-button calc-button-op">-</button>
+                    <button onClick={(this.handleOpButton)} className="calc-button calc-button-op">-</button>
                 </div>
                 <div className="calc-row">
                     <button onClick={(this.handleNumButton)} className="calc-button">1</button>
                     <button onClick={(this.handleNumButton)} className="calc-button">2</button>
                     <button onClick={(this.handleNumButton)} className="calc-button">3</button>
-                    <button className="calc-button calc-button-op">+</button>
+                    <button onClick={(this.handleOpButton)} className="calc-button calc-button-op">+</button>
                 </div>
                 <div className="calc-row">
                     <button onClick={(this.handleNumButton)} className="calc-button width-2">0</button>
