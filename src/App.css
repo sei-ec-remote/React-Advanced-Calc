@@ -15,6 +15,7 @@
   min-height: 40px;
   color: #333;
   background-color: #ccc;
+  border: 1px solid gray;
 }
 
 .width-2 {
@@ -35,5 +36,7 @@
   background-color: #333;
   color: #fff;
   text-align: right;
-  min-height: 90px;
+  min-height: 80px;
+  padding-top: 10px;
+  padding-right: 10px
 }
