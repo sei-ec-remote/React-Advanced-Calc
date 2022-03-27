@@ -3,13 +3,42 @@ import React, { Component } from 'react'
 class Calculator extends Component {
     // Declare state variables
     // const [answer, setAnswer] = useState("0")
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state ={
-            answer: 0
+            display: 0,
+            firstNum: "",
+            secondNum: "",
+            operator: "",
+            answer: "",
         }
     }
     
+    // Function to clear/reset the calculator
+    clearCalc = () => {
+        this.setState({
+            display: 0,
+            firstNum: "",
+            secondNum: "",
+            operator: "",
+            answer: "",
+        })
+    }
+
+    // // Function to display the number entered
+    // handleDisplay = (num) => {
+    //     this.setState({
+    //         display: this.state.display + num
+    //     })
+    // }
+
+    // Capture the assigned text value of the calculator button clicked
+    handleButton = (e) => {
+        console.log("Clicked number:", e.target.innerText)
+        // this.setState({
+        //     firstNum: this.state.num
+        // })
+    }
     
     render(){
     console.log("This is state:", this.state)
@@ -18,33 +47,33 @@ class Calculator extends Component {
             <h1>React Calculator</h1>
             <div className="calc-container">
                 <p>Values: </p>
-                <div className="answer-box">{this.state.answer}</div>
+                <div className="answer-box">{this.state.display}</div>
                 <div className="calc-row">
-                    <button className="calc-button calc-button-top">AC</button>
+                    <button onClick={(this.clearCalc)} className="calc-button calc-button-top">AC</button>
                     <button className="calc-button calc-button-top">+/-</button>
                     <button className="calc-button calc-button-top">%</button>
                     <button className="calc-button calc-button-op">/</button>
                 </div>
                 <div className="calc-row">
-                    <button className="calc-button">7</button>
-                    <button className="calc-button">8</button>
-                    <button className="calc-button">9</button>
+                    <button onClick={(this.handleButton)} className="calc-button">7</button>
+                    <button onClick={(this.handleButton)} className="calc-button">8</button>
+                    <button onClick={(this.handleButton)} className="calc-button">9</button>
                     <button className="calc-button calc-button-op">x</button>
                 </div>
                 <div className="calc-row">
-                    <button className="calc-button">4</button>
-                    <button className="calc-button">5</button>
-                    <button className="calc-button">6</button>
+                    <button onClick={(this.handleButton)} className="calc-button">4</button>
+                    <button onClick={(this.handleButton)} className="calc-button">5</button>
+                    <button onClick={(this.handleButton)} className="calc-button">6</button>
                     <button className="calc-button calc-button-op">-</button>
                 </div>
                 <div className="calc-row">
-                    <button className="calc-button">1</button>
-                    <button className="calc-button">2</button>
-                    <button className="calc-button">3</button>
+                    <button onClick={(this.handleButton)} className="calc-button">1</button>
+                    <button onClick={(this.handleButton)} className="calc-button">2</button>
+                    <button onClick={(this.handleButton)} className="calc-button">3</button>
                     <button className="calc-button calc-button-op">+</button>
                 </div>
                 <div className="calc-row">
-                    <button className="calc-button width-2">0</button>
+                    <button onClick={(this.handleButton)} className="calc-button width-2">0</button>
                     <button className="calc-button">.</button>
                     <button className="calc-button calc-button-op">=</button>
                 </div>
