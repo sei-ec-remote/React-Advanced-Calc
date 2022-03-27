@@ -60,6 +60,8 @@ export default class Calculator extends Component {
             //switches to numValueTwo to be updated
             else {
                 //prevents user from entering 0 twice
+                console.log('this is num2!!',this.state.numValueTwo)
+                console.log('eval bool???',this.state.evalBool)
                 if (prevState.evalBool) return 
                 if (+prevState.numValueTwo===0&&+selectedNum===0) return
                 else {
@@ -72,7 +74,7 @@ export default class Calculator extends Component {
                         display.textContent=this.state.numValueTwo+selectedNum
                         return {
                             //concats number selected to previous number
-                            numValueOne: prevState.numValueTwo+selectedNum
+                            numValueTwo: prevState.numValueTwo+selectedNum
                         }
                     }
                 }
