@@ -5,30 +5,57 @@ class Calculator extends Component {
     constructor(){
         super()
         this.state = {
-            display: ""
+            num1: "",
+            num2: "",
+            op: "",
+            answer: "",
+            // display: ""
+            // will add display if there is time.
         }
     }
 numClick = (e) => {
     e.preventDefault()
-    console.log("this is the number I clicked:", e.target.value)
+    // console.log("this is the number I clicked:", e.target.value)
     let num = e.target.value
-    this.setState({
-        display: num
-    })
+    // console.log("this is num", num)
+    if (this.state.op === "") {
+        
+        this.setState({
+            num1: [...this.state.num1, num]
+        })
+        console.log("this is num1",this.state.num1)
+    }else{
+        this.setState({
+            num2: [...this.state.num2, num]
+        })
+        console.log("this is num2", this.state.num2)
+    }
 }
 opClick = (e) => {
     e.preventDefault()
-    console.log("this is the operator I clicked", e.target.value)
+    // console.log("this is the operator I clicked", e.target.value)
+    let operator = e.target.value
+    this.setState({
+        op: operator
+    })
 }
 
 equalClick = (e) => {
     e.preventDefault()
-    console.log("I clicked equals!", e.target.value)
+    // console.log("I clicked equals!", e.target.value)
+    // console.log("this is num1",this.state.num1)
+    let rlNum1 = parseFloat(this.state.num1.join(""))
+    // console.log("this is num1 turned into a real number", rlNum1)
+    let rlNum2 = parseFloat(this.state.num2.join(""))
+    // console.log("this is num2 turned into a real number", rlNum2)
 }
 clearAll = (e) => {
     console.log("CLEAR WORKS!")
     this.setState({
-        display: ""
+        num1: "",
+        num2: "",
+        op: "",
+        answer: "",
     })
 }
 render(){
@@ -37,7 +64,7 @@ render(){
             <h1>React Calculator</h1>
             <div className="calc-container">
                 <p>Values: </p>
-                <div className="answer-box">{this.state.display}</div>
+                <div className="answer-box">{this.state.num1}{this.state.op}{this.state.num2}{this.state.answer}</div>
                 <div className="calc-row">
                     <button className="calc-button calc-button-top" onClick={this.clearAll} value="AC">AC</button>
                     <button className="calc-button calc-button-top" onClick={this.opClick} value="+/-">+/-</button>
