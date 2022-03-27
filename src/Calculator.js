@@ -13,7 +13,7 @@ class Calculator extends Component {
             answer: "",
         }
     }
-    
+
     // Function to clear/reset the calculator
     clearCalc = () => {
         this.setState({
@@ -25,31 +25,63 @@ class Calculator extends Component {
         })
     }
 
-    // // Function to display the number entered
-    // handleDisplay = (num) => {
-    //     this.setState({
-    //         display: this.state.display + num
-    //     })
-    // }
+    // Function to check what's at the front of the display array and take action appropriately.
+    checkArrays = () => {
+
+        // Copies the current display state
+        let currDisplay = this.state.display
+        // Sets the first item in the display to a variable
+        let displayFront = this.state.display.slice(0, 1)
+        // console.log("displayFront:", displayFront)
+        // Tests to see if the first item in the display is not a number (an operator symbol)
+        if (isNaN(displayFront)) {
+            // console.log("dF is NaN")
+            // If yes, remove the first item in the array
+            currDisplay = this.state.display.shift()
+            // console.log("current display:", currDisplay)
+            // Set the altered array to the display
+            this.setState({
+                display: currDisplay
+            })
+        } else {
+            console.log("df is #")
+        }
+    }
+
 
     // Capture the assigned text value of the calculator number button clicked
     handleNumButton = (e) => {
-        console.log("Clicked number:", e.target.innerText)
+        
+        // console.log("Clicked number:", e.target.innerText)
         const clickedNum = e.target.innerText
-        // Add a conditional for if first array index is 0 and second isn't decimal to drop zero.
+        
+        // // Add a conditional for if first array index is 0 and second isn't decimal to drop zero.
+        // // Another - or modified conditional - to drop the operator.
+        // Calls this function at every number button press to see what's at the front of the array and take action if needed.
+        this.checkArrays()
+        // Adds what's been clicked to the back of the display state array.
         this.setState({
             display: [...this.state.display, clickedNum]
         })
     }
-    
+
     handleOpButton = (e) => {
-        console.log("Clicked operator:", e.target.innerText)
+        // console.log("Clicked operator:", e.target.innerText)
         const clickedOp = e.target.innerText
         const firstNum = this.state.display.join("")
-        console.log("firstNum:", firstNum)
+        // console.log("firstNum:", firstNum)
         this.setState({
             operator: clickedOp,
+            display: [clickedOp],
             firstNum: firstNum
+        })
+    }
+
+    handleEquButton = (e) => {
+        const secondNum = this.state.display.join("")
+        // console.log("secondNum:", secondNum)
+        this.setState({
+            secondNum: secondNum
         })
     }
 
@@ -88,12 +120,12 @@ class Calculator extends Component {
                 <div className="calc-row">
                     <button onClick={(this.handleNumButton)} className="calc-button width-2">0</button>
                     <button className="calc-button">.</button>
-                    <button className="calc-button calc-button-op">=</button>
+                    <button onClick={(this.handleEquButton)} className="calc-button calc-button-op">=</button>
                 </div>
             </div>
         </div>
     )
-}
+}   
 }
 
 export default Calculator
