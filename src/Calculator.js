@@ -2,23 +2,63 @@ import React, { Component } from 'react'
 import EquationBox from './EquationBox'
 import CurrentValue from './CurrentValue'
 
+
+const operators = ['+', '-', '*', '/', '%']
+
 class Calculator extends Component {
     // Declare state variables
     constructor(){
         super()
 
         this.state = {
-            value : 'value',
+            value : '',
             equation: ''
         }
         
     }
 
-    addChar = (char) =>{
-        console.log('ADDCHAR IS BEING CALLED, GOOD START!')
+    addChar = (char) => {
         this.setState(prevState =>{
             return {equation : prevState.equation+char}
         })
+    }
+
+    splitEquation = (equation) => {
+        // empty array that will hold the equation with elements being either numbers or operators
+        const equationSplitByOperator = [] 
+        // empty placeholder to add chars to a number
+        let tempNumber = '' 
+         // split the array so we can iterate and run conditionals on each char
+        const equationArray = equation.split('')
+        equationArray.forEach((val, index, array) => {
+            // if the char is an operator add the tempNumber and the operator to the equationSplitByOperator Array
+            if (operators.includes(val)){
+                let number = parseInt(tempNumber)
+                equationSplitByOperator.push(number)
+                equationSplitByOperator.push(val)
+                tempNumber = [] // reset tempArray to accept the next number
+            }
+            //check to see if it is the end of the array to add the last number in the equation
+            else if(index === array.length - 1){
+                tempNumber += val
+                let number = parseInt(tempNumber)
+                equationSplitByOperator.push(number)
+            }
+            // if the char is not an operator or end of array add it to the temp number
+            else {
+                tempNumber += val
+            }      
+        });
+        return equationSplitByOperator
+    }
+
+    calculate = (equation) => {   
+        const equationSplitByOperator  = this.splitEquation(equation)  
+        const value = eval(equationSplitByOperator.join(' '))
+        this.setState({
+            value: value
+        })
+
     }
 
 render(){
@@ -38,7 +78,7 @@ render(){
                     <button className="calc-button" onClick={()=>this.addChar(7)}>7</button>
                     <button className="calc-button" onClick={()=>this.addChar(8)}>8</button>
                     <button className="calc-button" onClick={()=>this.addChar(9)}>9</button>
-                    <button className="calc-button calc-button-op" onClick={()=>this.addChar('x')}>x</button>
+                    <button className="calc-button calc-button-op" onClick={()=>this.addChar('*')}>x</button>
                 </div>
                 <div className="calc-row">
                     <button className="calc-button" onClick={()=>this.addChar(4)}>4</button>
@@ -55,7 +95,7 @@ render(){
                 <div className="calc-row">
                     <button className="calc-button width-2" onClick={()=>this.addChar(0)}>0</button>
                     <button className="calc-button" onClick={()=>this.addChar('.')}>.</button>
-                    <button className="calc-button calc-button-op" >=</button>
+                    <button className="calc-button calc-button-op" onClick={()=>{this.calculate(this.state.equation)}}>=</button>
                 </div>
             </div>
         </div>
