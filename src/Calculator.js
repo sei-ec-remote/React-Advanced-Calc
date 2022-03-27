@@ -13,7 +13,11 @@ class Calculator extends Component {
   }
 
   clickedNum = (e) => {
-    if (this.state.operator === null) {
+    if (this.state.firstNum === "0") {
+      this.setState({
+        firstNum: "",
+      })
+    } else if (this.state.operator === null) {
       this.setState({
         firstNum: this.state.firstNum + e.target.innerText,
         display: this.state.firstNum,
