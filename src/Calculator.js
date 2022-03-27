@@ -2,23 +2,41 @@ import React, { Component } from 'react'
 
 class Calculator extends Component {
     // Declare state variables
-
+    constructor(props) {
+        super (props)
+        this.state = {
+            display: []
+        }
+    }
+    handleClick = (e) =>{
+        let buttonNum = e.target.innerText
+        this.setState((prevState, props)=>{
+            return{
+                display: [...this.state.display, buttonNum]
+            }
+        })
+    }
+    clearDisplay = (e) =>{
+        this.setState({
+            display: []
+        })
+    }
 render(){
     return (
         <div className="container">
             <h1>React Calculator</h1>
             <div className="calc-container">
                 <p>Values: </p>
-                <div className="answer-box">TBD</div>
+                <div className="answer-box">{this.state.display}</div>
                 <div className="calc-row">
-                    <button className="calc-button calc-button-top">AC</button>
+                    <button className="calc-button calc-button-top" onClick={this.clearDisplay}>AC</button>
                     <button className="calc-button calc-button-top">+/-</button>
                     <button className="calc-button calc-button-top">%</button>
                     <button className="calc-button calc-button-op">/</button>
                 </div>
                 <div className="calc-row">
-                    <button className="calc-button">7</button>
-                    <button className="calc-button">8</button>
+                    <button className="calc-button" onClick={this.handleClick}>7</button>
+                    <button className="calc-button" onClick={this.handleClick}>8</button>
                     <button className="calc-button">9</button>
                     <button className="calc-button calc-button-op">x</button>
                 </div>
