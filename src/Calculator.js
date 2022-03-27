@@ -13,7 +13,6 @@ class Calculator extends Component {
   }
 
   clickedNum = (e) => {
-    let display = document.getElementsByClassName("answer-box")
     if (this.state.operator === null) {
       this.setState({
         firstNum: this.state.firstNum + e.target.innerText,
@@ -51,6 +50,12 @@ class Calculator extends Component {
     })
   }
 
+  percent = (e) => {
+    this.setState({
+      sum: parseInt(this.state.firstNum) / 100,
+    })
+  }
+
   render() {
     console.log("firstnum is", this.state.firstNum)
     console.log("secondnum is", this.state.secondNum)
@@ -73,7 +78,12 @@ class Calculator extends Component {
               AC
             </button>
             <button className="calc-button calc-button-top">+/-</button>
-            <button className="calc-button calc-button-top">%</button>
+            <button
+              onClick={this.percent}
+              className="calc-button calc-button-top"
+            >
+              %
+            </button>
             <button
               onClick={this.clickedOp}
               className="calc-button calc-button-op"
