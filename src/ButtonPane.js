@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Button from './Button'
 
-export default class Button extends Component {
+export default class ButtonPane extends Component {
 
     render() {
 
