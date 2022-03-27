@@ -5,15 +5,16 @@ class Calculator extends Component {
     constructor(){
         super()
         this.state = {
-            // result = 0,
-            // currentNum = 0,
-            // sign = " "
+            display: ""
         }
     }
 numClick = (e) => {
     e.preventDefault()
     console.log("this is the number I clicked:", e.target.value)
-    // console.log("the current number is", this.state)
+    let num = e.target.value
+    this.setState({
+        display: num
+    })
 }
 opClick = (e) => {
     e.preventDefault()
@@ -24,15 +25,21 @@ equalClick = (e) => {
     e.preventDefault()
     console.log("I clicked equals!", e.target.value)
 }
+clearAll = (e) => {
+    console.log("CLEAR WORKS!")
+    this.setState({
+        display: ""
+    })
+}
 render(){
     return (
         <div className="container">
             <h1>React Calculator</h1>
             <div className="calc-container">
                 <p>Values: </p>
-                <div className="answer-box">TBD</div>
+                <div className="answer-box">{this.state.display}</div>
                 <div className="calc-row">
-                    <button className="calc-button calc-button-top">AC</button>
+                    <button className="calc-button calc-button-top" onClick={this.clearAll} value="AC">AC</button>
                     <button className="calc-button calc-button-top" onClick={this.opClick} value="+/-">+/-</button>
                     <button className="calc-button calc-button-top" onClick={this.opClick} value="%">%</button>
                     <button className="calc-button calc-button-op" onClick={this.opClick} value="/">/</button>
