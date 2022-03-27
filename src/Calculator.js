@@ -130,6 +130,21 @@ export default class Calculator extends Component {
         display.textContent=this.state.evalNum
     }
 
+    clr = (e) => {
+        //assigns display div to variable
+        const display = document.getElementById('display')
+        display.textContent=0
+        this.setState((prevState,props) => {
+            return {
+                numValueOne: 'emp',
+                numValueTwo: 'emp',
+                operator: "",
+                evalNum: "",
+                evalBool: false
+            }
+        })
+    }
+
 
 
 render(){
@@ -143,7 +158,7 @@ render(){
                 <p>Values: </p>
                 <div id='display' className="answer-box">0</div>
                 <div className="calc-row">
-                    <button className="calc-button calc-button-top">AC</button>
+                    <button onClick={this.clr} className="calc-button calc-button-top">AC</button>
                     <button className="calc-button calc-button-top">+/-</button>
                     <button className="calc-button calc-button-top">%</button>
                     <button onClick={this.setOperator} className="calc-button calc-button-op">/</button>
