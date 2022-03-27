@@ -199,6 +199,30 @@ export default class Calculator extends Component {
             } else return
         })
     }
+    
+    // FUNCTION - switches the sign of the entry
+    switchSign = () => {
+        // assigns display div to variable
+        const display = document.getElementById('display')
+        this.setState((prevState,props)=> {
+            //checks if at first entry and value doesn't equal "emp"
+            if(prevState.operator===""&&prevState.numValueOne!=="emp") {
+                //updates display & variable
+                display.textContent=-1*parseInt(prevState.numValueOne)
+                return {
+                    numValueOne: -1*prevState.numValueOne
+                }
+            }
+             //checks if at second entry and value doesn't equal "emp"
+            else if (prevState.operator!==""&&prevState.numValueTwo!=="emp") {
+                //updeates display & variable
+                display.textContent=-1*parseInt(prevState.numValueTwo)
+                return {
+                    numValueTwo: -1*prevState.numValueTwo
+                }
+            }
+        })
+    }
 
 
 
@@ -215,7 +239,7 @@ render(){
                 <div id='display' className="answer-box">0</div>
                 <div className="calc-row">
                     <button onClick={this.clr} className="calc-button calc-button-top">AC</button>
-                    <button className="calc-button calc-button-top">+/-</button>
+                    <button onClick={this.switchSign} className="calc-button calc-button-top">+/-</button>
                     <button className="calc-button calc-button-top">%</button>
                     <button onClick={this.setOperator} className="calc-button calc-button-op">/</button>
                 </div>
