@@ -84,7 +84,7 @@ export default class Calculator extends Component {
     }
 
     //FUNCTION - evaluates the num1 & num2 with the operator selected & updates display
-    eval = (e) => {
+    eval = () => {
         if (this.state.numValueOne===""||this.state.numValueTwo===""||this.state.operator===""||this.state.evalBool) return 
         //assigns display div to variable
         const display = document.getElementById('display')
@@ -132,7 +132,7 @@ export default class Calculator extends Component {
         display.textContent=this.state.evalNum
     }
 
-    clr = (e) => {
+    clr = () => {
         //assigns display div to variable
         const display = document.getElementById('display')
         display.textContent=0
@@ -145,6 +145,10 @@ export default class Calculator extends Component {
                 evalBool: false
             }
         })
+    }
+
+    setDec = () => {
+        const display = document.getElementById('display')
     }
 
 
