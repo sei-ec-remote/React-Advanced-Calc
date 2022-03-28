@@ -16,13 +16,15 @@ class Calculator extends Component {
         // console.log('number is clicked')
         const numberClicked = e.target.innerText
         // console.log('the number clicked:', numberClicked)
+        if (this.state.operator.length === 0) {
         this.setState({
             number1:[this.state.number1,numberClicked]
         })
-        this.setState({
+        } else { this.setState({
             number2:[this.state.number2,numberClicked]
         })
     }
+}
 
     signInput = (e) => {
         console.log('operator is clicked')
@@ -73,6 +75,7 @@ render(){
             <div className="calc-container">
                 <p>Values:</p>
                 <div className="answer-box">{this.state.number1}{this.state.operator}{this.state.number2}</div>
+                <div>Answer: {this.state.total}</div>
                 <div className="calc-row">
                     <button onClick={this.clearInput} className="calc-button calc-button-top">AC</button>
                     <button onClick={this.signInput} className="calc-button calc-button-top">+/-</button>
