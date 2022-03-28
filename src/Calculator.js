@@ -17,26 +17,27 @@ class Calculator extends Component {
         const numberClicked = e.target.innerText
         // console.log('the number clicked:', numberClicked)
         this.setState({
-            display:numberClicked
+            number1:[this.state.number1,numberClicked]
+        })
+        this.setState({
+            number2:[this.state.number2,numberClicked]
         })
     }
 
     signInput = (e) => {
-        // console.log('operator is clicked')
-        if(this.state.display){
-            let result = this.state.display
+        console.log('operator is clicked')
             // console.log(result,'this should log after a number is clicked')
             this.setState({
-                operator: e.target.innerText,
+                operator: e.target.innerText
             })
-        }
     }
 
     clearInput = () => {
         console.log('clear calc')
         this.setState({
-            display:'',
-            total:0,
+            number1:'',
+            number2:'',
+            total:'',
             operator:''
         })
     }
@@ -44,19 +45,25 @@ class Calculator extends Component {
 
     resultInput = () => {
         // console.log('result is clicked')
-        let result = 0
         if (this.state.operator === '+') {
-            result = parseInt(this.state.number1) + parseInt(this.state.number2)
+            this.setState({
+                total: parseFloat(this.state.number1) + parseFloat(this.state.number2)
+            })
         } else if (this.state.operator === '-') {
-            result = parseInt(this.state.number1) - parseInt(this.state.number2)
+            this.setState({
+                total: parseFloat(this.state.number1) - parseFloat(this.state.number2)
+            })
         } else if (this.state.operator === 'x') {
-            result = parseInt(this.state.number1) * parseInt(this.state.number2)
+            this.setState({
+                total: parseFloat(this.state.number1) * parseFloat(this.state.number2)
+            })
         } else if (this.state.operator === '/') {
-            result = parseInt(this.state.number1) / parseInt(this.state.number2)
+            this.setState({
+                total: parseFloat(this.state.number1) / parseFloat(this.state.number2)
+            })
+        } else {
+            this.state.total = 'Please enter a valid method'
         }
-        this.setState({
-            display: result
-        })
     }
 
 render(){
@@ -64,8 +71,8 @@ render(){
         <div className="container">
             <h1>React Calculator</h1>
             <div className="calc-container">
-                <p>Values: </p>
-                <div className="answer-box">{this.state.display}</div>
+                <p>Values:</p>
+                <div className="answer-box">{this.state.number1}{this.state.operator}{this.state.number2}</div>
                 <div className="calc-row">
                     <button onClick={this.clearInput} className="calc-button calc-button-top">AC</button>
                     <button onClick={this.signInput} className="calc-button calc-button-top">+/-</button>
