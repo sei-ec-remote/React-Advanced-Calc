@@ -48,9 +48,30 @@ equalClick = (e) => {
     // console.log("this is num1 turned into a real number", rlNum1)
     let rlNum2 = parseFloat(this.state.num2.join(""))
     // console.log("this is num2 turned into a real number", rlNum2)
+    if (this.state.op === "+") {
+        this.setState({
+            answer: rlNum1 + rlNum2
+        })
+    } else if (this.state.op === "-") {
+        this.setState({
+            answer: rlNum1 - rlNum2
+        })
+    } else if (this.state.op === "x") {
+        this.setState({
+            answer: rlNum1 * rlNum2
+        })
+    } else if (this.state.op === "/") {
+        this.setState({
+            answer: rlNum1 / rlNum2
+        })
+    } else {
+        this.setState({
+            answer: "error"
+        })
+    }
 }
 clearAll = (e) => {
-    console.log("CLEAR WORKS!")
+    // console.log("CLEAR WORKS!")
     this.setState({
         num1: "",
         num2: "",
@@ -64,7 +85,7 @@ render(){
             <h1>React Calculator</h1>
             <div className="calc-container">
                 <p>Values: </p>
-                <div className="answer-box">{this.state.num1}{this.state.op}{this.state.num2}{this.state.answer}</div>
+                <div className="answer-box">{this.state.num1}{this.state.op}{this.state.num2}={this.state.answer}</div>
                 <div className="calc-row">
                     <button className="calc-button calc-button-top" onClick={this.clearAll} value="AC">AC</button>
                     <button className="calc-button calc-button-top" onClick={this.opClick} value="+/-">+/-</button>
