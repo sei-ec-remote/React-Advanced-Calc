@@ -10,7 +10,7 @@ class Calculator extends Component {
             op: "",
             answer: "",
             // display: ""
-            // will add display if there is time.
+            // [will add display if there is time.]
         }
     }
 numClick = (e) => {
@@ -31,6 +31,7 @@ numClick = (e) => {
         console.log("this is num2", this.state.num2)
     }
 }
+
 opClick = (e) => {
     e.preventDefault()
     // console.log("this is the operator I clicked", e.target.value)
@@ -112,7 +113,7 @@ render(){
                 </div>
                 <div className="calc-row">
                     <button className="calc-button width-2" onClick={this.numClick} value="0">0</button>
-                    <button className="calc-button">.</button>
+                    <button className="calc-button" onClick={this.numClick} value=".">.</button>
                     <button className="calc-button calc-button-op" onClick={this.equalClick} value="=">=</button>
                 </div>
             </div>
