@@ -17,12 +17,21 @@ class Calculator extends Component {
         // console.log('number is clicked')
         const numberClicked = e.target.innerText
         // console.log('the number clicked:', numberClicked)
-        // if(this.state.number1[0] === '0') {
-        // this.setState({
-        //     number1: '0',
-        //     number2:
-        // }) } else
-            if (this.state.operator.length === 0) {
+        if(this.state.number1[0] === '0' && numberClicked == '0' ) {
+        this.setState({
+            number1:'',
+            number2:'',
+            operator:'',
+            total:'invalid input'
+        }) 
+        } else if (this.state.number2[0] === '0') {
+            this.setState({
+                number1:'',
+                number2:'',
+                operator:'',
+                total:'invalid input'
+        }) 
+        } else if (this.state.operator.length === 0) {
             this.setState({
             number1:[...this.state.number1,numberClicked]
         })
@@ -45,7 +54,7 @@ class Calculator extends Component {
         this.setState({
             number1:'',
             number2:'',
-            total:0,
+            total:'Cleared',
             operator:''
         })
     }
