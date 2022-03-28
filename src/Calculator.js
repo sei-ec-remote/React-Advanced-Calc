@@ -18,17 +18,23 @@ numClick = (e) => {
     // console.log("this is the number I clicked:", e.target.value)
     let num = e.target.value
     // console.log("this is num", num)
-    if (this.state.op === "") {
-        
+    //  
+    if (this.state.num1[0] === "0" ) {
+        // console.log("error")
+        this.setState({
+            num1: "ERROR: Not a Real Number"
+        })
+    } else  if (this.state.op === "") {    
+   
         this.setState({
             num1: [...this.state.num1, num]
         })
-        console.log("this is num1",this.state.num1)
+        // console.log("this is num1",this.state.num1)
     }else{
         this.setState({
             num2: [...this.state.num2, num]
         })
-        console.log("this is num2", this.state.num2)
+        // console.log("this is num2", this.state.num2)
     }
 }
 
@@ -36,9 +42,18 @@ opClick = (e) => {
     e.preventDefault()
     // console.log("this is the operator I clicked", e.target.value)
     let operator = e.target.value
-    this.setState({
-        op: operator
-    })
+    if (this.state.op === ""){
+        this.setState({
+            op:operator
+        })
+    } else {
+        this.setState({
+            num1:"",
+            num2:"",
+            op: "ERROR: Use one Operator",
+
+        })
+    }
 }
 
 equalClick = (e) => {
@@ -51,19 +66,23 @@ equalClick = (e) => {
     // console.log("this is num2 turned into a real number", rlNum2)
     if (this.state.op === "+") {
         this.setState({
-            answer: rlNum1 + rlNum2
+            answer: "=" + (rlNum1 + rlNum2)
         })
     } else if (this.state.op === "-") {
         this.setState({
-            answer: rlNum1 - rlNum2
+            answer: "=" + rlNum1 - rlNum2
         })
     } else if (this.state.op === "x") {
         this.setState({
-            answer: rlNum1 * rlNum2
+            answer: "=" + rlNum1 * rlNum2
         })
     } else if (this.state.op === "/") {
         this.setState({
-            answer: rlNum1 / rlNum2
+            answer: "=" + rlNum1 / rlNum2
+        })
+    } else if (this.state.op === "%") {
+        this.setState({
+
         })
     } else {
         this.setState({
@@ -86,7 +105,7 @@ render(){
             <h1>React Calculator</h1>
             <div className="calc-container">
                 <p>Values: </p>
-                <div className="answer-box">{this.state.num1}{this.state.op}{this.state.num2}={this.state.answer}</div>
+                <div className="answer-box">{this.state.num1}{this.state.op}{this.state.num2}{this.state.answer}</div>
                 <div className="calc-row">
                     <button className="calc-button calc-button-top" onClick={this.clearAll} value="AC">AC</button>
                     <button className="calc-button calc-button-top" onClick={this.opClick} value="+/-">+/-</button>
