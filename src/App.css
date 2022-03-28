@@ -12,9 +12,10 @@
 
 .calc-button {
   width: 50px;
-  min-height: 40px;
+  min-height: 50px;
   color: #333;
   background-color: #ccc;
+  /* border-radius: 50%; */
 }
 
 .width-2 {
