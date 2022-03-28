@@ -8,20 +8,29 @@ class Calculator extends Component {
             number1:'',
             number2:'',
             total:'',
-            operator:''
+            operator:'',
         }
     }
+
 
     numberInput = (e) => {
         // console.log('number is clicked')
         const numberClicked = e.target.innerText
         // console.log('the number clicked:', numberClicked)
-        if (this.state.operator.length === 0) {
+        if(this.state.number1[0] === '0') {
         this.setState({
-            number1:[this.state.number1,numberClicked]
+            number1: 'Invalid input'
+        })
+        } else if (this.state.number2[0] === '0') {
+            this.setState({
+                number2: 'Invalid input'
+            })
+        } else if (this.state.operator.length === 0) {
+            this.setState({
+            number1:[...this.state.number1,numberClicked]
         })
         } else { this.setState({
-            number2:[this.state.number2,numberClicked]
+            number2:[...this.state.number2,numberClicked]
         })
     }
 }
@@ -39,13 +48,13 @@ class Calculator extends Component {
         this.setState({
             number1:'',
             number2:'',
-            total:'',
+            total:0,
             operator:''
         })
     }
 
 
-    resultInput = () => {
+    resultInput = () => { 
         // console.log('result is clicked')
         if (this.state.operator === '+') {
             this.setState({
@@ -64,7 +73,9 @@ class Calculator extends Component {
                 total: parseFloat(this.state.number1) / parseFloat(this.state.number2)
             })
         } else {
-            this.state.total = 'Please enter a valid method'
+            this.setState({
+                total: 'Please enter a valid method'
+            })
         }
     }
 
