@@ -23,6 +23,13 @@ class Calculator extends Component {
         })
     }
 
+    clear = () =>{
+        this.setState({
+            equation: '',
+            value : ''
+        })
+    }
+
     splitEquation = (equation) => {
         // empty array that will hold the equation with elements being either numbers or operators
         const equationSplitByOperator = [] 
@@ -69,7 +76,7 @@ render(){
                 <CurrentValue value = {this.state.value}/>
                 <EquationBox equation = {this.state.equation}/>
                 <div className="calc-row">
-                    <button className="calc-button calc-button-top" >AC</button>
+                    <button className="calc-button calc-button-top" onClick={this.clear} >AC</button>
                     <button className="calc-button calc-button-top" >+/-</button>
                     <button className="calc-button calc-button-top" onClick={()=>this.addChar('%')}>%</button>
                     <button className="calc-button calc-button-op" onClick={()=>this.addChar('/')}>/</button>
