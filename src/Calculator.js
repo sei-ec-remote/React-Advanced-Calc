@@ -21,17 +21,21 @@ export default class Calculator extends Component {
         })
     }
 
+    formatDisplay() {
+        const num = this.state.total
+        this.setState({total: num.toFixed(7)})
+    }
+
     // Every button click will call into this function passing in a name
     //   of the button.   It then calls the actual routine that does all the
     //   work of the calculator based off of the state object and the button
     //   that was clicked.  The object returned from calculate will setState
     //   of the calculator.
     buttonSubmit = (name) => {
-        console.log("Hitting button submit for: ", name);
-
-        // console.log( calculate(this.state, name) );
-
+        //console.log("Hitting button submit for: ", name)
         this.setState(calculate(this.state, name));
+        this.formatDisplay();
+        //console.log("State", this.state)
     };
 
     render(){

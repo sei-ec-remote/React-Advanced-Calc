@@ -20,7 +20,8 @@ function handleOperator(num1, num2, operation) {
             } else {
                 return parseFloat(num1) / parseFloat(num2)
             }
-        default: return {};
+        default: 
+            throw new Error(`Unknown operator: ${operation}`);
     }
   }
 
@@ -48,9 +49,7 @@ function checkIfNumber (number) {
 export default function calculate(stateObj, buttonName) {
 
   
-  console.log("IN Calculate state:", stateObj);
-  console.log("    for Button Pressed:", buttonName);
-
+  //   Check for a Clear
   //   If the buttonName is to Clear - the state object is reset and returned.
   if (buttonName === "AC") {
     return {
@@ -73,63 +72,57 @@ export default function calculate(stateObj, buttonName) {
   //          of your second operand.
   if (checkIfNumber(buttonName)) {
 
-        console.log("Processing Number:", buttonName)
 
-        //  If you have 0 and another click of 0 - display stays 0
-        if (buttonName === "0" && stateObj.next === "0") {
-            console.log("Pressing 0 over and over")
-            return {};
-        }
+    //  If you have 0 and another click of 0 - display stays 0
+    if (buttonName === "0" && stateObj.next === "0") {
+        return {};
+    }
 
-        // If there is an operation, this is where we start accumulating digits
-        //    for the second operand.   
-        if (stateObj.operation) {
-            console.log("We have a digit operation!")
-            // if you already have a digit - add on another
-            if (stateObj.next) {
-                console.log("Next is: ", stateObj.name + buttonName)
-                return { next: stateObj.next + buttonName };
-            }
-            // First digit to save
-            console.log("Next is:", buttonName)
-            return { next: buttonName };
-        }
-        
-        // Accumulating Digits state:
-        // We are accumulating digits here for the first operand.
-        //   The first time we save the buttonName into next.
-        //   and for each time after that we accumulate by adding the 
-        //   buttonName to next
+    // If there is an operation, this is where we start accumulating digits
+    //    for the second operand.   
+    if (stateObj.operation) {
+        // if you already have a digit - add on another
         if (stateObj.next) {
-            console.log("We are accumulating digits")
-            const next = 
-                stateObj.next === "0" ? buttonName : stateObj.next + buttonName;
-            return { next, total: null, };
+            return { next: stateObj.next + buttonName };
         }
+        // First digit to save
+        return { next: buttonName };
+    }
+    
+    // Accumulating Digits state:
+    // We are accumulating digits here for the first operand.
+    //   The first time we save the buttonName into next.
+    //   and for each time after that we accumulate by adding the 
+    //   buttonName to next
+    if (stateObj.next) {
+        const next = 
+            stateObj.next === "0" ? buttonName : stateObj.next + buttonName;
+        return { next, total: null, };
+    }
 
-        // There is no operatior,  there is no next. State is all null.
-        // First time setup the next field with button pressed.
-        return { next: buttonName, total: null, };
-  }
+    // There is no operatior,  there is no next. State is all null.
+    // First time setup the next field with button pressed.
+    return { next: buttonName, total: null, };
+}
 
-  //----------------------------------------------------------
-  //  Percentage will take the digits accumulated in next and
-  //    then create a percentage.
-  if (buttonName === "%") {
-        if (stateObj.operation && stateObj.next) {
-            const result = handleOperator(stateObj.total, stateObj.next, stateObj.operation);
-            return {
-                total: parseFloat(result) / 100,
-                next: null,
-                operation: null,
-            };
-        }
-        if (stateObj.next) {
-           return {
-             next: parseFloat(stateObj.next) / 100
-           };
-         }
-         return {};
+//----------------------------------------------------------
+//  Percentage will take the digits accumulated in next and
+//    then create a percentage.
+if (buttonName === "%") {
+    if (stateObj.operation && stateObj.next) {
+        const result = handleOperator(stateObj.total, stateObj.next, stateObj.operation);
+        return {
+            total: parseFloat(result) / 100,
+            next: null,
+            operation: null,
+        };
+    }
+    if (stateObj.next) {
+        return {
+            next: parseFloat(stateObj.next) / 100
+        };
+    }
+    return {};
   }
 
   //------------------------------------------------------------
@@ -138,15 +131,14 @@ export default function calculate(stateObj, buttonName) {
   //     If it happens during accumulating digits just add the . to next
   //     If it happens during accumulating digits just ignore multiples.
   if (buttonName === ".") {
-        if (stateObj.next) {
-             // ignore a . if the next number already has one
-            if (stateObj.next.includes(".")) {
-                console.log("Ignoring more . ")
-                return {};
-            }
-            return { next: stateObj.next + "." };
+    if (stateObj.next) {
+            // ignore a . if the next number already has one
+        if (stateObj.next.includes(".")) {
+            return {};
         }
-        return { next: "0." };
+        return { next: stateObj.next + "." };
+    }
+    return { next: "0." };
   }
 
   //---------------------------------------------------------
@@ -188,29 +180,24 @@ export default function calculate(stateObj, buttonName) {
   // User pressed an operation button and there is an existing operation
   //  for example:  9 x 9 x 
   if (stateObj.operation) {
-        console.log("For button: ", buttonName)
-        console.log("calling operate and setting total state")
-        console.log("stateObj = ", stateObj)
-        return {
-            total: handleOperator(stateObj.total, stateObj.next, stateObj.operation),
-            next: null,
-            operation: buttonName,
-        };
+    return {
+        total: handleOperator(stateObj.total, stateObj.next, stateObj.operation),
+        next: null,
+        operation: buttonName,
+    };
   }
 
   //--------------------------------------------------
   // The user hasn't typed a number yet, just save the operation
   if (!stateObj.next) {
-        console.log("Saving the operation: ", buttonName)
-        return { operation: buttonName };
+    return { operation: buttonName };
   }
 
   //--------------------------------------------------
   // save the operation and shift 'next' into 'total'
-  console.log("Saving the operation - shifting next to total")
   return {
-        total: stateObj.next,
-        next: null,
-        operation: buttonName,
+    total: stateObj.next,
+    next: null,
+    operation: buttonName,
   };
 }
