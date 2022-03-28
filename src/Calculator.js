@@ -43,7 +43,15 @@ export default class Calculator extends Component {
             //allows numValueOne to still be updated
             if (prevState.operator==="") {
                 //prevents user from entering 0 as first number
-                if (+prevState.numValueOne===0&&+selectedNum===0) return
+                if (+prevState.numValueOne===0&&+selectedNum===0) {
+                    if(prevState.decimalOne) {
+                        display.textContent=this.state.numValueOne+selectedNum
+                        return {
+                            //concats number selected to previous number
+                            numValueOne: prevState.numValueOne+selectedNum
+                        }
+                    } else {return}
+                } 
                 else {
                     if (prevState.numValueOne==='emp') {
                         //updates the display with the selectedNum
@@ -62,10 +70,17 @@ export default class Calculator extends Component {
             //switches to numValueTwo to be updated
             else {
                 //prevents user from entering 0 twice
-                console.log('this is num2!!',this.state.numValueTwo)
-                console.log('eval bool???',this.state.evalBool)
                 if (prevState.evalBool) return 
-                if (+prevState.numValueTwo===0&&+selectedNum===0) return
+                if (+prevState.numValueTwo===0&&+selectedNum===0) {
+                    if(prevState.decimalOne) {
+                        display.textContent=this.state.numValueOne+selectedNum
+                        return {
+                            //concats number selected to previous number
+                            numValueOne: prevState.numValueOne+selectedNum
+                        }
+                    } else {return}
+                } 
+                
                 else {
                     if (prevState.numValueTwo==='emp') {
                         //updates the display with the selectedNum
@@ -224,11 +239,33 @@ export default class Calculator extends Component {
         })
     }
 
+    // FUNCTION - divides current value by 100
+    convToPrecent = () => {
+        const display = document.getElementById('display')
+        this.setState((prevState,props)=> {
+            //checks if at first entry and value doesn't equal "emp"
+            if(prevState.operator===""&&prevState.numValueOne!=="emp") {
+                //updates display & variable
+                display.textContent=+(prevState.numValueOne)/100 // NOTE: parseInt will truncate integar value (caused issue when used)
+                return {
+                    numValueOne: prevState.numValueOne/100
+                }
+            }
+             //checks if at second entry and value doesn't equal "emp"
+            else if (prevState.operator!==""&&prevState.numValueTwo!=="emp") {
+                //updeates display & variable
+                display.textContent=+(prevState.numValueTwo)/100 // NOTE: parseInt will truncate integar value (caused issue when used)
+                return {
+                    numValueTwo: prevState.numValueTwo/100
+                }
+            }
+        })
+    }
+
 
 
 render(){
-    console.log('number1',this.state.numValueOne)
-    console.log('decimalOne?',this.state.decimalOne)
+
 
 
     return (
@@ -236,11 +273,11 @@ render(){
             <h1>React Calculator</h1>
             <div className="calc-container">
                 <p>Values: </p>
-                <div id='display' className="answer-box">0</div>
+                <div  className="answer-box"><span id='display' >0</span></div>
                 <div className="calc-row">
                     <button onClick={this.clr} className="calc-button calc-button-top">AC</button>
                     <button onClick={this.switchSign} className="calc-button calc-button-top">+/-</button>
-                    <button className="calc-button calc-button-top">%</button>
+                    <button onClick={this.convToPrecent} className="calc-button calc-button-top">%</button>
                     <button onClick={this.setOperator} className="calc-button calc-button-op">/</button>
                 </div>
                 <div className="calc-row">
