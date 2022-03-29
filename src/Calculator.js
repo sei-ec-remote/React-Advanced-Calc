@@ -38,7 +38,7 @@ class Calculator extends Component {
             })
             console.log(this.state.operator)
         }
-        eval = () =>{
+        value = () =>{
             if(this.state.operator === '+'){
                 let num1 = parseFloat(this.state.input1.join(''))
                 let num2 = parseFloat(this.state.input2.join(''))
@@ -103,7 +103,7 @@ render(){
                 <div className="calc-row">
                     <button onClick={setInputs}className="calc-button width-2">0</button>
                     <button className="calc-button">.</button>
-                    <button onClick={this.eval}className="calc-button calc-button-op">=</button>
+                    <button onClick={this.value}className="calc-button calc-button-op">=</button>
                 </div>
             </div>
         </div>
