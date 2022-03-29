@@ -13,10 +13,11 @@ class Calculator extends Component {
             num2: "",
             total: "",
             operator: "",
+            display: "",
             // Can use this state to send it as a prop for the AC button in order 
             // to clear the calculator
             // Create a function to send it as a prop for the operators component
-            clearCalc: [0]
+            clearCalc: 0
         }
     }
     
@@ -51,70 +52,119 @@ class Calculator extends Component {
                 num2: [...this.state.num2, e.target.value]
             })
         }
+        
         console.log('this what is allNum', e.target.value)
+        console.log('this is the state of num1', this.state.num1)
+        console.log('this is the state of num2', this.state.num2)
+
     }
     opertFunc = (e) =>{
         this.setState({
             operator: e.target.value
         })
+        
     }
     
-    addNum = (e) => {
+    addNum = () => {
         // let sumNum = (this.state.num1 + this.state.num2)
         // this.setState ({
         //     total: sumNum
         // })
-        this.setState = e.target.value
+        // this.setState = e.target.value
         console.log('this is the plus button', this.setState)
-        if(this.state.operator === "+") {
            this.setState({
-               total: this.state.num1 + this.state.num2
-           })
+            num1: null,
+            num2: null,
+            operator: null,   
+            total: parseInt(this.state.num1.join('')) + parseInt(this.state.num2.join(''))
+           }) 
+           console.log("this is the state of", this.state.num1)
+           console.log("this is the state of", this.state.num2)
         }
-    }
-    subtractNum = (e) => {
-        let subNum = (this.state.num1 - this.state.num2)
+    
+    subtractNum = () => {
+        // let subNum = (this.state.num1 - this.state.num2)
         this.setState ({
-            total: subNum
+            num1: null,
+            num2: null,
+            operator: null, 
+            total: parseInt(this.state.num1.join('')) - parseInt(this.state.num2.join(''))
         })
-        this.setState = e.target.value
+        // this.setState = e.target.value
         console.log('this is the minus button', this.setState)
     }
-    multiplyNum = (e) => {
-        let multNum = (this.state.num1 * this.state.num2)
+    multiplyNum = () => {
+        // let multNum = (this.state.num1 * this.state.num2)
         this.setState ({
-            total: multNum
+            num1: null,
+            num2: null,
+            operator: null, 
+            total: parseInt(this.state.num1.join('')) * parseInt(this.state.num2.join(''))
         })
-        this.setState = e.target.value
+        // this.setState = e.target.value
         console.log('this is the multiply button', this.setState)
     }
-    divideNum = (e) => {
-        let divNum = (this.state.num1 / this.state.num2)
+    divideNum = () => {
+        // let divNum = (this.state.num1 / this.state.num2)
         this.setState ({
-            total: divNum
+            num1: null,
+            num2: null,
+            operator: null, 
+            total: parseInt(this.state.num1.join('')) / parseInt(this.state.num2.join(''))
         })
-        this.setState = e.target.value
+        // this.setState = e.target.value
         console.log('this is divide button', this.setState)
     }
-    moduloNum = (e) =>{
-        let modNum = (this.state.num1 / 100)
+    moduloNum = () =>{
+        // let modNum = (this.state.num1 / 100)
         this.setState ({
-            total: modNum
+            num1: null,
+            num2: null,
+            operator: null, 
+            total: parseInt(this.state.num1.join('')) / 100
         })
-        this.setState = e.target.value
+        // this.setState = e.target.value
         console.log('this is the modulo button', this.setState)
     }
-    equalNum = (e) => {
-        if (this.addNum === this.state.operator) {
-            console.log('ADD WORKS!')
+    errorMessage = () => {
+        this.setState ({
+            num1: null,
+            num2: null,
+            operator: null, 
+            total: this.state.display = console.error
+        })
+    }
+    equalNum = () => {
+        if (this.state.operator === "+") {
+            this.addNum()
+            // console.log('this is the setState', this.state.display)
+        } else if (this.state.operator === "-") {
+             this.subtractNum()
+        } else if (this.state.operator === "x") {
+            this.multiplyNum()
+        } else if (this.state.operator === "/") {
+            this.divideNum()
+        } else if (this.state.operator === "%") {
+            this.moduloNum()
+        } else {
+            return this.clearTheCalculator()
         }
+
+
     }
     // we will use this handler function to send as a prop
     // this will be for the AC button to clear the calculator
     clearTheCalculator = () =>{
         this.setState ({
-            clearCalc: [0]
+           num1: "",
+           num2: "",
+           total: "",
+           operator: "",
+           clearCalc: ""
         })
+        if (this.state.num1 === 0 && this.state.operator === "=") {
+            
+        }
     }
     
     render() {
@@ -125,7 +175,7 @@ class Calculator extends Component {
         // these are my calcNumbers, now we have to send them as props 
         // for the Numbers component
         // this is the clearCalc to send as a prop to the Operators component
-        console.log('this is what clearCalc is', this.state.clearCalc)
+        // console.log('this is what clearCalc is', this.state.clearCalc)
 
         // console.log('this is the target value', e.target.innerText)
         return (
@@ -139,8 +189,10 @@ class Calculator extends Component {
                     // clear={this.clearTheCalculator}
                     >
                         {this.state.num1}
-                        {this.state.num2}
+                        {this.state.operator}
+                        {this.state.num2}<br/>
                         {this.state.total}
+                        {/* {this.state.display} */}
 
                     </div>
                     <div className="calc-row">
@@ -148,19 +200,19 @@ class Calculator extends Component {
                        clear={this.clearTheCalculator}/>
                         <button className="calc-button calc-button-top">+/-</button>
                         <button onClick={this.moduloNum} value="%" className="calc-button calc-button-top">%</button>
-                        <button onClick={this.divideNum} value="/" className="calc-button calc-button-op">/</button>
+                        <button onClick={this.opertFunc} value="/" className="calc-button calc-button-op">/</button>
                     </div>
                     <div className="calc-row">
                         <button onClick={this.clickNum} value="7" className="calc-button">7</button>
                         <button onClick={this.clickNum} value="8" className="calc-button">8</button>
                         <button onClick={this.clickNum} value="9" className="calc-button">9</button>
-                        <button onClick={this.multiplyNum} value="x" className="calc-button calc-button-op">x</button>
+                        <button onClick={this.opertFunc} value="x" className="calc-button calc-button-op">x</button>
                     </div>
                     <div className="calc-row">
                         <button onClick={this.clickNum} value="4" className="calc-button">4</button>
                         <button onClick={this.clickNum} value="5" className="calc-button">5</button>
                         <button onClick={this.clickNum} value="6" className="calc-button">6</button>
-                        <button onClick={this.subtractNum} value="-" className="calc-button calc-button-op">-</button>
+                        <button onClick={this.opertFunc} value="-" className="calc-button calc-button-op">-</button>
                     </div>
                     <div className="calc-row">
                         <button onClick={this.clickNum} value="1" className="calc-button">1</button>
@@ -172,7 +224,7 @@ class Calculator extends Component {
                     <div className="calc-row">
                         <button onClick={this.clickNum} value="0" className="calc-button width-2">0</button>
                         <button className="calc-button">.</button>
-                        <button className="calc-button calc-button-op">=</button>
+                        <button onClick={this.equalNum} value="=" className="calc-button calc-button-op">=</button>
                     </div>
                 </div>
             </div>
