@@ -5,7 +5,7 @@ class Calculator extends Component {
     // const [answer, setAnswer] = useState("0")
     constructor(props) {
         super(props)
-        this.state ={
+        this.state = {
             display: [0],
             firstNum: "",
             secondNum: "",
@@ -13,6 +13,7 @@ class Calculator extends Component {
             answer: "",
         }
     }
+
 
     // Function to clear/reset the calculator
     clearCalc = () => {
@@ -25,9 +26,9 @@ class Calculator extends Component {
         })
     }
 
+
     // Function to check what's at the front of the display array and take action appropriately.
     checkArrays = () => {
-
         // Copies the current display state
         let currDisplay = this.state.display
         // Sets the first item in the display to a variable
@@ -50,8 +51,7 @@ class Calculator extends Component {
 
 
     // Capture the assigned text value of the calculator number button clicked
-    handleNumButton = (e) => {
-        
+    handleNumButton = (e) => {        
         // console.log("Clicked number:", e.target.innerText)
         const clickedNum = e.target.innerText
         
@@ -65,11 +65,15 @@ class Calculator extends Component {
         })
     }
 
+    // onClick function for each of the four operator buttons.
     handleOpButton = (e) => {
         // console.log("Clicked operator:", e.target.innerText)
+        // Captures the text on the operator button so we can perform the appropriate math later.
         const clickedOp = e.target.innerText
+        // Takes all the items in the display and puts them together in a single string.
         const firstNum = this.state.display.join("")
         // console.log("firstNum:", firstNum)
+        // Updates the states with the updated information. Display is explicitly told to continue being an array, else everything starts to freak out when we begin the second number.
         this.setState({
             operator: clickedOp,
             display: [clickedOp],
@@ -77,16 +81,49 @@ class Calculator extends Component {
         })
     }
 
+    // The function called when the equals button is clicked.
     handleEquButton = (e) => {
+        // As with firstNum, puts all the single digits/characters in the array together as one large number.
         const secondNum = this.state.display.join("")
-        // console.log("secondNum:", secondNum)
+        // Sets the state of secondNum. The display change to the = sign was an attempt to get secondNum to be available for the final function, but doesn't appear to be working (see doTheMath comment block).
         this.setState({
-            secondNum: secondNum
+            secondNum: secondNum,
+            display: "="
+        })
+        this.doTheMath()
+    }
+
+    // The function to perform the math from our gathered data.
+    doTheMath = () => {
+        const num1 = parseInt(this.state.firstNum)
+        // Can't get secondNum to populate despite seeing it in state. Guessing it's something to do with the speed of everything? Or when the render updates? Nothing's changed until after this function has changed the display. Does it work when I have the display do something in handleEqButton?
+        // No, doesn't appear to have made a difference. Note to self to ask about this. In the meantime, passing the display directly to num2 is working for functionality.
+        // const num2 = parseInt(this.state.secondNum)
+        const num2 = parseInt(this.state.display.join(""))
+        let calcAnswer = null
+        const calcOp = this.state.operator
+        // Conditional for performing the math as indicated by the operator selected. Case might be better for this?
+        if (calcOp === "+") {
+            calcAnswer = num1 + num2
+        } else if (calcOp === "-") {
+            calcAnswer = num1 - num2
+        } else if (calcOp === "x") {
+            calcAnswer = num1 * num2
+        } else if (calcOp === "/") {
+            calcAnswer = num1 / num2
+        } else {
+            console.log("No clue, what is math?")
+        }
+        // Finally, puts the answer in the calculator display.
+        // console.log("answer:", calcAnswer)
+        this.setState({
+            display: calcAnswer
         })
     }
 
+
     render(){
-    console.log("This is state:", this.state)
+    // console.log("This is state:", this.state)
     return (
         <div className="container">
             <h1>React Calculator</h1>
@@ -129,3 +166,13 @@ class Calculator extends Component {
 }
 
 export default Calculator
+
+
+
+// TO-DO
+//
+// Next: perform the math selected
+//
+// Later: drop leading zero
+//
+// Bonus: Add decimal point
