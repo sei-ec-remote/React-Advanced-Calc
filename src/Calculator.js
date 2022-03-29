@@ -14,18 +14,16 @@ class Calculator extends Component {
         }
     }
 
-
     // Function to clear/reset the calculator
     clearCalc = () => {
         this.setState({
             display: [0],
             firstNum: "",
             secondNum: "",
-            operator: "",
+            operator: null,
             answer: "",
         })
     }
-
 
     // Function to check what's at the front of the display array and take action appropriately.
     checkArrays = () => {
@@ -34,8 +32,8 @@ class Calculator extends Component {
         // Sets the first item in the display to a variable
         let displayFront = this.state.display.slice(0, 1)
         // console.log("displayFront:", displayFront)
-        // Tests to see if the first item in the display is not a number (an operator symbol)
-        if (isNaN(displayFront)) {
+        // Tests to see if the first item in the display is not a number (an operator symbol) or a zero
+        if (isNaN(displayFront) || (parseInt(displayFront) === 0)) {
             // console.log("dF is NaN")
             // If yes, remove the first item in the array
             currDisplay = this.state.display.shift()
@@ -43,12 +41,9 @@ class Calculator extends Component {
             // Set the altered array to the display
             this.setState({
                 display: currDisplay
-            })
-        } else {
-            console.log("df is #")
+            })        
         }
     }
-
 
     // Capture the assigned text value of the calculator number button clicked
     handleNumButton = (e) => {        
@@ -70,15 +65,23 @@ class Calculator extends Component {
         // console.log("Clicked operator:", e.target.innerText)
         // Captures the text on the operator button so we can perform the appropriate math later.
         const clickedOp = e.target.innerText
-        // Takes all the items in the display and puts them together in a single string.
-        const firstNum = this.state.display.join("")
-        // console.log("firstNum:", firstNum)
-        // Updates the states with the updated information. Display is explicitly told to continue being an array, else everything starts to freak out when we begin the second number.
-        this.setState({
-            operator: clickedOp,
-            display: [clickedOp],
-            firstNum: firstNum
-        })
+        // Conditional checks to see if an operator has already been clicked. If so, it overwrites the operator with the new selection, but doesn't mess with the number.
+        if (!this.state.operator) {
+            // Takes all the items in the display and puts them together in a single string.
+            const firstNum = this.state.display.join("")
+            // console.log("firstNum:", firstNum)
+            // Updates the states with the updated information. Display is explicitly told to continue being an array, else everything starts to freak out when we begin the second number.
+            this.setState({
+                operator: clickedOp,
+                display: [clickedOp],
+                firstNum: firstNum
+            })
+        } else {
+            this.setState({
+                operator: clickedOp,
+                display: [clickedOp]
+            })
+        }
     }
 
     // The function called when the equals button is clicked.
@@ -123,7 +126,7 @@ class Calculator extends Component {
 
 
     render(){
-    // console.log("This is state:", this.state)
+    console.log("This is state:", this.state)
     return (
         <div className="container">
             <h1>React Calculator</h1>
@@ -133,6 +136,7 @@ class Calculator extends Component {
                 <div className="calc-row">
                     <button onClick={(this.clearCalc)} className="calc-button calc-button-top">AC</button>
                     <button className="calc-button calc-button-top">+/-</button>
+
                     <button className="calc-button calc-button-top">%</button>
                     <button onClick={(this.handleOpButton)} className="calc-button calc-button-op">/</button>
                 </div>
@@ -169,10 +173,26 @@ export default Calculator
 
 
 
-// TO-DO
-//
-// Next: perform the math selected
-//
-// Later: drop leading zero
-//
-// Bonus: Add decimal point
+////////////////////////////////
+// DELIVERABLE REQUIREMENTS
+////////////////////////////////
+
+// ✔ AC (Clear) button (clear the state)
+// ✔ 4 main operators + - / * (store operator in state)
+// ✔ 0-9 buttons (store numerical value in state)
+// ✔ Equals button (evaluate the answer based on your current state)
+// ✔ A display that shows the current number or current state
+
+// ✔ Ensure you can use numbers with multiple digits (can you add 10 + 20?)
+// ✔ Make sure you are concatenating each number pressed until you get an operator
+// ✔ Don't accept 0 as a first number (e.g., 002 should not be allowed)
+// Possible exception - if you implement floating point numbers as part of the bonus, you may have a 0 preceeding the decimal point. Still, while 0.1 is valid, 0000.1 is not, so be sure to only add the 0 in front if the . is pressed first!
+
+///////////////
+// BONUS
+///////////////
+// Alter your app's logic for the - operator to allow negative numbers to be input
+// Implement the +/- button that switches a number from negative to positive or vice versa
+// % as a percent button (just divides current number by 100)
+// Implement the floating point . button in order to support decimals.
+// Don't allow more than one decimal per number!
