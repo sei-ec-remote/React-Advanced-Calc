@@ -10,7 +10,9 @@ class Calculator extends Component {
             operator: '',
             num2: [],
             sum: null, 
-            equal: ''
+            equal: '',
+            error: '',
+            modulus: '100'
         }
         console.log(this.state)
 
@@ -52,6 +54,10 @@ class Calculator extends Component {
             num1: [],
             operator: '',
             num2: [],
+            equal: '',
+            sum: null,
+            error: null
+            
         
             })
                 
@@ -61,13 +67,48 @@ class Calculator extends Component {
         let sumClick = parseInt(e.target.innerText)
         let numVal1 = parseFloat(this.state.num1.join(''))
         let numVal2 = parseFloat(this.state.num2.join(''))
-        let eq = "="
+        
             if(this.state.operator == '+') {
                 this.setState({
                     sum: numVal1 + numVal2,
-                    equa: this.state.eq
+                    equal: '='
             
                 })
+            } else if(this.state.operator == '-') {
+                this.setState({
+                    sum: numVal1 - numVal2,
+                    equal: '='
+                })
+            } else if(this.state.operator == 'x') {
+                this.setState({
+                    sum: numVal1 * numVal2,
+                    equal: '='
+                })
+            } else if(this.state.operator == '/' && numVal2 != "0") {
+                this.setState({
+                    sum: numVal1 / numVal2,
+                    equal: '='
+                }) 
+            } else if (this.state.operator == '%' ) {
+                let modulus = parseFloat(this.state.modulus)
+                this.setState({
+                    sum: numVal1 / modulus,
+                    equal: '='
+                })
+            } else if (this.state.operator == '/' && this.state.numVal2 === "0") {
+                this.setState({
+                    error: 'cannot divide by zero'
+                })
+
+
+            } else { 
+                this.setState({
+                    error: 'ERR',
+                    num1: [],
+                    operator: '',
+                    num2: [],
+                    sum: null,
+                }) 
             }
         }
         
@@ -90,11 +131,11 @@ class Calculator extends Component {
                 
 
 
-                <div className="answer-box">{this.state.num1}{this.state.operator} {this.state.num2} {this.state.eqqals}{this.state.sum}</div>
+                <div className="answer-box">{this.state.num1}{this.state.operator} {this.state.num2} {this.state.equal}{this.state.sum} {this.state.error}</div>
                 <div className="calc-row">
                     <button className="calc-button calc-button-top" onClick={this.clearInput}>AC</button>
                     <button className="calc-button calc-button-top">+/-</button>
-                    <button className="calc-button calc-button-top">%</button>
+                    <button className="calc-button calc-button-top" onClick={this.opInput}>%</button>
                     <button className="calc-button calc-button-op" onClick={this.opInput}>/</button>
                 </div>
                 <div className="calc-row">
