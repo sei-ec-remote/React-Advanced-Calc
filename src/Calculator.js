@@ -13,28 +13,85 @@ class Calculator extends Component {
         //log the state of the button values array
         console.log('this is the state', this.state)
     }
+    //set first number
     setNum = (e, num1) => {
         console.log('this is the clicked value:', e.target.value)
-        this.setState({ 
+        if (this.state.operator === '') {
+            this.setState({ 
             num1: [
             ...this.state.num1,
-            e.target.value
+            parseInt(e.target.value)
             ]
-        });
-      }
-    setNum = (e, num2) => {
-        console.log('this is the clicked value:', e.target.value)
-        this.setState({ 
-            num2: [
-                ...this.state.num2, 
-                e.target.value]
         })
+        } else if (this.state.operator !== '') {
+            this.setState({
+                num2: [
+                ...this.state.num2,
+                parseInt(e.target.value)    
+                ]
+            })
+        }
+        //now I need to be able to have num1, operator and num2 in their respective order...
       }
+      //set second number
+    // setNum = (e, num2) => {
+    //     console.log('this is the clicked value:', e.target.value)
+    //     this.setState({ 
+    //         num2: [
+    //             ...this.state.num2, 
+    //             e.target.value]
+    //     })
+    //   }
     setOperator = (e, value) => {
         console.log('this is the clicked operator:', e.target.value)
-        this.setState({ [value]: e.target.value});
+        //this.setState({ 
+            //operator: e.target.value})
+        let clickOperator = e.target.value
+        console.log('this.setState in operator function: ', this.setState({ clickOperator: e.target.value}))
+        //setState within my conditionals
+        if (this.state.operator === '') {
+             this.setState({
+                 operator: clickOperator 
+        })} else {
+            this.setState({ 
+                operator: 'Error' })
+        }
       } 
-    //clear the calculator by setting the result equal to an empty array  
+    setResult =  (e, result) => {
+        //numbers are in an array... need to use parseInt in setNum and join them here
+        //returning numbers with commas...
+        //parseFloat
+        let firstNum = parseFloat(this.state.num1.join(''))
+        let secNum = parseFloat(this.state.num2.join('')) 
+        if (this.state.operator === '+') {
+            this.setState({
+                result: firstNum + secNum
+            })
+            console.log('this is the result', result)
+        }
+        else if (this.state.operator === '-') {
+            this.setState({
+                result: firstNum - secNum
+            })
+        }
+        else if (this.state.operator === 'x') {
+            this.setState({
+                result: firstNum * secNum
+            })
+        }
+        else if (this.state.operator === '/') {
+            this.setState({
+                result: firstNum / secNum
+            })
+        }
+        else if (this.state.operator === '%') {
+            this.setState({
+                result: firstNum
+            })
+        }
+    } 
+
+    //clear the calculator by setting the state back to how it began...  
     setClear = (e) => {
         this.setState({
             num1: "",
@@ -52,11 +109,15 @@ render(){
         <div className="container">
             <h1>React Calculator</h1>
             <div className="calc-container">
-                <p>Values: </p>
-                <div className="answer-box">
+                <p> 
                     {this.state.num1}
+                    {this.state.operator}
                     {this.state.num2}
+                </p>
+                <div className="answer-box">
+                    <p>
                     {this.state.result}
+                    </p>
                     </div>
                 <div className="calc-row">
                     <button value="AC" className="calc-button calc-button-top" onClick={ (e) => this.setClear(e, 'AC') } >AC</button>
@@ -86,7 +147,7 @@ render(){
                 <div className="calc-row">
                     <button value="0" className="calc-button width-2" onClick={ (e) => this.setNum(e, '0') } >0</button>
                     <button value="." className="calc-button" onClick={ (e) => this.setOperator(e, '.') } >.</button>
-                    <button value="=" className="calc-button calc-button-op" onClick={ (e) => this.setOperator(e, '=') }>=</button>
+                    <button value="=" className="calc-button calc-button-op" onClick={ (e) => this.setResult(e, '=') }>=</button>
                 </div>
             </div>
         </div>
