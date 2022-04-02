@@ -41,22 +41,28 @@ class Calculator extends Component {
         }
     }
     // operators +, -, *, / and %
+    operatorInput = (e) => {
+        // console.log ('operator is clicked')
+        this.setState ({
+            operator: e.target.innertext
+        })
+    }
 
     // clear the calculator
 
 
-    setNum = (e, num) => {
-        this.setState({ 
-            [num]: parseInt(e.target.value)
-            })
-    }
+    // setNum = (e, num) => {
+    //     this.setState({ 
+    //         [num]: parseInt(e.target.value)
+    //         })
+    // }
 
 
-    addNums = () => {
-        this.setState(prevState => (
-            {sum: prevState.num1 + prevState.num2}
-        ))
-    }
+    // addNums = () => {
+    //     this.setState(prevState => (
+    //         {sum: prevState.num1 + prevState.num2}
+    //     ))
+    // }
 
 render(){
     return (
@@ -67,27 +73,27 @@ render(){
                 <div className="answer-box">{this.state.num1}{this.state.operator}{this.state.num2}</div>
                 <div className="calc-row">
                     <button className="calc-button calc-button-top">AC</button>
-                    <button className="calc-button calc-button-top">+/-</button>
-                    <button className="calc-button calc-button-top">%</button>
-                    <button className="calc-button calc-button-op">/</button>
+                    <button className="calc-button calc-button-top" onClick={this.operatorInput}>+/-</button>
+                    <button className="calc-button calc-button-top" onClick={this.operatorInput}>%</button>
+                    <button className="calc-button calc-button-op" onClick={this.operatorInput}>/</button>
                 </div>
                 <div className="calc-row">
                     <button className="calc-button" onClick={this.numInput}>7</button>
                     <button className="calc-button" onClick={this.numInput}>8</button>
                     <button className="calc-button" onClick={this.numInput}>9</button>
-                    <button className="calc-button calc-button-op">x</button>
+                    <button className="calc-button calc-button-op" onClick={this.operatorInput}>x</button>
                 </div>
                 <div className="calc-row">
                     <button className="calc-button" onClick={this.numInput}>4</button>
                     <button className="calc-button" onClick={this.numInput}>5</button>
                     <button className="calc-button" onClick={this.numInput}>6</button>
-                    <button className="calc-button calc-button-op">-</button>
+                    <button className="calc-button calc-button-op" onClick={this.operatorInput}>-</button>
                 </div>
                 <div className="calc-row">
                     <button className="calc-button" onClick={this.numInput}>1</button>
                     <button className="calc-button" onClick={this.numInput}>2</button>
                     <button className="calc-button" onClick={this.numInput}>3</button>
-                    <button className="calc-button calc-button-op">+</button>
+                    <button className="calc-button calc-button-op" onClick={this.operatorInput}>+</button>
                 </div>
                 <div className="calc-row">
                     <button className="calc-button width-2" onClick={this.numInput}>0</button>
