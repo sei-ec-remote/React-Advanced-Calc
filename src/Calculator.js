@@ -16,6 +16,29 @@ class Calculator extends Component {
     numInput = (e) => {
         const numClicked = e.target.innertext
         console.log ('Number clicked', numClicked)
+        if (this.state.num1[0] === '0' && numClicked === 0 ) {
+            this.state({
+                num1: '',
+                num2: '',
+                total: '',
+                operator: 'invalid input'
+            })
+        } else if (this.state.num2[0] === '0' && numClicked === 0 ) {
+            this.state({
+                num1: '',
+                num2: '',
+                total: '',
+                operator: 'invalid input'
+            })
+        } else if (this.state.operator.length === 0) {
+            this.setState({
+                num1: [...this.state.num1, numClicked ]
+            })
+        } else {
+            this.setState({
+                num2: [...this.state.num2, numClicked ]
+            })
+        }
     }
     // operators +, -, *, / and %
 
@@ -41,7 +64,7 @@ render(){
             <h1>React Calculator</h1>
             <div className="calc-container">
                 <p>Values: </p>
-                <div className="answer-box">TBD</div>
+                <div className="answer-box">{this.state.num1}{this.state.operator}{this.state.num2}</div>
                 <div className="calc-row">
                     <button className="calc-button calc-button-top">AC</button>
                     <button className="calc-button calc-button-top">+/-</button>
