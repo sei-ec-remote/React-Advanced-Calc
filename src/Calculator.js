@@ -62,21 +62,21 @@ class Calculator extends Component {
     resultInput = () => {
         if (this.state.operator === '+') {
             this.setState ({
-                total: parseFloat(this.state.num1) + parseFloat(this.state.num2),
+                total: parseFloat(this.state.num1.join('')) + parseFloat(this.state.num2.join('')),
                 number1:'',
                 number2:'',
                 operator:'+'
             })
         } else if (this.state.operator === '-') {
             this.setState ({
-                total: parseFloat(this.state.num1) - parseFloat(this.state.num2),
+                total: parseFloat(this.state.num1.join('')) - parseFloat(this.state.num2.join('')),
                 number1:'',
                 number2:'',
                 operator:'-'
             })
         } else if (this.state.operator === 'x') {
             this.setState ({
-                total: parseFloat(this.state.num1) * parseFloat(this.state.num2),
+                total: parseFloat(this.state.num1.join('')) * parseFloat(this.state.num2.join('')),
                 number1:'',
                 number2:'',
                 operator:'x'
@@ -90,7 +90,7 @@ class Calculator extends Component {
             })
         } else if (this.state.operator === '/') {
             this.setState ({
-                total: parseFloat(this.state.num1) / parseFloat(this.state.num2),
+                total: parseFloat(this.state.num1.join('')) / parseFloat(this.state.num2.join('')),
                 number1:'',
                 number2:'',
                 operator:'/'
