@@ -49,64 +49,59 @@ class Calculator extends Component {
     }
 
     // clear the calculator
+    clearCalc = () => {
+        this.setState({
+            num1: '',
+            num2: '',
+            total: '',
+            operator:''
+        })
+    }
 
     // results
     resultInput = () => {
         if (this.state.operator === '+') {
             this.setState ({
-                total: parseFloat(this.state.number1.join('')) + parseFloat(this.state.number2.join('')),
+                total: parseFloat(this.state.num1) + parseFloat(this.state.num2),
                 number1:'',
                 number2:'',
-                operator:''
+                operator:'+'
             })
         } else if (this.state.operator === '-') {
             this.setState ({
-                total: parseFloat(this.state.num1.join('')) - parseFloat(this.state.num2.join('')),
+                total: parseFloat(this.state.num1) - parseFloat(this.state.num2),
                 number1:'',
                 number2:'',
-                operator:''
+                operator:'-'
             })
         } else if (this.state.operator === 'x') {
             this.setState ({
-                total: parseFloat(this.state.num1.join('')) * parseFloat(this.state.num2.join('')),
+                total: parseFloat(this.state.num1) * parseFloat(this.state.num2),
                 number1:'',
                 number2:'',
-                operator:''
+                operator:'x'
             })
         } else if (this.state.operator === '/' && this.state.num2 == 0) {
             this.setState ({
-                total: 'Cannot divide by 0',
+                total: 'Invalid',
                 number1:'',
                 number2:'',
                 operator:''
             })
         } else if (this.state.operator === '/') {
             this.setState ({
-                total: parseFloat(this.state.num1.join('')) / parseFloat(this.state.num2.join('')),
+                total: parseFloat(this.state.num1) / parseFloat(this.state.num2),
                 number1:'',
                 number2:'',
-                operator:''
+                operator:'/'
             })
         } else {
             this.setState ({
-                total: 'Please enter a valid method'
+                total: 'Invalid'
             })
         }
     }
 
-
-    // setNum = (e, num) => {
-    //     this.setState({ 
-    //         [num]: parseInt(e.target.value)
-    //         })
-    // }
-
-
-    // addNums = () => {
-    //     this.setState(prevState => (
-    //         {sum: prevState.num1 + prevState.num2}
-    //     ))
-    // }
 
 render(){
     return (
@@ -114,9 +109,10 @@ render(){
             <h1>React Calculator</h1>
             <div className="calc-container">
                 <p>Values: </p>
-                <div className="answer-box">{this.state.num1}{this.state.operator}{this.state.num2}</div>
+                <div className="answer-box">{this.state.num1}{this.state.operator}{this.state.num2}<br/>
+                    {this.state.total}</div>
                 <div className="calc-row">
-                    <button className="calc-button calc-button-top">AC</button>
+                    <button className="calc-button calc-button-top" onClick={this.clearCalc}>AC</button>
                     <button className="calc-button calc-button-top" onClick={this.operatorInput}>+/-</button>
                     <button className="calc-button calc-button-top" onClick={this.operatorInput}>%</button>
                     <button className="calc-button calc-button-op" onClick={this.operatorInput}>/</button>
@@ -141,7 +137,7 @@ render(){
                 </div>
                 <div className="calc-row">
                     <button className="calc-button width-2" onClick={this.numInput}>0</button>
-                    <button className="calc-button">.</button>
+                    <button className="calc-button" onClick={this.numInput}>.</button>
                     <button className="calc-button calc-button-op" onClick={this.resultInput}>=</button>
                 </div>
             </div>
