@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 
 class Calculator extends Component {
     // Declare state variables
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             num1: '',
             num2: '',
@@ -14,17 +14,17 @@ class Calculator extends Component {
 
     // numbers being clicked
     numInput = (e) => {
-        const numClicked = e.target.innertext
-        console.log ('Number clicked', numClicked)
-        if (this.state.num1[0] === '0' && numClicked === 0 ) {
-            this.state({
+        const numClicked = e.target.innerText
+        // console.log ('Number clicked', numClicked)
+        if (this.state.num1[0] === '0' && numClicked == '0' ) {
+            this.setState({
                 num1: '',
                 num2: '',
                 total: '',
                 operator: 'invalid input'
             })
-        } else if (this.state.num2[0] === '0' && numClicked === 0 ) {
-            this.state({
+        } else if (this.state.num2[0] === '0' ) {
+            this.setState({
                 num1: '',
                 num2: '',
                 total: '',
@@ -44,11 +44,55 @@ class Calculator extends Component {
     operatorInput = (e) => {
         // console.log ('operator is clicked')
         this.setState ({
-            operator: e.target.innertext
+            operator: e.target.innerText
         })
     }
 
     // clear the calculator
+
+    // results
+    resultInput = () => {
+        if (this.state.operator === '+') {
+            this.setState ({
+                total: parseFloat(this.state.number1.join('')) + parseFloat(this.state.number2.join('')),
+                number1:'',
+                number2:'',
+                operator:''
+            })
+        } else if (this.state.operator === '-') {
+            this.setState ({
+                total: parseFloat(this.state.num1.join('')) - parseFloat(this.state.num2.join('')),
+                number1:'',
+                number2:'',
+                operator:''
+            })
+        } else if (this.state.operator === 'x') {
+            this.setState ({
+                total: parseFloat(this.state.num1.join('')) * parseFloat(this.state.num2.join('')),
+                number1:'',
+                number2:'',
+                operator:''
+            })
+        } else if (this.state.operator === '/' && this.state.num2 == 0) {
+            this.setState ({
+                total: 'Cannot divide by 0',
+                number1:'',
+                number2:'',
+                operator:''
+            })
+        } else if (this.state.operator === '/') {
+            this.setState ({
+                total: parseFloat(this.state.num1.join('')) / parseFloat(this.state.num2.join('')),
+                number1:'',
+                number2:'',
+                operator:''
+            })
+        } else {
+            this.setState ({
+                total: 'Please enter a valid method'
+            })
+        }
+    }
 
 
     // setNum = (e, num) => {
@@ -98,7 +142,7 @@ render(){
                 <div className="calc-row">
                     <button className="calc-button width-2" onClick={this.numInput}>0</button>
                     <button className="calc-button">.</button>
-                    <button className="calc-button calc-button-op">=</button>
+                    <button className="calc-button calc-button-op" onClick={this.resultInput}>=</button>
                 </div>
             </div>
         </div>
