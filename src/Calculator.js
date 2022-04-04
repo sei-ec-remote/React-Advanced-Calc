@@ -53,6 +53,10 @@ class Calculator extends Component {
             }
             // if the char is not an operator or end of array add it to the temp number
             else {
+                if(tempNumber.length === 0 && val === '0')
+                {
+                    alert('The first number cannot be a 0')
+                }
                 tempNumber += val
             }      
         });
