@@ -72,6 +72,7 @@ export default function calculate(stateObj, buttonName) {
   //          of your second operand.
   if (checkIfNumber(buttonName)) {
 
+    // console.log("Processing Number:", buttonName)
 
     //  If you have 0 and another click of 0 - display stays 0
     if (buttonName === "0" && stateObj.next === "0") {
@@ -81,11 +82,16 @@ export default function calculate(stateObj, buttonName) {
     // If there is an operation, this is where we start accumulating digits
     //    for the second operand.   
     if (stateObj.operation) {
+
+        // console.log("We have a digit operation!")
+
         // if you already have a digit - add on another
         if (stateObj.next) {
+            // console.log("Next is: ", stateObj.name + buttonName)
             return { next: stateObj.next + buttonName };
         }
         // First digit to save
+        // console.log("Next is:", buttonName)
         return { next: buttonName };
     }
     
@@ -95,13 +101,13 @@ export default function calculate(stateObj, buttonName) {
     //   and for each time after that we accumulate by adding the 
     //   buttonName to next
     if (stateObj.next) {
-        const next = 
-            stateObj.next === "0" ? buttonName : stateObj.next + buttonName;
+        const next = stateObj.next === "0" ? buttonName : stateObj.next + buttonName;
         return { next, total: null, };
     }
 
     // There is no operatior,  there is no next. State is all null.
     // First time setup the next field with button pressed.
+    // console.log('Setting next to: ', buttonName)
     return { next: buttonName, total: null, };
 }
 
@@ -148,9 +154,11 @@ if (buttonName === "%") {
   //    will do the calculation and return the total so we can
   //    save this in our state for total.
   if (buttonName === "=") {
+        // console.log("Have an Equals")
         // Have an operation and a second operand so a operation
         //   can be performed.
         if (stateObj.next && stateObj.operation) {
+            // console.log("Calling handle operator")
             return {
                 total: handleOperator(stateObj.total, stateObj.next, 
                                stateObj.operation),
@@ -180,6 +188,7 @@ if (buttonName === "%") {
   // User pressed an operation button and there is an existing operation
   //  for example:  9 x 9 x 
   if (stateObj.operation) {
+    // console.log("button operation")
     return {
         total: handleOperator(stateObj.total, stateObj.next, stateObj.operation),
         next: null,
@@ -195,6 +204,7 @@ if (buttonName === "%") {
 
   //--------------------------------------------------
   // save the operation and shift 'next' into 'total'
+  // console.log("Saving the operation - shifting next to total")
   return {
     total: stateObj.next,
     next: null,

@@ -21,9 +21,11 @@ export default class Calculator extends Component {
         })
     }
 
+    // Not used - not working correctly to format for precison.  Messes
+    //   with the states.
     formatDisplay() {
         const num = this.state.total
-        this.setState({total: num.toFixed(7)})
+        this.setState({total: num})
     }
 
     // Every button click will call into this function passing in a name
@@ -32,10 +34,9 @@ export default class Calculator extends Component {
     //   that was clicked.  The object returned from calculate will setState
     //   of the calculator.
     buttonSubmit = (name) => {
-        //console.log("Hitting button submit for: ", name)
         this.setState(calculate(this.state, name));
-        this.formatDisplay();
-        //console.log("State", this.state)
+        // this.formatDisplay();
+        // console.log("State", this.state)
     };
 
     render(){
