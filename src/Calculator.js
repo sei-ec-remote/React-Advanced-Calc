@@ -16,15 +16,11 @@ class Calculator extends Component {
         console.log('this is number clicked', e.target.value)
         if (this.state.operator === ''){
             this.setState({
-                num1: [
-                    e.target.value
-                ]
+                num1: this.state.num1 + e.target.value
             })
         }   else if (this.state.operator !== '' ){
             this.setState({
-                num2: [
-                    e.target.value
-                ]
+                num2: this.state.num2 + e.target.value
             })
         }   else {
             console.log('error')
@@ -37,65 +33,71 @@ class Calculator extends Component {
         this.setState({
             num1: '',
             num2: '',
-            operator: ''
+            operator: '',
+            ans: ''
         })
     }
 
     operator = (e) => {
         console.log('this is operator', e.target.value)
         this.setState({
-            operator: [
-                e.target.value
-            ]
+            operator: e.target.value
         })
     }
     
     addNums = () => {
         console.log(this.state.num1, "+", this.state.num2)
         this.setState({
-            ans: [
-                parseInt(this.state.num1 + this.state.num2)
-            ]
+            ans: parseInt(this.state.num1) + parseInt(this.state.num2)
         })
         console.log('this is answer', this.state.ans)
     }
 
     subNums = () => {
         this.setState(prevstate => (
-            {ans: prevstate.num1 + prevstate.num2}
+            this.setState({
+                ans: parseInt(prevstate.num1) - parseInt(prevstate.num2)
+            })
         ))
     }
 
     mulNums = () => {
         this.setState(prevstate => (
-            {ans: prevstate.num1 * prevstate.num2}
+            this.setState({
+                ans: parseInt(prevstate.num1) * parseInt(prevstate.num2)
+            })
         ))
     }
 
     divNums = () => {
         this.setState(prevstate => (
-            {ans: prevstate.num1 / prevstate.num2}
+            this.setState({
+                ans: parseInt(prevstate.num1) / parseInt(prevstate.num2)
+            })
         ))
     }
 
     solution = () => {
         console.log('not working', this.state.operator)
-        if (this.state.operator == '+') {
+        if (this.state.operator === '+') {
             console.log('this is addition')
             this.addNums()
-        }//   else if (this.state.operator == '-') {
-        //     console.log('this is sub')
-        //     this.subNums()
-        // }   else if (this.state.operator == 'x') {
-        //     console.log('this is mul')
-        //     this.mulNums()
-        // }   else if (this.state.operator == "/") {
-        //     console.log('this is divi')
-        //     this.divNums()
-        // }   else {
-        //     console.log('not working', this.state.operator)
-        // }
+            console.log('this is result',this.state.ans)
+        }   else if (this.state.operator === '-') {
+            console.log('this is sub')
+            this.subNums()
+        }   else if (this.state.operator === 'x') {
+            console.log('this is mul')
+            this.mulNums()
+        }   else if (this.state.operator === "/") {
+            console.log('this is divi')
+            this.divNums()
+        }   else {
+            console.log('not working', this.state.operator)
+        }
     }
+
+// this.state.display ? <-
 
     render(){
         return (
@@ -103,7 +105,7 @@ class Calculator extends Component {
                 <h1>React Calculator</h1>
                 <div className="calc-container">
                     <p>Values: </p>
-                    <div className="answer-box">{this.ans}</div>
+                    <div className="answer-box">{this.state.num1} {this.state.operator} {this.state.num2} = {this.state.ans}</div>
                     <div className="calc-row">
                         <button onClick={this.clear} className="calc-button calc-button-top">AC</button>
                         <button className="calc-button calc-button-top">+/-</button>
