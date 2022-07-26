@@ -16,12 +16,15 @@ class Calculator extends Component {
     ///////////////////////
     // Display Functions
     ///////////////////////
-    displayOutput = (data) => {
-        let display = this.state.num1 + ' ' + this.state.operator + ' ' + this.state.num2
+    clearAll = (e) => {
         this.setState(() => {
             return {
-                operation: display,
-            } 
+                num1: '',
+                num2: '',
+                operator: '',
+                operation: '',
+                result: ''
+            }
         })
     }
     addNumberToDisplay = (e) => {
@@ -35,6 +38,7 @@ class Calculator extends Component {
                 }
             })
         } else {
+            // need to disallow 0 as first number
             number = this.state.num1 + e.target.innerText
             this.setState(() => {
                 return {
@@ -80,9 +84,11 @@ class Calculator extends Component {
             default:
                 console.log('there has been an error!')
         }
+        let display = this.state.num1 + ' ' + this.state.operator + ' ' + this.state.num2  + ' = ' + newSum.toString();
         this.setState(() => {
             return {
-                result: newSum,
+                result: newSum.toString(),
+                operation: display,
             }
         })
     }
@@ -90,16 +96,24 @@ class Calculator extends Component {
     // Render
     ///////////////////////
     render(){
+        let display;
+        if (this.state.result !== '') {
+            display = `${this.state.operation}`
+        } else if (this.state.num2 !== '') {
+            display = `${this.state.num1} ${this.state.operator} ${this.state.num2}`
+        } else {
+            display = `${this.state.num1} ${this.state.operator} ${this.state.num2}`
+        }
         return (
             <div className="container">
                 <h1>React Calculator</h1>
                 <div className="calc-container">
                     <p>Values: </p>
                     <div className="answer-box">
-                        {this.state.display}
+                    {display}
                     </div>
                     <div className="calc-row">
-                        <button className="calc-button calc-button-top">AC</button>
+                        <button className="calc-button calc-button-top" onClick={this.clearAll}>AC</button>
                         <button className="calc-button calc-button-top">+/-</button>
                         <button className="calc-button calc-button-top">%</button>
                         <button className="calc-button calc-button-op" onClick={this.setOperator}>/</button>
