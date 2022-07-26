@@ -20,35 +20,31 @@ class Calculator extends Component {
         // we want this number to be added to display
         // if the first number, then replace '0'
     }
+    setOperator = (e) => {
+        console.log(e.target.innerText)
+    }
     ///////////////////////
     // Operation Functions
     ///////////////////////
-    handleAdd = () => {
-        const newSum = parseInt(this.state.num1) + parseInt(this.state.num2)
-        this.setState(() => {
-            return {
-                result: newSum,
-            }
-        })
-    }
-    handleSubtract = () => {
-        const newSum = parseInt(this.state.num1) - parseInt(this.state.num2)
-        this.setState(() => {
-            return {
-                result: newSum,
-            }
-        })
-    }
-    handleMultiply = () => {
-        const newSum = parseInt(this.state.num1) * parseInt(this.state.num2)
-        this.setState(() => {
-            return {
-                result: newSum,
-            }
-        })
-    }
-    handleDivide = () => {
-        const newSum = parseInt(this.state.num1) / parseInt(this.state.num2)
+    handleOperation = () => {
+        let newSum;
+        // use switch cases for operations
+        switch (this.state.operator) {
+            case '+':
+                newSum = parseInt(this.state.num1) + parseInt(this.state.num2);
+                break;
+            case '-':
+                newSum = parseInt(this.state.num1) - parseInt(this.state.num2);
+                break;
+            case 'x':
+                newSum = parseInt(this.state.num1) * parseInt(this.state.num2);
+                break;
+            case '/':
+                newSum = parseInt(this.state.num1) / parseInt(this.state.num2)
+                break;
+            default:
+                console.log('there has been an error!')
+        }
         this.setState(() => {
             return {
                 result: newSum,
