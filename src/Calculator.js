@@ -7,16 +7,41 @@ class Calculator extends Component {
         operator: '',
         // need to store values
         num1: '',
+        num2: '',
         // this will store whole operation
         operation: '',
         // store display/result
-        result: '0',
+        result: '',
     }
     ///////////////////////
     // Display Functions
     ///////////////////////
+    displayOutput = (data) => {
+        let display = this.state.num1 + ' ' + this.state.operator + ' ' + this.state.num2
+        this.setState(() => {
+            return {
+                operation: display,
+            } 
+        })
+    }
     addNumberToDisplay = (e) => {
         console.log(e.target.innerText)
+        let number;
+        if (this.state.operator !== '') {
+            number = this.state.num2 + e.target.innerText
+            this.setState(() => {
+                return {
+                    num2: number,
+                }
+            })
+        } else {
+            number = this.state.num1 + e.target.innerText
+            this.setState(() => {
+                return {
+                    num1: number,
+                }
+            })
+        }       
         // we want this number to be added to display
         // if the first number, then replace '0'
     }
@@ -33,6 +58,10 @@ class Calculator extends Component {
     // Operation Functions
     ///////////////////////
     handleOperation = () => {
+        // when click operator, set num1 and start editing num2
+        if (!this.state.operator) {
+            return;
+        }
         let newSum;
         // use switch cases for operations
         switch (this.state.operator) {
@@ -96,7 +125,7 @@ class Calculator extends Component {
                     <div className="calc-row">
                         <button className="calc-button width-2" onClick={this.addNumberToDisplay}>0</button>
                         <button className="calc-button" onClick={this.addNumberToDisplay}>.</button>
-                        <button className="calc-button calc-button-op">=</button>
+                        <button className="calc-button calc-button-op" onClick={this.handleOperation}>=</button>
                     </div>
                 </div>
             </div>
