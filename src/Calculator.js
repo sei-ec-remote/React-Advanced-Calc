@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 // TODO:
 // implement message if they change the operator after already chosen ('Did you mean to do that?')
     // otherwise disallow it
+// set it up so that if they click another operator AFTER result has been done, result becomes num1 and the new operator becomes the active operator
 // TODO BONUS
 // set up decimal - only allow ONE! (put in check in addNumber) (and then remember that if decimal is first input, to input '0.')
 
