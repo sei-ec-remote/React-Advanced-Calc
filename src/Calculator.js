@@ -1,5 +1,11 @@
 import React, { Component } from 'react'
 
+// TODO:
+// implement message if they change the operator after already chosen ('Did you mean to do that?')
+    // otherwise disallow it
+// TODO BONUS
+// set up decimal - only allow ONE! (put in check in addNumber) (and then remember that if decimal is first input, to input '0.')
+
 class Calculator extends Component {
     // Declare state variables
     state = {
@@ -28,9 +34,12 @@ class Calculator extends Component {
         })
     }
     addNumberToDisplay = (e) => {
-        console.log(e.target.innerText)
         let number;
         if (this.state.operator !== '') {
+            // disallow 0 as first number
+            if (this.state.num2 === '' && e.target.innerText==='0') {
+                return;
+            }
             number = this.state.num2 + e.target.innerText
             this.setState(() => {
                 return {
@@ -39,6 +48,9 @@ class Calculator extends Component {
             })
         } else {
             // need to disallow 0 as first number
+            if (this.state.num1 === '' && e.target.innerText==='0') {
+                return;
+            }
             number = this.state.num1 + e.target.innerText
             this.setState(() => {
                 return {
