@@ -9,14 +9,55 @@ class Calculator extends Component {
         num1: '',
         // this will store whole operation
         operation: '',
-        // store display
-        display: '0',
-        // store sum (once sum is calculated, this.setState())
-        sum: ''
+        // store display/result
+        result: '0',
     }
+    ///////////////////////
+    // Display Functions
+    ///////////////////////
     addNumberToDisplay = (e) => {
         console.log(e.target.innerText)
+        // we want this number to be added to display
+        // if the first number, then replace '0'
     }
+    ///////////////////////
+    // Operation Functions
+    ///////////////////////
+    handleAdd = () => {
+        const newSum = parseInt(this.state.num1) + parseInt(this.state.num2)
+        this.setState(() => {
+            return {
+                result: newSum,
+            }
+        })
+    }
+    handleSubtract = () => {
+        const newSum = parseInt(this.state.num1) - parseInt(this.state.num2)
+        this.setState(() => {
+            return {
+                result: newSum,
+            }
+        })
+    }
+    handleMultiply = () => {
+        const newSum = parseInt(this.state.num1) * parseInt(this.state.num2)
+        this.setState(() => {
+            return {
+                result: newSum,
+            }
+        })
+    }
+    handleDivide = () => {
+        const newSum = parseInt(this.state.num1) / parseInt(this.state.num2)
+        this.setState(() => {
+            return {
+                result: newSum,
+            }
+        })
+    }
+    ///////////////////////
+    // Render
+    ///////////////////////
     render(){
         return (
             <div className="container">
