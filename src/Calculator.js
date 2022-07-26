@@ -22,6 +22,12 @@ class Calculator extends Component {
     }
     setOperator = (e) => {
         console.log(e.target.innerText)
+        const operator = e.target.innerText
+        this.setState(() => {
+            return {
+                operator: operator,
+            } 
+        })
     }
     ///////////////////////
     // Operation Functions
@@ -67,25 +73,25 @@ class Calculator extends Component {
                         <button className="calc-button calc-button-top">AC</button>
                         <button className="calc-button calc-button-top">+/-</button>
                         <button className="calc-button calc-button-top">%</button>
-                        <button className="calc-button calc-button-op">/</button>
+                        <button className="calc-button calc-button-op" onClick={this.setOperator}>/</button>
                     </div>
                     <div className="calc-row">
                         <button className="calc-button" onClick={this.addNumberToDisplay}>7</button>
                         <button className="calc-button" onClick={this.addNumberToDisplay}>8</button>
                         <button className="calc-button" onClick={this.addNumberToDisplay}>9</button>
-                        <button className="calc-button calc-button-op">x</button>
+                        <button className="calc-button calc-button-op" onClick={this.setOperator}>x</button>
                     </div>
                     <div className="calc-row">
                         <button className="calc-button" onClick={this.addNumberToDisplay}>4</button>
                         <button className="calc-button" onClick={this.addNumberToDisplay}>5</button>
                         <button className="calc-button" onClick={this.addNumberToDisplay}>6</button>
-                        <button className="calc-button calc-button-op">-</button>
+                        <button className="calc-button calc-button-op" onClick={this.setOperator}>-</button>
                     </div>
                     <div className="calc-row">
                         <button className="calc-button" onClick={this.addNumberToDisplay}>1</button>
                         <button className="calc-button" onClick={this.addNumberToDisplay}>2</button>
                         <button className="calc-button" onClick={this.addNumberToDisplay}>3</button>
-                        <button className="calc-button calc-button-op">+</button>
+                        <button className="calc-button calc-button-op" onClick={this.setOperator}>+</button>
                     </div>
                     <div className="calc-row">
                         <button className="calc-button width-2" onClick={this.addNumberToDisplay}>0</button>
