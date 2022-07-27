@@ -51,14 +51,18 @@ class Calculator extends Component {
     }
 
     handleInput = (number) => {
-        if (this.state.operation && number !== 0) {
+        if (this.state.operation) {
             console.log(number)
-            this.setState((prevState) => {
-                return {
-                    num2: prevState.num2.concat(number)
-                }
-            })
-        } else if (number !== 0) {
+            if (this.state.num2 === '' && number === 0) {
+                return
+            } else {
+                this.setState((prevState) => {
+                    return {
+                        num2: prevState.num2.concat(number)
+                    }
+                })
+            }
+        } else if (!this.state.operation && number !== 0 || this.state.num1 !== '') {
             console.log(number)
             this.setState((prevState) => {
                 return {
@@ -81,6 +85,9 @@ class Calculator extends Component {
     }
 
     calculateTotal = () => {
+        if (!this.state.num1 || !this.state.operation || !this.state.num2) {
+            alert("That's not a valid expression. Try again.")
+        }
         const num1 = Number(this.state.num1)
         const num2 = Number(this.state.num2)
         const operation = this.state.operation
@@ -107,7 +114,7 @@ class Calculator extends Component {
         this.setState(() => {
             return {
                 operation: '',
-                total: opTotal,
+                total: String(opTotal),
                 num1: '',
                 num2: ''
             }
