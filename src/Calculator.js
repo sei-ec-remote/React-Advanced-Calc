@@ -9,7 +9,7 @@ class Calculator extends Component {
 
     prependMinus = (e) => {
         e.preventDefault()
-        console.log('changed negative to positive, OR positive to negative')
+        console.log('when done, will have changed negative to positive, OR positive to negative')
     }
 
     handleInputNumber = (e) => {
@@ -43,6 +43,25 @@ class Calculator extends Component {
 
     handleEqual = (e) => {
         e.preventDefault()
+        const remainingInput = this.state.answerBox
+        this.setState(prevState => ({
+            values: [...prevState.values, remainingInput.join('')]}),
+            () => {
+                const lastChar = this.state.values.slice(-1)
+                console.log(Number.isInteger(parseFloat(lastChar)))
+                if(Number.isInteger(parseFloat(lastChar)) || lastChar%1 !== 0) {
+                    const stateForEval = this.state.values.map(x => {
+                            if(x === 'x') return '*'
+                            else return x
+                        }).join('')
+                    const answer = eval(stateForEval)
+                    this.setState({
+                        answerBox: [answer],
+                        values: []
+                    })
+                }
+            }
+        )
     }
 
     handleInputOperator = (e) => {
@@ -52,12 +71,22 @@ class Calculator extends Component {
         // this.setState(prevState => ({
         //     answerBox: [...prevState.answerBox, operatorPressed]
         // }))
-        this.setState(prevState => ({
-            values: [...prevState.values, this.state.answerBox.join(''), operatorPressed]
-        }))
-        this.setState({
-            answerBox: []
-        })
+        const lastChar = this.state.answerBox.slice(-1)
+        if(Number.isInteger(parseFloat(lastChar))) {
+            this.setState(prevState => ({
+                values: [...prevState.values, this.state.answerBox.join(''), ' ',  operatorPressed, ' ']
+            }))
+            this.setState({
+                answerBox: []
+            })
+        } else {
+            this.setState({answerBox: ['error']},
+                () => {
+                    setTimeout(() => {
+                        this.setState({values: [], answerBox: []})
+                    }, 700)
+            })
+        }
     }
 
     clearInput = (e) => {
