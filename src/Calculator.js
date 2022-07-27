@@ -13,6 +13,7 @@ class Calculator extends Component {
     clearAll = () => {
         this.setState(() => {
             return {
+                display: '0',
                 operation: '',
                 total: '',
                 num1: '',
@@ -22,39 +23,6 @@ class Calculator extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        // console.log('component updated')
-        // console.log(prevState)
-        // console.log(this.state)
-        // switch (prevState) {
-        //     case prevState.total !== this.state.total:
-        //         this.setState(() => {
-        //             return {
-        //                 display: this.state.total
-        //             }
-        //         })
-        //         break
-        //     case prevState.operation !== this.state.operation:
-        //         this.setState(() => {
-        //             return {
-        //                 display: this.state.operation
-        //             }
-        //         })
-        //         break
-        //     case prevState.num2 !== this.state.num2:
-        //         this.setState(() => {
-        //             return {
-        //                 display: this.state.num2
-        //             }
-        //         })
-        //         break
-        //     case prevState.num1 !== this.state.num1:
-        //         this.setState(() => {
-        //             return {
-        //                 display: this.state.num1
-        //             }
-        //         })
-        //         break
-        // }
         if (this.state.total !== prevState.total) {
             this.setState(() => {
                 return {
@@ -107,6 +75,8 @@ class Calculator extends Component {
                     operation: op
                 }
             })
+        } else {
+            alert(`sorry, you can't set the operation right now.`)
         }
     }
 
