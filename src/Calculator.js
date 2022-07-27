@@ -1,11 +1,7 @@
 import React, { Component } from 'react'
 
-// TODO:
-// implement message if they change the operator after already chosen ('Did you mean to do that?')
-    // otherwise disallow it
+// TODO STRETCH:
 // set it up so that if they click another operator AFTER result has been done, result becomes num1 and the new operator becomes the active operator
-// TODO BONUS
-// set up decimal - only allow ONE! (put in check in addNumber) (and then remember that if decimal is first input, to input '0.')
 
 class Calculator extends Component {
     // Declare state variables
@@ -36,12 +32,19 @@ class Calculator extends Component {
     }
     addNumberToDisplay = (e) => {
         let number;
+        let num1 = this.state.num1;
+        let num2 = this.state.num2;
         if (this.state.operator !== '') {
             // disallow 0 as first number
-            if (this.state.num2 === '' && e.target.innerText==='0') {
+            if (num2 === '' && e.target.innerText==='0') {
                 return;
             }
-            number = this.state.num2 + e.target.innerText
+            // checks for existing decimal in number
+            if (num2.includes('.') && e.target.innerText==='.') {
+                return;
+            } else {
+                number = num2 + e.target.innerText
+            }
             this.setState(() => {
                 return {
                     num2: number,
@@ -49,10 +52,15 @@ class Calculator extends Component {
             })
         } else {
             // need to disallow 0 as first number
-            if (this.state.num1 === '' && e.target.innerText==='0') {
+            if (num1 === '' && e.target.innerText==='0') {
                 return;
             }
-            number = this.state.num1 + e.target.innerText
+            // checks for existing decimal in number
+            if (num1.includes('.') && e.target.innerText==='.') {
+                return;
+            } else {
+                number = num1 + e.target.innerText
+            }
             this.setState(() => {
                 return {
                     num1: number,
@@ -63,13 +71,36 @@ class Calculator extends Component {
         // if the first number, then replace '0'
     }
     setOperator = (e) => {
-        console.log(e.target.innerText)
+        if (this.state.operator !== '') {
+            document.getElementById('error').innerHTML = 'Operator changed! <br /> Make sure that the display shows the correct operator before you click "=".'
+        }
         const operator = e.target.innerText
         this.setState(() => {
             return {
                 operator: operator,
             } 
         })
+    }
+    handlePositiveNegative = (e) => {
+        let changeCharge;
+        console.log('clicked + /: ', e.target.innerText)
+        if (this.state.operator==='' && this.state.num2==='') {
+            changeCharge = (this.state.num1 * -1).toString()
+            this.setState(() => {
+                return {
+                    num1: changeCharge
+                }
+            })
+        } else if (this.state.operator!=='' && this.state.num2==='') {
+            return;
+        } else {
+            changeCharge = (this.state.num2 * -1).toString()
+            this.setState(() => {
+                return {
+                    num2: changeCharge
+                }
+            })
+        }
     }
     ///////////////////////
     // Operation Functions
@@ -105,12 +136,24 @@ class Calculator extends Component {
             }
         })
     }
+    handlePercent = (e) => {
+        const operator = e.target.innerText
+        let newSum = this.state.num1 / 100;
+        this.setState(() => {
+            return {
+                operator: operator,
+                result: newSum.toString()
+            } 
+        })
+    }
     ///////////////////////
     // Render
     ///////////////////////
     render(){
         let display;
-        if (this.state.result !== '') {
+        if (this.state.operator === "%" ) {
+            display = `${this.state.num1} / 100 = ${this.state.result}`
+        } else if (this.state.result !== '') {
             display = `${this.state.operation}`
         } else if (this.state.num2 !== '') {
             display = `${this.state.num1} ${this.state.operator} ${this.state.num2}`
@@ -127,8 +170,8 @@ class Calculator extends Component {
                     </div>
                     <div className="calc-row">
                         <button className="calc-button calc-button-top" onClick={this.clearAll}>AC</button>
-                        <button className="calc-button calc-button-top">+/-</button>
-                        <button className="calc-button calc-button-top">%</button>
+                        <button className="calc-button calc-button-top" onClick={this.handlePositiveNegative}>+/-</button>
+                        <button className="calc-button calc-button-top" onClick={this.handlePercent}>%</button>
                         <button className="calc-button calc-button-op" onClick={this.setOperator}>/</button>
                     </div>
                     <div className="calc-row">
@@ -154,6 +197,9 @@ class Calculator extends Component {
                         <button className="calc-button" onClick={this.addNumberToDisplay}>.</button>
                         <button className="calc-button calc-button-op" onClick={this.handleOperation}>=</button>
                     </div>
+                </div>
+                <div>
+                    <span id='error'></span>
                 </div>
             </div>
         )
