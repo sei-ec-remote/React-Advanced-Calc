@@ -4,13 +4,62 @@ class Calculator extends Component {
     state = {
         
         operator: '',
-        num: '',        
-        operation: '',        
-        display: '0',       
-        equals: ''
+        num1: '',
+        num2: '',        
+        operation: '',               
+        equals: '0'
     }
+
+    clearAll = (e) => {
+        this.setState(() => {
+            return {
+                operator: '',
+                num1: '',
+                num2: '',
+                operation: '',
+                equals: ''
+            }
+        })
+    }
+
     numDisplay = (e) => {
         console.log(e.target.innerText)
+    }
+
+    handlePlus = () => {
+        const newSum = parseInt(this.state.num1) + parseInt(this.state.num2)
+        this.setState(() => {
+            return {
+                result: newSum,
+            }
+        })
+    }
+
+    handleMinus = () => {
+        const newSum = parseInt(this.state.num1) - parseInt(this.state.num2)
+        this.setState(() => {
+            return {
+                result: newSum,
+            }
+        })
+    }
+
+    handleMultiply = () => {
+        const newSum = parseInt(this.state.num1) * parseInt(this.state.num2)
+        this.setState(() => {
+            return {
+                result: newSum,
+            }
+        })
+    }
+
+    handleDevide = () => {
+        const newSum = parseInt(this.state.num1) / parseInt(this.state.num2)
+        this.setState(() => {
+            return {
+                result: newSum,
+            }
+        })
     }
 
 render(){
