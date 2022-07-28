@@ -3,98 +3,89 @@ import React, { Component } from 'react'
 class Calculator extends Component {
     // Declare state variables
     state = {
-        operator: '',
         num1: '',
         num2: '',
-        operation: '',
-        // display: '0',
-        answer: '0'
+        operator: null,
+        total: ''
     }
-    clearAll = (e) => {
-        this.setState(() => {
-            return {
-                operator: '',
-                num1: '',
-                num2: '',
-                operation: '',
-                answer: ''
-            }
+
+    handleNumber = (e) => {
+
+        if (this.state.num1 === "0") {
+            this.setState({
+                num1: ""
+            })
+        } else if (this.state.operator === null) {
+            this.setState({
+                num1: (this.state.num1) + (e.target.innerText),
+            })
+        } else if (this.state.operator !== null) {
+            this.setState({
+                num2: this.state.num2 + e.target.innerText
+            })
+        }
+    }
+
+    handleOperator = (e) => {
+        this.setState({
+            operator: e.target.innerText
         })
     }
 
-    displayNum = (e) => {
-        console.log(e.target.innerText)
-    }
-
-    handleAdd = () => {
-        const newSum = parseInt(this.state.num1) + parseInt(this.state.num2)
-        this.setState(() => {
-            return {
-                result: newSum,
-            }
-        })
-    }
-    handleSubtract = () => {
-        const newSum = parseInt(this.state.num1) - parseInt(this.state.num2)
-        this.setState(() => {
-            return {
-                result: newSum,
-            }
-        })
-    }
-    handleMultiply = () => {
-        const newSum = parseInt(this.state.num1) * parseInt(this.state.num2)
-        this.setState(() => {
-            return {
-                result: newSum,
-            }
-        })
-    }
-    handleDivide = () => {
-        const newSum = parseInt(this.state.num1) / parseInt(this.state.num2)
-        this.setState(() => {
-            return {
-                result: newSum,
-            }
+    handleCalc = (e) => {
+        this.setState({
+            total: eval(
+                parseInt(this.state.num1) + this.state.operator + parseInt(this.state.num2)
+            )
         })
     }
 
-render(){
-    return (
-        <div className="container">
-            <h1>React Calculator</h1>
-            <div className="calc-container">
-                <p>Values: </p>
-                <div className="answer-box">{this.state.display}</div>
-                <div className="calc-row">
-                    <button className="calc-button calc-button-top" onClick={this.clearAll}>AC</button>
-                    <button className="calc-button calc-button-top">+/-</button>
-                    <button className="calc-button calc-button-top">%</button>
-                    <button className="calc-button calc-button-op" onClick={this.handleDivide}>/</button>
-                </div>
-                <div className="calc-row">
-                    <button className="calc-button" onClick={this.displayNum}>7</button>
-                    <button className="calc-button" onClick={this.displayNum}>8</button>
-                    <button className="calc-button" onClick={this.displayNum}>9</button>
-                    <button className="calc-button calc-button-op" onClick={this.handleMultiply}>x</button>
-                </div>
-                <div className="calc-row">
-                    <button className="calc-button" onClick={this.displayNum}>4</button>
-                    <button className="calc-button" onClick={this.displayNum}>5</button>
-                    <button className="calc-button" onClick={this.displayNum}>6</button>
-                    <button className="calc-button calc-button-op" onClick={this.handleSubtract}>-</button>
-                </div>
-                <div className="calc-row">
-                    <button className="calc-button" onClick={this.displayNum}>1</button>
-                    <button className="calc-button" onClick={this.displayNum}>2</button>
-                    <button className="calc-button" onClick={this.displayNum}>3</button>
-                    <button className="calc-button calc-button-op" onClick={this.handleAdd}>+</button>
-                </div>
-                <div className="calc-row">
-                    <button className="calc-button width-2" onClick={this.displayNum}>0</button>
-                    <button className="calc-button" onClick={this.displayNum}>.</button>
-                    <button className="calc-button calc-button-op">=</button>
-                </div>
+    handleClear = (e) => {
+        this.setState({
+            num1: '',
+            num2: '',
+            operator: null,
+            total: ''
+        })
+    }
+
+    render () {
+        console.log("our total is", this.state.total)
+        return (
+            <div className="container">
+                <h1>React Calculator</h1>
+                <div className="calc-container">
+                    <p>Values: </p>
+                    <div className="answer-box">{this.state.num1} {this.state.operator} {this.state.num2} = {this.state.total}</div>
+                    <div className="calc-row">
+                        <button onClick={this.handleClear} className="calc-button calc-button-top">AC</button>
+                        <button onClick={this.handlePlusMinus} className="calc-button calc-button-top">+/-</button>
+                        <button onClick={this.handlePercent} className="calc-button calc-button-top">%</button>
+                        <button onClick={this.handleOperator} className="calc-button calc-button-op">/</button>
+                    </div>
+                    <div className="calc-row">
+                        <button onClick={this.handleNumber} className="calc-button">7</button>
+                        <button onClick={this.handleNumber} className="calc-button">8</button>
+                        <button onClick={this.handleNumber} className="calc-button">9</button>
+                        <button onClick={this.handleOperator} className="calc-button calc-button-op">*</button>
+                    </div>
+                    <div className="calc-row">
+                        <button onClick={this.handleNumber} className="calc-button">4</button>
+                        <button onClick={this.handleNumber} className="calc-button">5</button>
+                        <button onClick={this.handleNumber} className="calc-button">6</button>
+                        <button onClick={this.handleOperator} className="calc-button calc-button-op">-</button>
+                    </div>
+                    <div className="calc-row">
+                        <button onClick={this.handleNumber} className="calc-button">1</button>
+                        <button onClick={this.handleNumber} className="calc-button">2</button>
+                        <button onClick={this.handleNumber} className="calc-button">3</button>
+                        <button onClick={this.handleOperator} className="calc-button calc-button-op">+</button>
+                    </div>
+                    <div className="calc-row">
+                        <button onClick={this.handleNumber} className="calc-button width-2">0</button>
+                        <button className="calc-button">.</button>
+                        <button onClick={this.handleCalc} className="calc-button calc-button-op">=</button>
+                    </div>
             </div>
         </div>
     )
