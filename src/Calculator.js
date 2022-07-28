@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 class Calculator extends Component {
     // Declare state variables
+    // keep operator NULL
     state = {
         operator: null,
         num1: '',
@@ -29,7 +30,8 @@ class Calculator extends Component {
             })
         }
     }
-
+// Bonus feature
+// Might work on
     handleAddSubtract = (e) => {
         // console.log(e.target.innerText)
         if (this.state.operator !== "+") {
@@ -43,6 +45,8 @@ class Calculator extends Component {
         }
     }
 
+/// OLD FUNC STUFF
+///////////////////////////////////////////////////////////
     // // adding func
     // handleAdd = () => {
     //     console.log("Add this monayyy")
@@ -83,6 +87,7 @@ class Calculator extends Component {
     //         }
     //     })
     // }
+/////////////////////////////////////////////////////////////////////
 
     handleAssignOperator = (e) => {
         // test inner text first
@@ -95,7 +100,7 @@ class Calculator extends Component {
     handleOperationTotal = (e) => {
     //   console.log(e.target.innerText)
       this.setState({
-        total: eval (
+        answer: eval (
             parseInt(this.state.num1) + this.state.operator + parseInt(this.state.num2)
         )
       })
@@ -128,10 +133,10 @@ render(){
             <h1>React Calculator</h1>
             <div className="calc-container">
                 <p>Values: </p>
-                <div className="answer-box">{this.state.num1} {this.state.operator} = {this.state.answer}</div>
+                <div className="answer-box">{this.state.num1} {this.state.operator} {this.state.num2} = {this.state.answer}</div>
                 <div className="calc-row">
                     <button className="calc-button calc-button-top" onClick={this.handleClearAll}>AC</button>
-                    <button className="calc-button calc-button-top">+/-</button>
+                    <button className="calc-button calc-button-top" onClick={this.handleAddSubtract}>+/-</button>
                     <button className="calc-button calc-button-top" onClick={this.handlePercent}>%</button>
                     <button className="calc-button calc-button-op" onClick={this.handleAssignOperator}>/</button>
                 </div>
@@ -148,14 +153,14 @@ render(){
                     <button className="calc-button calc-button-op" onClick={this.handleAssignOperator}>-</button>
                 </div>
                 <div className="calc-row">
-                    <button className="calc-button" onClick={this.displayNum}>1</button>
-                    <button className="calc-button" onClick={this.displayNum}>2</button>
-                    <button className="calc-button" onClick={this.displayNum}>3</button>
+                    <button className="calc-button" onClick={this.handleDisplayNum}>1</button>
+                    <button className="calc-button" onClick={this.handleDisplayNum}>2</button>
+                    <button className="calc-button" onClick={this.handleDisplayNum}>3</button>
                     <button className="calc-button calc-button-op" onClick={this.handleAssignOperator}>+</button>
                 </div>
                 <div className="calc-row">
                     <button className="calc-button width-2" onClick={this.handleDisplayNum}>0</button>
-                    <button className="calc-button" onClick={this.handleDisplayNum}>.</button>
+                    <button className="calc-button">.</button>
                     <button className="calc-button calc-button-op"onClick={this.handleOperationTotal}>=</button>
                 </div>
             </div>
