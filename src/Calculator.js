@@ -34,10 +34,14 @@ const Calculator = () => {
             setOperator(clickIndex)
             setLastNumber(curentNumber)
             setcurentNumber('')
+        } else if ((lastNumber === "") && (curentNumber === "")){
+            setcurentNumber('error')
         }
     }
 
-    const computeIt = (clickIndex) => {
+
+
+    const computeIt = () => {
 
         if(operator === "+"){
             answer = Number(curentNumber) + Number(lastNumber)
@@ -51,7 +55,9 @@ const Calculator = () => {
         } else if (operator === "*"){
             answer = Number(curentNumber) * Number(lastNumber)
 
-        } 
+        } else if (operator === "") {
+            setcurentNumber("error")
+        }
 
         ( setcurentNumber(answer))
 
