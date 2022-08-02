@@ -37,3 +37,8 @@
   text-align: right;
   min-height: 90px;
 }
+
+span {
+  font-size: 12px;
+  color: #888;
+}
