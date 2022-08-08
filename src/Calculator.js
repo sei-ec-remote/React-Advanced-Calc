@@ -2,6 +2,99 @@ import React, { Component } from 'react'
 
 class Calculator extends Component {
     // Declare state variables
+    state = {
+        current: '',
+        prev: '',
+        operator: '',
+        error: ''
+    }
+
+    // have to handle a clear
+    handleClear = () => {
+        this.setState({
+                current: '',
+                prev: '',
+                operator: '',
+                error: ''
+            })
+
+    }
+    // handle each number being pressed and floats
+    handleNumberPress = (event) => {
+        event.persist()
+
+        if (event.target.innerText === '.' && this.state.current.includes('.')) {
+            return this.setState({ error: 'Double decimal pressed, select another button'})
+        }
+
+        this.setState(prevState => {
+            return {
+                current: prevState.current + event.target.innerText,
+                error: ''
+            }
+        })
+    }
+
+    // handle an operator
+    handleOperator = (event) => {
+        event.persist()
+
+        if (this.state.current === '') {
+            return this.setState({
+                // making sure to retun to break out of handleOperator
+                error: 'No number present to run operation on'
+            })
+        }
+
+        if (this.state.prev !== '') {
+            this.calculate() // future promise?
+        }
+
+        this.setState(prevState => {
+            return {
+                operator: event.target.innerText,
+                prev: prevState.current,
+                current: '',
+                error: ''
+            }
+        })
+    }
+
+    // handle calculation
+    calculate = () => {
+        let runningTotal
+        const prev = parseFloat(this.state.prev)
+        const current = parseFloat(this.state.current)
+
+        // handle NaN 
+        if (isNaN(prev) || isNaN(current)) {
+            return this.setState({ error: 'Cannot calculate'})
+        }
+
+        switch (this.state.operator) {
+            case '+':
+                runningTotal = prev + current
+                break
+            case '-':
+                runningTotal = prev - current
+                break
+            case 'x':
+                runningTotal = prev * current
+                break
+            case '/': 
+                runningTotal = prev / current
+                break
+            default:
+                return
+        }
+
+        this.setState({
+            current: `${runningTotal}`,
+            operator: '',
+            prev: '',
+            error: ''
+        })
+    }
 
 render(){
     return (
@@ -9,35 +102,35 @@ render(){
             <h1>React Calculator</h1>
             <div className="calc-container">
                 <p>Values: </p>
-                <div className="answer-box">TBD</div>
+                <div className="answer-box">{this.state.error ? this.state.error: this.state.current}</div>
                 <div className="calc-row">
-                    <button className="calc-button calc-button-top">AC</button>
+                    <button onClick={this.handleClear} className="calc-button calc-button-top">AC</button>
                     <button className="calc-button calc-button-top">+/-</button>
                     <button className="calc-button calc-button-top">%</button>
-                    <button className="calc-button calc-button-op">/</button>
+                    <button onClick={this.handleOperator} className="calc-button calc-button-op">/</button>
                 </div>
                 <div className="calc-row">
-                    <button className="calc-button">7</button>
-                    <button className="calc-button">8</button>
-                    <button className="calc-button">9</button>
-                    <button className="calc-button calc-button-op">x</button>
+                    <button onClick={this.handleNumberPress} className="calc-button">7</button>
+                    <button onClick={this.handleNumberPress} className="calc-button">8</button>
+                    <button onClick={this.handleNumberPress} className="calc-button">9</button>
+                    <button onClick={this.handleOperator} className="calc-button calc-button-op">x</button>
                 </div>
                 <div className="calc-row">
-                    <button className="calc-button">4</button>
-                    <button className="calc-button">5</button>
-                    <button className="calc-button">6</button>
-                    <button className="calc-button calc-button-op">-</button>
+                    <button onClick={this.handleNumberPress} className="calc-button">4</button>
+                    <button onClick={this.handleNumberPress} className="calc-button">5</button>
+                    <button onClick={this.handleNumberPress} className="calc-button">6</button>
+                    <button onClick={this.handleOperator} className="calc-button calc-button-op">-</button>
                 </div>
                 <div className="calc-row">
-                    <button className="calc-button">1</button>
-                    <button className="calc-button">2</button>
-                    <button className="calc-button">3</button>
-                    <button className="calc-button calc-button-op">+</button>
+                    <button onClick={this.handleNumberPress} className="calc-button">1</button>
+                    <button onClick={this.handleNumberPress} className="calc-button">2</button>
+                    <button onClick={this.handleNumberPress} className="calc-button">3</button>
+                    <button onClick={this.handleOperator} className="calc-button calc-button-op">+</button>
                 </div>
                 <div className="calc-row">
-                    <button className="calc-button width-2">0</button>
-                    <button className="calc-button">.</button>
-                    <button className="calc-button calc-button-op">=</button>
+                    <button onClick={this.handleNumberPress} className="calc-button width-2">0</button>
+                    <button onClick={this.handleNumberPress} className="calc-button">.</button>
+                    <button onClick={this.calculate} className="calc-button calc-button-op">=</button>
                 </div>
             </div>
         </div>
