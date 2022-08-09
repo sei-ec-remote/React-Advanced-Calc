@@ -67,15 +67,6 @@ handleInputOperator = (e) => {
     e.preventDefault()
     const operatorPressed = e.target.innerHTML
     console.log(operatorPressed)
-    // this.setState(prevState => ({
-    //     answerBox: [...prevState.answerBox, operatorPressed]
-    // }))
-    // this.setState(prevState => ({
-    //     values: [...prevState.values, this.state.answerBox.join(''), operatorPressed]
-    // }))
-    // this.setState({
-    //     answerBox: []
-    // })
     const lastChar = this.state.answerBox.slice(-1)
     if(Number.isInteger(parseFloat(lastChar))) {
         this.setState(prevState => ({
