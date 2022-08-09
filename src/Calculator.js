@@ -1,43 +1,6 @@
 import React, { Component } from 'react'
 
 class Calculator extends Component {
-    // Declare state variables
-
-// render(){
-//     return (
-//         <div className="container">
-//             <h1>React Calculator</h1>
-//             <div className="calc-container">
-//                 <p>Values: </p>
-//                 <div className="answer-box">TBD</div>
-//                 <div className="calc-row">
-//                     <button className="calc-button calc-button-top">AC</button>
-//                     <button className="calc-button calc-button-top">+/-</button>
-//                     <button className="calc-button calc-button-top">%</button>
-//                     <button className="calc-button calc-button-op">/</button>
-//                 </div>
-//                 <div className="calc-row">
-//                     <button className="calc-button">7</button>
-//                     <button className="calc-button">8</button>
-//                     <button className="calc-button">9</button>
-//                     <button className="calc-button calc-button-op">x</button>
-//                 </div>
-//                 <div className="calc-row">
-//                     <button className="calc-button">4</button>
-//                     <button className="calc-button">5</button>
-//                     <button className="calc-button">6</button>
-//                     <button className="calc-button calc-button-op">-</button>
-//                 </div>
-//                 <div className="calc-row">
-//                     <button className="calc-button">1</button>
-//                     <button className="calc-button">2</button>
-//                     <button className="calc-button">3</button>
-//                     <button className="calc-button calc-button-op">+</button>
-//                 </div>
-//                 <div className="calc-row">
-//                     <button className="calc-button width-2">0</button>
-//                     <button className="calc-button">.</button>
-//                     <button className="calc-button calc-button-op">=</button>
 
 state = {
     values: [],
@@ -79,6 +42,25 @@ handleDecimal = (e) => {
 
 handleEqual = (e) => {
     e.preventDefault()
+    const remainingInput = this.state.answerBox
+    this.setState(prevState => ({
+        values: [...prevState.values, remainingInput.join('')]}),
+        () => {
+            const lastChar = this.state.values.slice(-1)
+            console.log(Number.isInteger(parseFloat(lastChar)))
+            if(Number.isInteger(parseFloat(lastChar)) || lastChar%1 !== 0) {
+                const stateForEval = this.state.values.map(x => {
+                        if(x === 'x') return '*'
+                        else return x
+                    }).join('')
+                const answer = eval(stateForEval)
+                this.setState({
+                    answerBox: [answer],
+                    values: []
+                })
+            }
+        }
+    )
 }
 
 handleInputOperator = (e) => {
@@ -88,12 +70,28 @@ handleInputOperator = (e) => {
     // this.setState(prevState => ({
     //     answerBox: [...prevState.answerBox, operatorPressed]
     // }))
-    this.setState(prevState => ({
-        values: [...prevState.values, this.state.answerBox.join(''), operatorPressed]
-    }))
-    this.setState({
-        answerBox: []
-    })
+    // this.setState(prevState => ({
+    //     values: [...prevState.values, this.state.answerBox.join(''), operatorPressed]
+    // }))
+    // this.setState({
+    //     answerBox: []
+    // })
+    const lastChar = this.state.answerBox.slice(-1)
+    if(Number.isInteger(parseFloat(lastChar))) {
+        this.setState(prevState => ({
+            values: [...prevState.values, this.state.answerBox.join(''), ' ',  operatorPressed, ' ']
+        }))
+        this.setState({
+            answerBox: []
+        })
+    } else {
+        this.setState({answerBox: ['error']},
+            () => {
+                setTimeout(() => {
+                    this.setState({values: [], answerBox: []})
+                }, 700)
+        })
+    }
 }
 
 clearInput = (e) => {
