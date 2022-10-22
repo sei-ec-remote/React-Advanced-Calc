@@ -3,11 +3,9 @@ import React, { Component } from 'react'
 class Calculator extends Component {
     // Declare state variables
     state = {
-        nums:[  
-            1,2,3,4,5,6,7,8,9,0
-        ],
+        nums:[],
         operator: '',
-        currentSum: '',
+        current: '',
         prev:'',
         result:'',
         error:''
@@ -23,7 +21,7 @@ class Calculator extends Component {
         this.setState({
             nums:[],
             operator: '',
-            currentSum: '',
+            current: '',
             prev:'',
             result:'',
             error:''    
@@ -57,34 +55,34 @@ class Calculator extends Component {
 
         // }
         let result 
-        const currentSum = parseFloat(this.state.current)
+        const current = parseFloat(this.state.current)
         const prev = parseFloat(this.state.prev)
         console.log('I hit here')
         switch (this.state.operator){
 			case '+':
-				result = prev + currentSum
+				result = prev + current
 				break
                 
 			case '-':
-				result = prev - currentSum
+				result = prev - current
 				break
 
 			case '*':
-				result = prev * currentSum
+				result = prev * current
 				break
 
 			case '/':
-				result = prev / currentSum
+				result = prev / current
 				break
 			
 			default:
-				break
+				return ('I made it this far')
 		}
         console.log('I made it this far')
-		this.setState({
-			// result: result
-            // currentSum:`${result}`
-		})
+		// this.setState({
+		// 	result: result
+        //     currentSum:`${result}`
+		// })
 	
 
         // setOperator = (e) => {
@@ -95,7 +93,7 @@ class Calculator extends Component {
         this.setState({
 			nums:[],
             operator: '',
-            currentSum: `${result}`,
+            current: `${result}`,
             prev:'',
             result:'',
             error:''    
