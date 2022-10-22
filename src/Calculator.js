@@ -35,7 +35,7 @@ class Calculator extends Component {
             }
         }
         // doesn't allow 0 for first num2 digit
-        if (this.state.num1 !== '0' && this.state.operator !== '' && currButton !== '0'){
+        if (this.state.num1 !== '' && this.state.operator !== '' && currButton !== '0'){
             if(!(this.state.num2 === '' && this.state.operator === '')){
                 //handling double decimal
                 if (this.state.num2.includes('.') && currButton === '.'){
@@ -89,12 +89,9 @@ class Calculator extends Component {
                     this.setState(() => {
                         return {result: Number(this.state.num1) * Number(this.state.num2), numDisplay: '' }
                     })
-                    break
-                case this.state.operator === '/':
-                    this.setState(() => {
-                        return {result: Number(this.state.num1) / Number(this.state.num2), numDisplay: '' }
-                    })
-                    break        
+                    break  
+                default:
+                    break  
             }
         } else {
             // handling calc behavior of result + operator + num2
@@ -119,21 +116,26 @@ class Calculator extends Component {
                         return {result: Number(prevstate.result) * Number(this.state.num2), numDisplay: '' }
                     })
                     break
-                case this.state.operator === '/':
-                    this.setState((prevstate) => {
-                        return {result: Number(prevstate.result) / Number(this.state.num2), numDisplay: '' }
-                    })
-                    break        
+                default:
+                    break
             }
         }
     } 
+    handleNegative = () => {
+        if(this.state.operator === ''){
+            this.setState((prevstate) => {
+                return { num1: Number(prevstate.num1) * -1, numDisplay:Number(prevstate.num1) * -1 }
+            })
+        }
+    }
     handleClear = () => {
         this.setState(() => {
             return {
                 num1: '',
                 num2: '',
-                numDisplay: '',
-                result: ''
+                result: '',
+                operator: '',
+                numDisplay: ''
             }
         })
     }
@@ -147,7 +149,7 @@ render(){
                 <div className="answer-box">{this.state.result}</div>
                 <div className="calc-row">
                     <button className="calc-button calc-button-top" onClick={this.handleClear}>AC</button>
-                    <button className="calc-button calc-button-top" onClick={this.handleOperator}>+/-</button>
+                    <button className="calc-button calc-button-top" onClick={this.handleNegative}>+/-</button>
                     <button className="calc-button calc-button-top" onClick={this.handleOperator}>%</button>
                     <button className="calc-button calc-button-op" onClick={this.handleOperator}>/</button>
                 </div>
@@ -179,17 +181,6 @@ render(){
     )
 }
 }
-        //  if (this.state.num1 === '' && currButton !== '0'){
-        //     this.setState((prevstate)=> {
-        //         console.log('bagel')
-        //         return {num1: prevstate.num1 + currButton} 
-        //     }) 
-        // }else if (this.state.num1 !== ''){
-        //     console.log('mayo')
-        //     this.setState((prevstate) => {
-        //         return {num1: prevstate.num1 + currButton, numDisplay: prevstate.num1 + currButton}
-        //     })
-        // }
-        // console.log("this is num1", this.state.num1)
+
 
 export default Calculator
