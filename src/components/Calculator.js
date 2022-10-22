@@ -45,18 +45,64 @@ class Calculator extends Component {
 	} 
     
     Calculate = () => {
-        try {
-            this.setState({
-                // eslint-disable-next-line
-                result: (eval(this.state.result) || "" ) + ""
-            })
-        } catch (e) {
-            this.setState({
-                result: "error"
-            })
+        // try {
+        //     this.setState({
+        //         // eslint-disable-next-line
+        //         result: (eval(this.state.result) || "" ) + ""
+        //     })
+        // } catch (e) {
+        //     this.setState({
+        //         result: "error"
+        //     })
 
-        }
-    };
+        // }
+        let result 
+        const currentSum = parseFloat(this.state.current)
+        const prev = parseFloat(this.state.prev)
+        console.log('I hit here')
+        switch (this.state.operator){
+			case '+':
+				result = prev + currentSum
+				break
+                
+			case '-':
+				result = prev - currentSum
+				break
+
+			case '*':
+				result = prev * currentSum
+				break
+
+			case '/':
+				result = prev / currentSum
+				break
+			
+			default:
+				break
+		}
+        console.log('I made it this far')
+		this.setState({
+			// result: result
+            // currentSum:`${result}`
+		})
+	
+
+        // setOperator = (e) => {
+        //     this.setState({
+        //         operator: e.target.value
+        //     })
+        // }
+        this.setState({
+			nums:[],
+            operator: '',
+            currentSum: `${result}`,
+            prev:'',
+            result:'',
+            error:''    
+		})
+	
+
+    }
 
 
     render(){
