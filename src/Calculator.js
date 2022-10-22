@@ -7,7 +7,8 @@ class Calculator extends Component {
         num2: '',
         operator: '',
         currentNum: 1,
-        input: ''
+        input: '',
+        status: ''
     }
 
     allClear = () => {
@@ -16,16 +17,24 @@ class Calculator extends Component {
             num2: '',
             operator: '',
             currentNum: 1,
-            input: '0'
+            input: '0',
+            status: ''
         })
     }
 
     storeOperator = (e) => {
-        this.setState({
-            operator: e.target.innerText,
-            currentNum: 2,
-            input: ''
-        })
+        if (this.state.operator === ''){ 
+            this.setState({
+                operator: e.target.innerText,
+                currentNum: 2,
+                input: '',
+                status: ''
+            })
+        } else {
+            this.setState({
+                status: 'Please enter only 1 operator per expression'
+            })
+        }
     }
 
     storeNum = (e) => {
@@ -33,24 +42,28 @@ class Calculator extends Component {
             if(this.state.num1 === '' && e.target.innerText === '.'){
                 this.setState({
                     num1: '0.',
-                    input: '0.'
+                    input: '0.',
+                    status: ''
                 })
             } else if(!(this.state.num1 === '' && e.target.innerText === '0')){
                 this.setState({
                     num1: this.state.num1.concat(e.target.innerText),
-                    input: this.state.input.concat(e.target.innerText)
+                    input: this.state.input.concat(e.target.innerText),
+                    status: ''
                 })
             }
         } else {
             if(this.state.num2 === '' && e.target.innerText === '.'){
                 this.setState({
                     num2: '0.',
-                    input: '0.'
+                    input: '0.',
+                    status: ''
                 })
             } else if(!(this.state.num2 === '' && e.target.innerText === '0')){
                 this.setState({
                     num2: this.state.num2.concat(e.target.innerText),
-                    input: this.state.input.concat(e.target.innerText)
+                    input: this.state.input.concat(e.target.innerText),
+                    status: ''
                 })
             }
         }
@@ -64,14 +77,21 @@ class Calculator extends Component {
     }
 
     equals = () => {
-        if(this.state.operator !== ''){
-            let total = this.math[this.state.operator](+this.state.num1, +this.state.num2)
+        if(this.state.num1 !== '' && this.state.num2 !== '' && this.state.operator !== '' ){
+            if(this.state.operator !== ''){
+                let total = this.math[this.state.operator](+this.state.num1, +this.state.num2)
+                this.setState({
+                    num1: `${total}`,
+                    num2: '',
+                    operator: '',
+                    currentNum: 1,
+                    input: `${total}`,
+                    status: ''
+                })
+            }
+        } else {
             this.setState({
-                num1: `${total}`,
-                num2: '',
-                operator: '',
-                currentNum: 1,
-                input: `${total}`
+                status: 'Please enter arg1 -> operator -> arg2 -> ='
             })
         }
     }
@@ -83,8 +103,7 @@ render(){
         <div className="container">
             <h1>React Calculator</h1>
             <div className="calc-container">
-                {/* Not really sure what this is for so I removed it */}
-                {/* <p>Values: </p> */}
+                <p>{this.state.status} </p>
                 <div className="answer-box">{this.state.input}</div>
                 <div className="calc-row">
                     <button className="calc-button calc-button-top" onClick={this.allClear}>AC</button>
