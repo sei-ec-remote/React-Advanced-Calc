@@ -11,27 +11,75 @@ class Calculator extends Component {
         numDisplay: ''
     }
 
-    setNum = () => {
-
-    }
-    handleChange = (e) => {
+    handleNum = (e) => {
         //////// 
         // if the current num1 is '' and operator is '' only add to num1
         // if operator is clicked only add to num2
-        // if equals is clicked parse integers and complete operation 
-        const currNum = e.target.innerText
-         if (this.state.num1 === '' && currNum !== '0'){
-            this.setState((prevstate)=> {
-                console.log('bagel')
-                return {num1: prevstate.num1 + currNum} 
-            }) 
-        }else if (this.state.num1 !== ''){
-            console.log('mayo')
-            this.setState((prevstate) => {
-                return {num1: prevstate.num1 + currNum}
+
+        const currButton = e.target.innerText
+
+        if(!(this.state.num1 === '' && currButton === '0') && this.state.operator === ''){
+            // handling double decimal
+            if (this.state.num1.includes('.') && currButton === '.'){
+                console.log('error!')
+            } else {
+                // setting num1
+                this.setState((prevstate)=>{
+                    return {
+                        num1: prevstate.num1 + currButton,
+                        numDisplay: prevstate.num1 + currButton,
+                    }
+                })
+            }
+        }
+        if(!(this.state.num2 === '' && this.state.operator === '')){
+            //handling double decimal
+            if (this.state.num2.includes('.') && currButton === '.'){
+                console.log('error!')
+            } else {
+                // setting num2
+                this.setState((prevstate) => {
+                    return {
+                        num2: prevstate.num2 + currButton,
+                        numDisplay: prevstate.num2 + currButton
+                    }
+                })
+            }
+        }
+        console.log('num1', this.state.num1)
+        console.log('num2', this.state.num2)
+    }
+
+    handleOperator = (e) => {
+        const operator = e.target.innerText
+        if (!(this.state.num1 === '')){
+            this.setState(() => {
+                return {operator: operator}
             })
         }
-        console.log("this is num1", this.state.num1)
+        console.log(operator)
+    }
+
+    handleCalc = () => {
+        // if equals is clicked parse integers and complete operation 
+        if(!(this.state.num1 === '' && this.state.num2 === '')){
+            console.log('doodley doo')
+            if(this.state.operator === '+'){
+                this.setState(() => {
+                    return {result: Number(this.state.num1) + Number(this.state.num2)}
+                })
+            }
+        }
+
+    }
+    handleClear = () => {
+        this.setState(() => {
+            return {
+                num1: '',
+                num2: '',
+                numDisplay: ''
+            }
+        })
     }
 
 render(){
@@ -39,41 +87,53 @@ render(){
         <div className="container">
             <h1>React Calculator</h1>
             <div className="calc-container">
-                <p>Values:{this.state.num1} </p>
-                <div className="answer-box">TBD</div>
+                <p>Values: {this.state.numDisplay} </p>
+                <div className="answer-box">TBD{this.state.result}</div>
                 <div className="calc-row">
-                    <button className="calc-button calc-button-top" onClick={this.handleChange}>AC</button>
-                    <button className="calc-button calc-button-top" onClick={this.handleChange}>+/-</button>
-                    <button className="calc-button calc-button-top" onClick={this.handleChange}>%</button>
-                    <button className="calc-button calc-button-op" onClick={this.handleChange}>/</button>
+                    <button className="calc-button calc-button-top" onClick={this.handleClear}>AC</button>
+                    <button className="calc-button calc-button-top" onClick={this.handleOperator}>+/-</button>
+                    <button className="calc-button calc-button-top" onClick={this.handleOperator}>%</button>
+                    <button className="calc-button calc-button-op" onClick={this.handleOperator}>/</button>
                 </div>
                 <div className="calc-row">
-                    <button className="calc-button" onClick={this.handleChange}>7</button>
-                    <button className="calc-button" onClick={this.handleChange}>8</button>
-                    <button className="calc-button" onClick={this.handleChange}>9</button>
-                    <button className="calc-button calc-button-op" onClick={this.handleChange}>x</button>
+                    <button className="calc-button" onClick={this.handleNum}>7</button>
+                    <button className="calc-button" onClick={this.handleNum}>8</button>
+                    <button className="calc-button" onClick={this.handleNum}>9</button>
+                    <button className="calc-button calc-button-op" onClick={this.handleOperator}>x</button>
                 </div>
                 <div className="calc-row">
-                    <button className="calc-button" onClick={this.handleChange}>4</button>
-                    <button className="calc-button" onClick={this.handleChange}>5</button>
-                    <button className="calc-button" onClick={this.handleChange}>6</button>
-                    <button className="calc-button calc-button-op" onClick={this.handleChange}>-</button>
+                    <button className="calc-button" onClick={this.handleNum}>4</button>
+                    <button className="calc-button" onClick={this.handleNum}>5</button>
+                    <button className="calc-button" onClick={this.handleNum}>6</button>
+                    <button className="calc-button calc-button-op" onClick={this.handleOperator}>-</button>
                 </div>
                 <div className="calc-row">
-                    <button className="calc-button" onClick={this.handleChange}>1</button>
-                    <button className="calc-button" onClick={this.handleChange}>2</button>
-                    <button className="calc-button" onClick={this.handleChange}>3</button>
-                    <button className="calc-button calc-button-op" onClick={this.handleChange}>+</button>
+                    <button className="calc-button" onClick={this.handleNum}>1</button>
+                    <button className="calc-button" onClick={this.handleNum}>2</button>
+                    <button className="calc-button" onClick={this.handleNum}>3</button>
+                    <button className="calc-button calc-button-op" onClick={this.handleOperator}>+</button>
                 </div>
                 <div className="calc-row">
-                    <button className="calc-button width-2" onClick={this.handleChange}>0</button>
-                    <button className="calc-button">.</button>
-                    <button className="calc-button calc-button-op">=</button>
+                    <button className="calc-button width-2" onClick={this.handleNum}>0</button>
+                    <button className="calc-button" onClick={this.handleNum}>.</button>
+                    <button className="calc-button calc-button-op" onClick={this.handleCalc}>=</button>
                 </div>
             </div>
         </div>
     )
 }
 }
+        //  if (this.state.num1 === '' && currButton !== '0'){
+        //     this.setState((prevstate)=> {
+        //         console.log('bagel')
+        //         return {num1: prevstate.num1 + currButton} 
+        //     }) 
+        // }else if (this.state.num1 !== ''){
+        //     console.log('mayo')
+        //     this.setState((prevstate) => {
+        //         return {num1: prevstate.num1 + currButton, numDisplay: prevstate.num1 + currButton}
+        //     })
+        // }
+        // console.log("this is num1", this.state.num1)
 
 export default Calculator
