@@ -42,6 +42,12 @@ class Calculator extends Component {
 		})
 	} 
     
+    handleOperator = (e) => {
+        this.setState({
+            operator: e.target.innerText
+        })
+    }
+
     Calculate = () => {
         // try {
         //     this.setState({
@@ -76,7 +82,7 @@ class Calculator extends Component {
 				break
 			
 			default:
-				return ('I made it this far')
+				return 
 		}
         console.log('I made it this far')
 		// this.setState({
@@ -98,10 +104,7 @@ class Calculator extends Component {
             result:'',
             error:''    
 		})
-	
-
     }
-
 
     render(){
         return (
@@ -132,7 +135,7 @@ class Calculator extends Component {
                         <button className="calc-button"name ='1' onClick={this.handleClick}>1</button>
                         <button className="calc-button"name ='2' onClick={this.handleClick}>2</button>
                         <button className="calc-button"name ='3' onClick={this.handleClick}>3</button>
-                        <button className="calc-button calc-button-op"name ='+' onClick = {this.handleClick}>+</button>
+                        <button className="calc-button calc-button-op"name ='+' onClick = {this.handleOperator}>+</button>
                     </div>
                     <div className="calc-row">
                         <button className="calc-button width-2"name ='0' onClick={this.handleClick}>0</button>
