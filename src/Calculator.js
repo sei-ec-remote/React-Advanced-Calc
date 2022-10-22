@@ -18,6 +18,8 @@ class Calculator extends Component {
 
         const currButton = e.target.innerText
 
+
+
         if(!(this.state.num1 === '' && currButton === '0') && this.state.operator === ''){
             // handling double decimal
             if (this.state.num1.includes('.') && currButton === '.'){
@@ -32,19 +34,23 @@ class Calculator extends Component {
                 })
             }
         }
-        if(!(this.state.num2 === '' && this.state.operator === '')){
-            //handling double decimal
-            if (this.state.num2.includes('.') && currButton === '.'){
-                console.log('error!')
-            } else {
-                // setting num2
-                this.setState((prevstate) => {
-                    return {
-                        num2: prevstate.num2 + currButton,
-                        numDisplay: prevstate.num2 + currButton
-                    }
-                })
+        // doesn't allow 0 for first num2 digit
+        if (this.state.num1 !== '0' && this.state.operator !== '' && currButton !== '0'){
+            if(!(this.state.num2 === '' && this.state.operator === '')){
+                //handling double decimal
+                if (this.state.num2.includes('.') && currButton === '.'){
+                    console.log('error!')
+                } else {
+                    // setting num2
+                    this.setState((prevstate) => {
+                        return {
+                            num2: prevstate.num2 + currButton,
+                            numDisplay: prevstate.num2 + currButton
+                        }
+                    })
+                }
             }
+
         }
         console.log('num1', this.state.num1)
         console.log('num2', this.state.num2)
@@ -62,39 +68,65 @@ class Calculator extends Component {
 
     handleCalc = () => {
         // if equals is clicked parse integers and complete operation 
-        if(!(this.state.num1 === '' && this.state.num2 === '')){
-            console.log('doodley doo')
-
+        if(this.state.result === ''){
+            switch (!(this.state.num1 === '' && this.state.num2 === '')) {
+                case this.state.operator === '+':
+                    this.setState(() => {
+                        return {result: Number(this.state.num1) + Number(this.state.num2), numDisplay: '' }
+                    })
+                    break
+                case this.state.operator === '-':
+                    this.setState(() => {
+                        return {result: Number(this.state.num1) - Number(this.state.num2), numDisplay: '' }
+                    })
+                    break
+                case this.state.operator === '/':
+                    this.setState(() => {
+                        return {result: Number(this.state.num1) / Number(this.state.num2), numDisplay: '' }
+                    })
+                    break
+                case this.state.operator === 'x':
+                    this.setState(() => {
+                        return {result: Number(this.state.num1) * Number(this.state.num2), numDisplay: '' }
+                    })
+                    break
+                case this.state.operator === '/':
+                    this.setState(() => {
+                        return {result: Number(this.state.num1) / Number(this.state.num2), numDisplay: '' }
+                    })
+                    break        
+            }
+        } else {
+            // handling calc behavior of result + operator + num2
+            switch (!(this.state.result ===  '')) {
+                case this.state.operator === '+':
+                    this.setState((prevstate) => {
+                        return {result: Number(prevstate.result) + Number(this.state.num2), numDisplay: '' }
+                    })
+                    break
+                case this.state.operator === '-':
+                    this.setState((prevstate) => {
+                        return {result: Number(prevstate.result) - Number(this.state.num2), numDisplay: '' }
+                    })
+                    break
+                case this.state.operator === '/':
+                    this.setState((prevstate) => {
+                        return {result: Number(prevstate.result) / Number(this.state.num2), numDisplay: '' }
+                    })
+                    break
+                case this.state.operator === 'x':
+                    this.setState((prevstate) => {
+                        return {result: Number(prevstate.result) * Number(this.state.num2), numDisplay: '' }
+                    })
+                    break
+                case this.state.operator === '/':
+                    this.setState((prevstate) => {
+                        return {result: Number(prevstate.result) / Number(this.state.num2), numDisplay: '' }
+                    })
+                    break        
+            }
         }
-        switch (!(this.state.num1 === '' && this.state.num2 === '')) {
-            case this.state.operator === '+':
-                this.setState(() => {
-                    return {result: Number(this.state.num1) + Number(this.state.num2) }
-                })
-                break
-            case this.state.operator === '-':
-                this.setState(() => {
-                    return {result: Number(this.state.num1) - Number(this.state.num2) }
-                })
-                break
-            case this.state.operator === '/':
-                this.setState(() => {
-                    return {result: Number(this.state.num1) / Number(this.state.num2) }
-                })
-                break
-            case this.state.operator === 'x':
-                this.setState(() => {
-                    return {result: Number(this.state.num1) * Number(this.state.num2) }
-                })
-                break
-            case this.state.operator === '/':
-                this.setState(() => {
-                    return {result: Number(this.state.num1) / Number(this.state.num2) }
-                })
-                break
-        }
-
-    }
+    } 
     handleClear = () => {
         this.setState(() => {
             return {
