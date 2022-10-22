@@ -1,14 +1,59 @@
 import React, { Component } from 'react'
 
 class Calculator extends Component {
-    // Declare state variables
+    state = {
+        onScreen: '0',
+        expression: '',
+        evaluated: ''
+
+    }
+
+    handleClick = (event) => {
+        const text = event.target.innerText
+        switch (true) {
+            case !isNaN(text):
+                console.log('number')
+                break
+            case ['+','-','x','/','%'].includes(text):
+                console.log('operator')
+                break
+            case text === '=':
+                console.log('eval')
+                break
+            case text === 'AC':
+                console.log('clear')
+                break
+            case text === '.':
+                console.log('decimal')
+                break
+            case text === '+/-':
+                console.log('*-1')
+                break
+            default: 
+                console.log('default')
+        }
+        
+    }
+
+    addListeners = () => {
+        const buttons = document.querySelectorAll('.calc-button')
+        buttons.forEach((button) => {
+            document.addEventListener('click', this.handleClick)
+        })
+    }
+
+
+    componentDidMount() {
+        this.addListeners()
+    }
+
 
 render(){
     return (
         <div className="container">
             <h1>React Calculator</h1>
             <div className="calc-container">
-                <p>Values: </p>
+                
                 <div className="answer-box">TBD</div>
                 <div className="calc-row">
                     <button className="calc-button calc-button-top">AC</button>
