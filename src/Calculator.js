@@ -52,7 +52,7 @@ class Calculator extends Component {
 
     handleOperator = (e) => {
         const operator = e.target.innerText
-        if (!(this.state.num1 === '')){
+        if (!(this.state.num1 === '') && this.state.num2 === ''){
             this.setState(() => {
                 return {operator: operator}
             })
@@ -64,11 +64,34 @@ class Calculator extends Component {
         // if equals is clicked parse integers and complete operation 
         if(!(this.state.num1 === '' && this.state.num2 === '')){
             console.log('doodley doo')
-            if(this.state.operator === '+'){
+
+        }
+        switch (!(this.state.num1 === '' && this.state.num2 === '')) {
+            case this.state.operator === '+':
                 this.setState(() => {
-                    return {result: Number(this.state.num1) + Number(this.state.num2)}
+                    return {result: Number(this.state.num1) + Number(this.state.num2) }
                 })
-            }
+                break
+            case this.state.operator === '-':
+                this.setState(() => {
+                    return {result: Number(this.state.num1) - Number(this.state.num2) }
+                })
+                break
+            case this.state.operator === '/':
+                this.setState(() => {
+                    return {result: Number(this.state.num1) / Number(this.state.num2) }
+                })
+                break
+            case this.state.operator === 'x':
+                this.setState(() => {
+                    return {result: Number(this.state.num1) * Number(this.state.num2) }
+                })
+                break
+            case this.state.operator === '/':
+                this.setState(() => {
+                    return {result: Number(this.state.num1) / Number(this.state.num2) }
+                })
+                break
         }
 
     }
@@ -77,7 +100,8 @@ class Calculator extends Component {
             return {
                 num1: '',
                 num2: '',
-                numDisplay: ''
+                numDisplay: '',
+                result: ''
             }
         })
     }
@@ -88,7 +112,7 @@ render(){
             <h1>React Calculator</h1>
             <div className="calc-container">
                 <p>Values: {this.state.numDisplay} </p>
-                <div className="answer-box">TBD{this.state.result}</div>
+                <div className="answer-box">{this.state.result}</div>
                 <div className="calc-row">
                     <button className="calc-button calc-button-top" onClick={this.handleClear}>AC</button>
                     <button className="calc-button calc-button-top" onClick={this.handleOperator}>+/-</button>
