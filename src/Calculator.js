@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 
+///a package to deal with floating point calculation results like 0.52 + 0.06 = .580000000000001////
+import "js-float-calculation"
+
 class Calculator extends Component {
     
     state = {
@@ -24,17 +27,18 @@ class Calculator extends Component {
             let num2 = parseFloat(this.state.currentValue)
             let calculation
             switch (this.state.operator) {
+            //////these operators come from js-float-calculation//////////
                 case "+":
-                    calculation = num1 + num2
+                    calculation = num1.add(num2)
                     break
                 case "-":
-                    calculation = num1 - num2
+                    calculation = num1.sub(num2)
                     break
                 case "/":
-                    calculation = num1 / num2
+                    calculation = num1.div(num2)
                     break
                 case "*":
-                    calculation = num1 * num2
+                    calculation = num1.mul(num2)
                     break
                 default:
                     return   
@@ -76,6 +80,28 @@ class Calculator extends Component {
             return            
         } else {
             this.pressNum("0")
+        }
+    }
+
+    toggleNegative = () => {
+        if (this.state.display !== "0") {
+            if (this.state.value1 === "") {
+                this.setState(prev => {
+                    return {
+                        display: prev.display[0] === "-" ? prev.display.substring(1) : "-" + prev.display ,
+                        value1: prev.display[0] === "-" ? prev.display.substring(1) : "-" + prev.display ,
+                        currentValue: ""
+                    }                
+                })                
+            } else {
+                this.setState(prev => {
+                    return {
+                        display: prev.display[0] === "-" ? prev.display.substring(1) : "-" + prev.display ,
+                        currentValue: prev.display[0] === "-" ? prev.display.substring(1) : "-" + prev.display
+                    }                
+                })   
+            }
+
         }
     }
 
@@ -125,12 +151,21 @@ class Calculator extends Component {
 
     pressPoint = () => {        
         if (!(this.state.currentValue.includes("."))) {
-            this.setState(prev => {
-                return {
-                    currentValue: prev.currentValue.concat("."),
-                    display: prev.currentValue.concat(".")
-                }
-            }) 
+            if (this.state.currentValue === "") {
+                this.setState(prev => {
+                    return {
+                        currentValue: "0.",
+                        display: "0."
+                    }
+                }) 
+            } else {
+                this.setState(prev => {
+                    return {
+                        currentValue: prev.currentValue.concat("."),
+                        display: prev.currentValue.concat(".")
+                    }
+                })                 
+            }
         }
     }
 
@@ -143,7 +178,7 @@ render(){
                 <div className="answer-box">{this.state.display}</div>
                 <div className="calc-row">
                     <button className="calc-button calc-button-top" onClick={this.allClear}>AC</button>
-                    <button className="calc-button calc-button-top">+/-</button>
+                    <button className="calc-button calc-button-top" onClick={this.toggleNegative}>+/-</button>
                     <button className="calc-button calc-button-top" onClick={this.percent}>%</button>
                     <button className={`calc-button calc-button-op ${this.state.operator === "/" ? "activeOp" : ""}`} onClick={() => {this.pressOp("/")}}>/</button>
                 </div>
