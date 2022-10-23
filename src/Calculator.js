@@ -12,11 +12,18 @@ class Calculator extends Component {
         value1: ""
     }
 
+    clear = () => {
+        this.setState({
+            currentValue: "0",
+            display: "0"
+        })
+    }
+
     allClear = () => {
         this.setState({
             operator: "",
             currentValue: "0",
-            display: 0,
+            display: "0",
             value1: ""          
         })
     }
@@ -177,7 +184,7 @@ render(){
                 {/* <p>{this.state.currentValue}</p> */}
                 <div className="answer-box">{this.state.display}</div>
                 <div className="calc-row">
-                    <button className="calc-button calc-button-top" onClick={this.allClear}>AC</button>
+                    <button className="calc-button calc-button-top" onClick={() => {this.state.display === "0" ? this.allClear() : this.clear()}}>{this.state.display === "0" ? "AC" : "C"}</button>
                     <button className="calc-button calc-button-top" onClick={this.toggleNegative}>+/-</button>
                     <button className="calc-button calc-button-top" onClick={this.percent}>%</button>
                     <button className={`calc-button calc-button-op ${this.state.operator === "/" ? "activeOp" : ""}`} onClick={() => {this.pressOp("/")}}>/</button>
