@@ -4,47 +4,60 @@ import React, { Component } from 'react'
 class Calculator extends Component {
     // Declare state variables
     state = {
-        result: ''
+        '=': '='
     }
 
-    // handleChange = e => {
-    //     const value = e.target.getAttribute('data-value')
-    //     switch (value) {
-    //       case 'clear':
-    //         this.setState({
-    //           operations: [],
-    //         })
-    //         break
-    //       case 'equal':
-    //         this.calculateOperations()
-    //         break
-    //       default:
-    //         const newOperations = update(this.state.operations, {
-    //           $push: [value],
-    //         })
-    //         this.setState({
-    //           operations: newOperations,
-    //         })
-    //         break
-    //     }
-    // }
-
-    handleChange = (event) => {
-        this.setState(() => {
-            return {
-                [event.target.name]: event.target.value
-            }
-        })
+    // this is for the onClick event for each button
+    handleChange = e => {
+        const value = e.target.getAttribute('value')
+        switch (value) {
+          case 'clear':
+            this.setState({
+              operations: [],
+            })
+            break
+          case 'equal':
+            this.calculateOperations()
+            break
+          default:
+            const newOperations = update(this.state.operations, {
+              $push: [value],
+            })
+            this.setState({
+              operations: newOperations,
+            })
+            break
+        }
     }
 
-    // calculate = () => {
-    //     const result = '42'
+    // handleChange = (event) => {
+    //     // const value = this.props.event.value
     //     this.setState(() => {
     //         return {
-    //             result
+            
     //         }
     //     })
+        
     // }
+
+    // handleChange = ({ className, value}) => {
+    //     console.log('this is the className', className)
+    //     return (
+    //       {value}
+    //     );
+    //   };
+
+    calculateOperations = () => {
+        let result = this.state.operations.join('')
+        if (result) {
+          result = math.eval(result)
+          result = math.format(result, { precision: 14 })
+          result = String(result)
+          this.setState({
+            operations: [result],
+          })
+        }
+      }
 
     render(){
         return (
@@ -80,7 +93,7 @@ class Calculator extends Component {
                     <div className="calc-row">
                         <button className="calc-button width-2"onClick={this.handleChange} label="0" value="0">0</button>
                         <button className="calc-button" onClick={this.handleChange} label="." value=".">.</button>
-                        <button className="calc-button calc-button-op" onClick={this.handleChange} label="=" value="equal">=</button>
+                        <button className="calc-button calc-button-op" onClick={this.calculateOperations} label="=" value="equal">=</button>
                     </div>
                 </div>
             </div>

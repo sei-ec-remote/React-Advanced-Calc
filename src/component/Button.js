@@ -1,4 +1,4 @@
-import "./Button.css";
+import React from 'react'
 
 const Button = ({ className, value, onClick }) => {
   return (
