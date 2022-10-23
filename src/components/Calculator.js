@@ -41,39 +41,17 @@ class Calculator extends Component {
 
   calculate = () => {
     let arithmetic = this.state.input1.toString("").replace(/,/g, "");
-    // const operator = {
-    //     "+": true,
-    //     "-": true,
-    //     "*": true,
-    //     "/": true
-    // };
+ 
     console.log("this is arithmetic", arithmetic);
     let result = Function("return " + arithmetic)();
     this.setState({
       input1: [result],
     });
     console.log(result);
-    // let equation = [];
-    // let token = "";
-    // let op = "";
-    //     for (var i = 0; i < arithmetic.length; ++i) {
-    //         if (operator[arithmetic[i]]) {
-    //             equation.push(op + token);
-    //             token = "";
-    //             op = arithmetic[i];
-    //     } else {
-    //         token += arithmetic[i];
-    //     }
-    // }
-    // equation.push(token);
-    // let number1 = Number(equation[0])
-    // let number2 = Number(equation[1])
-    // console.log ('1:',number1, '2:', number2)
-    // console.log('this is equation', equation)
-    // console.log('this is op', op);
-    // console.log (number1,op,number2)
+  
   };
 
+  
   render() {
     return (
       <div className="container">
@@ -89,7 +67,11 @@ class Calculator extends Component {
               AC
             </button>
             <button className="calc-button calc-button-top">+/-</button>
-            <button className="calc-button calc-button-top">%</button>
+            <button className="calc-button calc-button-top"
+            onClick={this.percent}
+            >
+                %
+            </button>
             <button
               className="calc-button calc-button-op"
               onClick={this.inputValue}
