@@ -2,35 +2,109 @@ import React, { Component } from 'react'
 
 class Calculator extends Component {
     state = {
-        onScreen: '0',
+        onScreen: '---',
         expression: '',
-        evaluated: ''
+        evaluated: false,
+        operator: false
 
     }
 
+    evaluate = () => {
+        const expression = `${this.state.expression} ${this.state.onScreen}`
+        try {
+            const value = eval(expression)
+            this.setState({
+                onScreen: `${value}`,
+                expression: `${value}`,
+                
+            })
+        } catch (err) {
+            const currentOnScreen = this.state.onScreen
+            this.setState({
+                onScreen: 'Invalid. Please clear to start over'
+            })
+            setTimeout(() => {
+                this.setState({
+                    onScreen: currentOnScreen
+                })
+            }, 1000)
+        }
+    }
+
     handleClick = (event) => {
-        const text = event.target.innerText
+        event.stopPropagation()
+        let text = event.target.innerText
         switch (true) {
             case !isNaN(text):
-                console.log('number')
+                if (this.state.evaluated) {
+                    console.log('1')
+                    this.setState({
+                        expression: '',
+                        onScreen: text,
+                        evaluated: false,
+                    })
+                    break
+                }
+                if ((this.state.operator || this.state.onScreen === '---') && text !== '0') {
+                    console.log('2')
+                    this.setState({
+                        onScreen: text
+                    })
+                } else if ((this.state.onScreen !== '---') && !this.state.evaluated) {
+                    console.log('3')
+                    this.setState({
+                        onScreen: `${this.state.onScreen}${text}`
+                    })
+                }
                 break
             case ['+','-','x','/','%'].includes(text):
-                console.log('operator')
+                if (text === 'x') {
+                    text = '*'
+                }
+                if (!this.state.operator) {
+                    this.setState((state) => {
+                        return {
+                            operator: true,
+                            expression: `${state.onScreen} ${text}`
+                        }
+                    })
+                } else {
+                    this.evaluate()
+                    this.setState({
+                        expression: `${this.state.expression} ${text}`
+                    })
+                }
+
+            
                 break
             case text === '=':
-                console.log('eval')
+                this.evaluate()
+                this.setState({
+                    operator: false,
+                    evaluated: true
+                })
                 break
             case text === 'AC':
-                console.log('clear')
+                this.setState({
+                    onScreen: '---',
+                    expression: '',
+                    evaluated: false,
+                    operator: false
+                })
                 break
             case text === '.':
-                console.log('decimal')
                 break
             case text === '+/-':
-                console.log('*-1')
+                if (!isNaN(this.state.onScreen)) {
+                    this.setState({
+                        onScreen: this.state.onScreen * -1
+                    })
+                }
                 break
             default: 
-                console.log('default')
+                this.setState({
+                    onScreen: 'you broke something. Press AC to start over'
+                })
         }
         
     }
@@ -38,7 +112,7 @@ class Calculator extends Component {
     addListeners = () => {
         const buttons = document.querySelectorAll('.calc-button')
         buttons.forEach((button) => {
-            document.addEventListener('click', this.handleClick)
+            button.addEventListener('click', this.handleClick)
         })
     }
 
@@ -54,7 +128,7 @@ render(){
             <h1>React Calculator</h1>
             <div className="calc-container">
                 
-                <div className="answer-box">TBD</div>
+                <div className="answer-box">{this.state.onScreen}</div>
                 <div className="calc-row">
                     <button className="calc-button calc-button-top">AC</button>
                     <button className="calc-button calc-button-top">+/-</button>
