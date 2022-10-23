@@ -12,6 +12,7 @@ class Calculator extends Component {
         value1: ""
     }
 
+///clears just the current number////
     clear = () => {
         this.setState({
             currentValue: "0",
@@ -19,6 +20,7 @@ class Calculator extends Component {
         })
     }
 
+///clears the current and any saved number//////
     allClear = () => {
         this.setState({
             operator: "",
@@ -28,6 +30,7 @@ class Calculator extends Component {
         })
     }
 
+////calculates based on operator and displays result, clearing stored values/////////
     evaluate = () => {
         if (this.state.currentValue !== "") {
             let num1 = parseFloat(this.state.value1)
@@ -59,13 +62,14 @@ class Calculator extends Component {
         }
     }
 
-    addToValue = (num) => {
+////adds pressed number to end of current number, and displays it, but only up to ten characters//////
+    pressNum = (num) => {
         if (this.state.currentValue === "0" || this.state.currentValue === "") {
             this.setState({
                 currentValue: num,
                 display: num
             })
-        } else {
+        } else if (this.state.currentValue.length <= 10) {
             this.setState(prev => {
                 return {
                     currentValue: prev.currentValue.concat(num),
@@ -75,13 +79,7 @@ class Calculator extends Component {
         }        
     }
 
-    pressNum = (num) => {
-        if (this.state.currentValue.length <= 10) {
-            this.addToValue(num)
-        }
-        
-    }
-
+/////keeps zeros from being added to beginning of number erroneously///////
     pressZero = () => {
         if (this.state.currentValue === "0") {
             return            
@@ -90,6 +88,7 @@ class Calculator extends Component {
         }
     }
 
+/////// +/- button makes number negative or switches back to positive///////    
     toggleNegative = () => {
         if (this.state.display !== "0") {
             if (this.state.value1 === "") {
@@ -112,6 +111,7 @@ class Calculator extends Component {
         }
     }
 
+////The percent button divides the current number by 100 and saves it as the first value if there isn't one./////
     percent = () => {
         if (this.state.currentValue !== "0") {
             if (this.state.value1 === "") {
@@ -133,6 +133,7 @@ class Calculator extends Component {
         }
     }
 
+/////sets the operator and saves the current value///////
     setOp = (op) => {
         this.setState(prev => {
             return {
@@ -143,6 +144,7 @@ class Calculator extends Component {
         })        
     }
 
+/////when an operator is pressed, it will first evaluate if there is a complete expression already queued//////
     pressOp = (op) => {
         if (this.state.value1 === "") {
             this.setOp(op)
@@ -156,6 +158,7 @@ class Calculator extends Component {
         }
     }
 
+/////adds a "." only if not already a decimal//////////
     pressPoint = () => {        
         if (!(this.state.currentValue.includes("."))) {
             if (this.state.currentValue === "") {
@@ -181,7 +184,6 @@ render(){
         <div className="container">
             <h1>React Calculator</h1>
             <div className="calc-container">
-                {/* <p>{this.state.currentValue}</p> */}
                 <div className="answer-box">{this.state.display}</div>
                 <div className="calc-row">
                     <button className="calc-button calc-button-top" onClick={() => {this.state.display === "0" ? this.allClear() : this.clear()}}>{this.state.display === "0" ? "AC" : "C"}</button>
