@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
-import InputButton from './components/InputButton'
+import React, { Component, useEffect } from 'react'
+import TheButtons from './components/TheButtons'
 
 class Calculator extends Component {
 
     // Declare state variables
     state = {
-        inputValue: 'asd',
-        storedValue: 'asd',
-        operator: 'asd',
-        output: 'asd'
+        inputValue: '',
+        storedValue: '',
+        operator: '',
+        output: ''
     }
 
     clear = () => {
@@ -17,14 +17,14 @@ class Calculator extends Component {
             storedValue: '',
             operator: '',
             output: ''
-        })
+        }, this.showOutput)
     }
 
     inputChar = (e) => {
-        let newInputState = this.state.inputValue + e.target.innerText
+        const newInputState = this.state.inputValue + e.target.innerText
         this.setState({
             inputValue: newInputState
-        })
+        }, this.showInput)
     }
 
     inputOp = (e) => {
@@ -35,10 +35,17 @@ class Calculator extends Component {
         })
     }
 
+    negate = () => {
+        const newInputState = this.state.inputValue * -1
+        this.setState({
+            inputValue: newInputState
+        }, this.showInput)
+    }
+
     evaluate = () => {
         let answer = null
-        let x = parseFloat(this.state.inputValue)
-        let y = parseFloat(this.state.storedValue)
+        const x = parseFloat(this.state.storedValue)
+        const y = parseFloat(this.state.inputValue)
         switch (this.state.operator) {
             case '+':
                 answer = x + y
@@ -55,49 +62,41 @@ class Calculator extends Component {
             case '%':
                 answer = x % y
                 break
+            default:
+                break
         }
+        this.clear()
         this.setState({
-            output: answer
-        })
+            output: answer,
+            inputValue: answer
+        }, this.showOutput)
+    }
+
+    showOutput = () => {
+        const display = document.getElementById('display')
+        display.innerText = this.state.output
+    }
+
+    showInput = () => {
+        const display = document.getElementById('display')
+        display.innerText = this.state.inputValue
     }
 
     render() {
-
         return (
             <div className="container">
                 <h1>React Calculator</h1>
                 <div className="calc-container">
                     <p>Values: </p>
-                    <div className="answer-box">TBD</div>
-                    <div className="calc-row">
-                        <button onClick={this.clear} className="calc-button calc-button-top">AC</button>
-                        <button className="calc-button calc-button-top">+/-</button>
-                        <button className="calc-button calc-button-top">%</button>
-                        <button className="calc-button calc-button-op">/</button>
-                    </div>
-                    <div className="calc-row">
-                        <button onClick={this.inputChar} className="calc-button">7</button>
-                        <button onClick={this.inputChar} className="calc-button">8</button>
-                        <button className="calc-button">9</button>
-                        <button className="calc-button calc-button-op">x</button>
-                    </div>
-                    <div className="calc-row">
-                        <button className="calc-button">4</button>
-                        <button className="calc-button">5</button>
-                        <button className="calc-button">6</button>
-                        <button className="calc-button calc-button-op">-</button>
-                    </div>
-                    <div className="calc-row">
-                        <button className="calc-button">1</button>
-                        <button className="calc-button">2</button>
-                        <button className="calc-button">3</button>
-                        <button onClick={this.inputOp} className="calc-button calc-button-op">+</button>
-                    </div>
-                    <div className="calc-row">
-                        <button className="calc-button width-2">0</button>
-                        <button className="calc-button">.</button>
-                        <button onClick={this.evaluate} className="calc-button calc-button-op">=</button>
-                    </div>
+                    <div className="answer-box" id="display">TBD</div>
+                    <TheButtons
+                        clear = {this.clear}
+                        inputChar = {this.inputChar}
+                        inputOp = {this.inputOp}
+                        negate = {this.negate}
+                        evaluate = {this.evaluate}
+
+                    />
                 </div>
             </div>
         )
