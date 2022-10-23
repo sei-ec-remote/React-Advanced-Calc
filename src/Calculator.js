@@ -106,7 +106,7 @@ class Calculator extends Component {
     }
 
     percent = () => {
-        if (this.state.currentValue !== "" && this.state.currentValue !== "0") {
+        if (this.state.currentValue !== "0") {
             if (this.state.value1 === "") {
                 this.setState(prev => {
                     return {
