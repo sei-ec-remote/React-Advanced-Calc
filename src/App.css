@@ -14,7 +14,23 @@
   width: 50px;
   min-height: 40px;
   color: #333;
-  background-color: #ccc;
+  background-color: rgb(213, 210, 210);
+}
+.calc-button:hover {
+  color: rgb(255, 255, 255);
+  background-color: rgb(167, 165, 165);
+}
+#AC:hover {
+  color: rgb(255, 255, 255);
+  background-color: rgb(130, 128, 128);
+}
+.calc-button-op:hover {
+  color: rgb(255, 255, 255);
+  background-color: rgb(255, 190, 69);
+}
+.calc-button-top:hover {
+  color: #333;
+  background-color: #aaa;
 }
 
 .width-2 {
