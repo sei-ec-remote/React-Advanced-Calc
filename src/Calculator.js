@@ -18,12 +18,14 @@ class Calculator extends Component {
         })
     }
 
-    inputInput = (e) => {
-        const char = e.target.innerText
+    inputChar = (e) => {
+        let newInputState = this.state.input + e.target.innerText
         this.setState({
-            input: char
+            input: newInputState
         })
     }
+
+
 
     render() {
 
