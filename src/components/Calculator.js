@@ -53,7 +53,7 @@ class Calculator extends Component {
 		this.setState(prevState => {
 			return {
 				input: prevState.input + event.target.innerText,
-				error: ''
+				
 			}
 		})
 	} 
@@ -65,7 +65,7 @@ class Calculator extends Component {
         // })
         if (this.state.input === '') {		
 			return this.setState({
-				error: 'No nums to do operations of select a num'
+				error: 'Error'
 			})
 		}
         if (this.state.prev !== '') {
@@ -135,7 +135,7 @@ class Calculator extends Component {
         console.log('I made it this far')
 		// this.setState({
 		// 	result: result
-        //     currentSum:`${result}`
+        //     input:`${result}`
 		// })
 	
 
