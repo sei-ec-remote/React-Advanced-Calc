@@ -5,21 +5,62 @@ import React, { Component } from 'react'
 export default class Calculator extends Component {
     // Declare state variables
     state = {
-        result: ' '
+        result: ' ',
+        prevNum: ' ',
+        currNum: ' '
     }
 
-    // this is for the onClick event for each button
+    // this is for the onClick events for each button
     ////////////////////////////////////////////////
-    // I defined 'e' below, but it didn't have an effect on this event?
+
     handleInput = (e) => {
         let value = e.target.value
         this.setState(() => {
             return {
                 result: value
             }
-        })
-        
+        })    
     }
+
+
+    // Operator Logic
+    compute = (e) => {
+        let computation = null
+        const prev = parseFloat(this.prevNum)
+        const current = parseFloat(this.currNum)
+        if (isNaN(prev) || isNaN(current)) return
+        switch (this.operation) {
+          case '+':
+            computation = prev + current
+            break
+          case '-':
+            computation = prev - current
+            break
+          case '*':
+            computation = prev * current
+            break
+          case '÷':
+            computation = prev / current
+            break
+          default:
+            return
+        }
+        this.currentOperand = computation
+        this.operation = undefined
+        this.previousOperand = ''
+      }
+
+      // Equation equals
+      calculateOperations = () => {
+        let answer = this.compute
+        this.setState(() => {
+            return {
+                result: answer
+            }
+        })
+
+    }
+
 
     // psuedo code
     // handleInput = (e) => {
@@ -85,15 +126,6 @@ export default class Calculator extends Component {
     //     }
     //   }
 
-        // calculateOperations = () => {
-        //     let value = 'temp math results'
-        //     this.setState(() => {
-        //         return {
-        //             result: value
-        //         }
-        //     })
-
-        // }
 
     render(){
         return (
@@ -129,7 +161,7 @@ export default class Calculator extends Component {
                     <div className="calc-row">
                         <button className="calc-button width-2"onClick={(e) => this.handleInput(e, '0')} label="0" value="0">0</button>
                         <button className="calc-button" onClick={(e) => this.handleInput(e, '.')} label="." value=".">.</button>
-                        <button className="calc-button calc-button-op" onClick={(e) => this.handleInput(e, '=')} label="=" value="equal">=</button>
+                        <button className="calc-button calc-button-op" onClick={(e) => this.calculateOperations(e, '=')} label="=" value="equal">=</button>
                     </div>
                 </div>
             </div>
