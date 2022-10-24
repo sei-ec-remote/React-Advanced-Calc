@@ -50,6 +50,15 @@ class Calculator extends Component {
   
   };
 
+  percentage = () => {
+    let percentage = this.state.input1.toString("").replace(/,/g, "")
+    let number = parseInt(percentage)/100
+    console.log('this is perctange', percentage)
+    console.log('this is number', number)
+    this.setState({
+      input1:[number]
+    })
+  }
   
   render() {
     return (
@@ -67,7 +76,7 @@ class Calculator extends Component {
             </button>
             <button className="calc-button calc-button-top">+/-</button>
             <button className="calc-button calc-button-top"
-            onClick={this.percent}
+            onClick={this.percentage}
             >
                 %
             </button>
