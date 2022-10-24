@@ -1,7 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+// import Button from './components/Button';
 
 class Calculator extends Component {
     // Declare state variables
+    // I'm trying to assign number values to each number button
     state = {
         operator: '+', 
         num1: 0,
@@ -18,7 +20,7 @@ class Calculator extends Component {
         button9: 9
     }
  
-
+// grabbed this from the easy calculator. Thought it would help with the buttons below.
     setNum = (e, num) => {
         this.setState({ [num]: e.target.value });
     }
@@ -63,10 +65,37 @@ class Calculator extends Component {
 // function to clear the calculator
     clearCalc = () => {
         this.setState({
-            currentNum: []
+            currentNum: ''
         })
     }
 
+
+    calculate = () => {
+        const covertedNum1 = parseInt(this.state.num1)
+        const covertedNum2 = parseInt(this.state.num2)
+        if (isNaN(covertedNum1) || isNaN(covertedNum2)) {
+            this.setState(() => {
+                return {
+                    result: 'User error: did not put in a number'
+                }
+            })
+        } else if (num1 === 0) {
+            this.setState(() => {
+                return {
+                    result: 'User error: started with a zero'
+                }
+            })
+        } else {
+            const result = covertedNum1 + covertedNum2
+            this.setState(() => {
+                return {
+                    result
+                }
+            })
+        }
+    }
+
+    // This will render the actual calculator as it looks on Macs
     render(){
         return (
             <div className="container">
@@ -87,7 +116,7 @@ class Calculator extends Component {
                         <button name="mult" value="*" onClick={(e) => this.setOp(e)} className="calc-button calc-button-op">x</button>
                     </div>
                     <div className="calc-row">
-                        <button name='button4' className="calc-button">4</button>
+                        <button name="4" value="4" onClick={(e) => this.setOp(e)} className="calc-button">4</button>
                         <button name='button5' className="calc-button">5</button>
                         <button name='button6' className="calc-button">6</button>
                         <button name="sub" value="-" onClick={(e) => this.setOp(e)} className="calc-button calc-button-op">-</button>
@@ -107,6 +136,7 @@ class Calculator extends Component {
             </div>
         )
     }
+    
 }
 
 export default Calculator
