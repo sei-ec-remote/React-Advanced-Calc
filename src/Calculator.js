@@ -118,7 +118,7 @@ class Calculator extends Component {
                         <button className="calc-button calc-button-op" onClick={this.handleOperator}>/</button>
                     </div>
                     <div className="calc-row">
-                        <button className="calc-button" onClick={(e) => this.handleNum(e)}>7</button>
+                        <button className="calc-button" onClick={this.handleNum}>7</button>
                         <button className="calc-button" onClick={this.handleNum}>8</button>
                         <button className="calc-button" onClick={this.handleNum}>9</button>
                         <button className="calc-button calc-button-op" onClick={this.handleOperator}>x</button>
