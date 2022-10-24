@@ -24,13 +24,12 @@ class Calculator extends Component {
   inputValue = (e) => {
     const value = e.target.innerText;
     console.log(value);
-
-    this.setState({
-      // if ((this.state.inputValue === [] && value === "0")) {
-      //     input1: []
-      // } else {
-      input1: [...this.state.input1, value],
-    });
+    if(this.state.input1[0]==='0'){
+      this.setState({ input1: [value]})
+    }else {
+      this.setState({input1: [...this.state.input1, value] })
+  
+    };
   };
 
   clearFunction = (e) => {
