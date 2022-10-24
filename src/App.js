@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css'
 import Calculator from './component/Calculator'
-// import Button from './component/Button'
+// import OperatorLogic from './component/OperatorLogic'
 
 function App() {
   return (
