@@ -51,8 +51,8 @@ const Calculator = () => {
         <div className="container">
             <h1>React Calculator</h1>
             <div className="calc-container">
-                <p>Values: {num}</p>
-                <div className="answer-box">{num}</div>
+                <p>Values: {this.state.num}</p>
+                <div className="answer-box">{this.state.result}</div>
                 <div className="calc-row">
                     <button className="calc-button calc-button-top" onClick={clear}>AC</button>
                     <button className="calc-button calc-button-top" onClick={changeSign}>+/-</button>
@@ -85,6 +85,8 @@ const Calculator = () => {
             </div>
         </div>
     )
+
+    
 }
 
 export default Calculator
