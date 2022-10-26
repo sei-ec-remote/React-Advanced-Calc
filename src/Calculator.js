@@ -37,7 +37,7 @@ const Calculator = () => {
     function calculate() {
         if (operator === "/") {
             setNum(parseFloat(oldNum) / parseFloat(num));
-        } else if (operator === "X") {
+        } else if (operator === "*") {
             setNum(parseFloat(oldNum) * parseFloat(num));
         } else if (operator === "-") {
             setNum(parseFloat(oldNum) - parseFloat(num));
