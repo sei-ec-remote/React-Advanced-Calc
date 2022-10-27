@@ -1,20 +1,24 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 // import OperatorLogic from './OperatorLogic'
 // import Buttons from './Buttons.js
 
-export default class Calculator extends Component {
+const Calculator = () => {
     // Declare state variables
-    state = {
+    let state = {
         result: ' ',
-        prevNum: ' ',
-        currNum: ' '
+        num1: ' ',
+        num2: ' ',
+        operator: ' '
     }
 
     // this is for the onClick events for each button
     ////////////////////////////////////////////////
 
-    handleInput = (e) => {
+    const handleInput = (e) => {
         let value = e.target.value
+        
+        // might place conditionals here
+
         this.setState(() => {
             return {
                 result: value
@@ -22,42 +26,44 @@ export default class Calculator extends Component {
         })    
     }
 
-
     // Operator Logic
-    compute = (e) => {
+    const compute = (e) => {
         let computation = null
-        const prev = parseFloat(this.prevNum)
-        const current = parseFloat(this.currNum)
-        if (isNaN(prev) || isNaN(current)) return
-        switch (this.operation) {
-          case '+':
-            computation = prev + current
-            break
-          case '-':
-            computation = prev - current
-            break
-          case '*':
-            computation = prev * current
-            break
-          case '÷':
-            computation = prev / current
-            break
-          default:
+        const num1 = e.target.value
+        const num2 = e.target.value
+        if (isNaN(num1) || isNaN(num2)) 
+            return 
+                switch (this.operation) {
+                case '+':
+                    computation = num1 + num2
+                    break
+                case '-':
+                    computation = num1 - num2
+                    break
+                case '*':
+                    computation = num1 * num2
+                    break
+                case '÷':
+                    computation = num1 / num2
+                    break
+                default:
             return
         }
-        this.currentOperand = computation
+        this.num2 = computation
         this.operation = undefined
-        this.previousOperand = ''
+        this.num1 = ''
       }
 
+
       // Equation equals
-      calculateOperations = () => {
-        let answer = this.compute
-        this.setState(() => {
-            return {
-                result: answer
-            }
-        })
+      const calculateOperations = () => {
+           // the equation psedo-code
+        // let answer = this.compute
+        // setState(() => {
+        //     return {
+        //         result: this.compute
+        //     }
+        // })
 
     }
 
@@ -127,45 +133,44 @@ export default class Calculator extends Component {
     //   }
 
 
-    render(){
-        return (
-            <div className="container">
-                <h1>React Calculator</h1>
-                <div className="calc-container">
-                    <p>Values: </p>
-                    <div className="answer-box">{this.state.result}</div>
-                    <div className="calc-row">
-                        <button className="calc-button calc-button-top"onClick={(e) => this.handleInput(e, ' ')} name="C" value=" ">AC</button>
-                        <button className="calc-button calc-button-top"onClick={(e) => this.handleInput(e, '+/-')} name="+/-" value="+/-">+/-</button>
-                        <button className="calc-button calc-button-top"onClick={(e) => this.handleInput(e, '%')} name="%" value="%">%</button>
-                        <button className="calc-button calc-button-op"onClick={(e) => this.handleInput(e, '/')} name="/" value="/">/</button>
-                    </div>
-                    <div className="calc-row">
-                        <button className="calc-button"onClick={(e) => this.handleInput(e, '7')} name="7" value="7">7</button>
-                        <button className="calc-button"onClick={(e) => this.handleInput(e, '8')} name="8" value="8">8</button>
-                        <button className="calc-button"onClick={(e) => this.handleInput(e, '9')} name="9" value="9">9</button>
-                        <button className="calc-button calc-button-op"onClick={(e) => this.handleInput(e,'')} name="x" value="*">x</button>
-                    </div>
-                    <div className="calc-row">
-                        <button className="calc-button"onClick={(e) => this.handleInput(e, '4')} name="4" value="4">4</button>
-                        <button className="calc-button"onClick={(e) => this.handleInput(e, '5')} name="5" value="5">5</button>
-                        <button className="calc-button"onClick={(e) => this.handleInput(e, '6')} name="6" value="6">6</button>
-                        <button className="calc-button calc-button-op"onClick={(e) => this.handleInput(e,'-')} label="-" value="-">-</button>
-                    </div>
-                    <div className="calc-row">
-                        <button className="calc-button"onClick={(e) => this.handleInput(e, '1')} name="1" value="1">1</button>
-                        <button className="calc-button"onClick={(e) => this.handleInput(e, '2')} name="2" value="2">2</button>
-                        <button className="calc-button"onClick={(e) => this.handleInput(e, '3')} name="3" value="3">3</button>
-                        <button className="calc-button calc-button-op"onClick={(e) => this.handleInput(e,'+')} name="+" value="+">+</button>
-                    </div>
-                    <div className="calc-row">
-                        <button className="calc-button width-2"onClick={(e) => this.handleInput(e, '0')} label="0" value="0">0</button>
-                        <button className="calc-button" onClick={(e) => this.handleInput(e, '.')} label="." value=".">.</button>
-                        <button className="calc-button calc-button-op" onClick={(e) => this.calculateOperations(e, '=')} label="=" value="equal">=</button>
-                    </div>
+    return (
+        <div className="container">
+            <h1>React Calculator</h1>
+            <div className="calc-container">
+                <p>Values: </p>
+                <div className="answer-box">{this.state.result}</div>
+                <div className="calc-row">
+                    <button className="calc-button calc-button-top" onClick={(e) => this.handleInput(e, ' ')} name="C" value=" ">AC</button>
+                    <button className="calc-button calc-button-top" onClick={(e) => this.handleInput(e, '+/-')} name="+/-" value="+/-">+/-</button>
+                    <button className="calc-button calc-button-top" onClick={(e) => this.handleInput(e, '%')} name="%" value="%">%</button>
+                    <button className="calc-button calc-button-op" onClick={(e) => this.handleInput(e, '/')} name="/" value="/">/</button>
+                </div>
+                <div className="calc-row">
+                    <button className="calc-button" onClick={(e) => this.handleInput(e, 7)} name="7" value={7}>7</button>
+                    <button className="calc-button" onClick={(e) => this.handleInput(e, '8')} name="8" value="8">8</button>
+                    <button className="calc-button" onClick={(e) => this.handleInput(e, '9')} name="9" value="9">9</button>
+                    <button className="calc-button calc-button-op" onClick={(e) => this.handleInput(e,'')} name="x" value="*">x</button>
+                </div>
+                <div className="calc-row">
+                    <button className="calc-button" onClick={(e) => this.handleInput(e, '4')} name="4" value="4">4</button>
+                    <button className="calc-button" onClick={(e) => this.handleInput(e, '5')} name="5" value="5">5</button>
+                    <button className="calc-button" onClick={(e) => this.handleInput(e, '6')} name="6" value="6">6</button>
+                    <button className="calc-button calc-button-op" onClick={(e) => this.handleInput(e,'-')} label="-" value="-">-</button>
+                </div>
+                <div className="calc-row">
+                    <button className="calc-button" onClick={(e) => this.handleInput(e, '1')} name="1" value="1">1</button>
+                    <button className="calc-button" onClick={(e) => this.handleInput(e, '2')} name="2" value="2">2</button>
+                    <button className="calc-button" onClick={(e) => this.handleInput(e, '3')} name="3" value="3">3</button>
+                    <button className="calc-button calc-button-op" onClick={(e) => this.handleInput(e,'+')} name="+" value="+">+</button>
+                </div>
+                <div className="calc-row">
+                    <button className="calc-button width-2" onClick={(e) => this.handleInput(e, '0')} label="0" value="0">0</button>
+                    <button className="calc-button" onClick={(e) => this.handleInput(e, '.')} label="." value=".">.</button>
+                    <button className="calc-button calc-button-op" onClick={(e) => this.calculateOperations(e, '=')} label="=" value="equal">=</button>
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
 }
 
+export default Calculator
