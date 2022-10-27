@@ -21,9 +21,8 @@ const Calculator = () => {
     const handleInput = (e) => {
         if (e.target.value !== '0' || num1 !== '') {
             setNum1(num1 + e.target.value)
-            // console.log('this was clicked')
+            // console.log('this was clicked', e.target.value)
         }
-     
     }
 
     // Operator Logic
@@ -32,21 +31,27 @@ const Calculator = () => {
         
         if (isNaN(num1) || isNaN(num2)) 
             return 
-                switch (this.operation) {
+                switch (operator) {
                 case '+':
-                    result = num1 + num2
+                    // return (Number(num1) + Number(num2)).toString()
+                    console.log('+')
                     break
                 case '-':
-                    result = num1 - num2
+                    // return (Number(num1) - Number(num2)).toString()
+                    console.log('-')
                     break
                 case '*':
-                    result = num1 * num2
+                    // return (Number(num1) * Number(num2)).toString()
+                    console.log('*')
                     break
-                case '÷':
-                    result = num1 / num2
+                case '/':
+                    // return (Number(num1) / Number(num2)).toString()
+                    console.log('/')
+                    break
+                case '%':
+                    console.log('%')
                     break
                 default:
-            return
         }
       }
 
@@ -136,32 +141,32 @@ const Calculator = () => {
                 <div className="answer-box">{result}</div>
                 <div className="calc-row">
                     <button className="calc-button calc-button-top" onClick={handleClear} name="C" value=" ">AC</button>
-                    <button className="calc-button calc-button-top" onClick={handleInput} name="+/-" value="+/-">+/-</button>
-                    <button className="calc-button calc-button-top" onClick={handleInput} name="%" value="%">%</button>
-                    <button className="calc-button calc-button-op" onClick={handleInput} name="/" value="/">/</button>
+                    <button className="calc-button calc-button-top" onClick={handleInput} name="plusMinus" value="+/-">+/-</button>
+                    <button className="calc-button calc-button-top" onClick={calculateOperations} name="%" value="%">%</button>
+                    <button className="calc-button calc-button-op" onClick={calculateOperations} name="divide" value="/">/</button>
                 </div>
                 <div className="calc-row">
-                    <button className="calc-button" onClick={handleInput} name="7" value={7}>7</button>
+                    <button className="calc-button" onClick={handleInput} name="7" value="7">7</button>
                     <button className="calc-button" onClick={handleInput} name="8" value="8">8</button>
                     <button className="calc-button" onClick={handleInput} name="9" value="9">9</button>
-                    <button className="calc-button calc-button-op" onClick={handleInput} name="x" value="*">x</button>
+                    <button className="calc-button calc-button-op" onClick={calculateOperations} name="times" value="*">x</button>
                 </div>
                 <div className="calc-row">
                     <button className="calc-button" onClick={handleInput} name="4" value="4">4</button>
                     <button className="calc-button" onClick={handleInput} name="5" value="5">5</button>
                     <button className="calc-button" onClick={handleInput} name="6" value="6">6</button>
-                    <button className="calc-button calc-button-op" onClick={handleInput} label="-" value="-">-</button>
+                    <button className="calc-button calc-button-op" onClick={calculateOperations} name="minus" value="-">-</button>
                 </div>
                 <div className="calc-row">
                     <button className="calc-button" onClick={handleInput} name="1" value="1">1</button>
                     <button className="calc-button" onClick={handleInput} name="2" value="2">2</button>
                     <button className="calc-button" onClick={handleInput} name="3" value="3">3</button>
-                    <button className="calc-button calc-button-op" onClick={handleInput} name="+" value="+">+</button>
+                    <button className="calc-button calc-button-op" onClick={calculateOperations} name="plus" value="+">+</button>
                 </div>
                 <div className="calc-row">
-                    <button className="calc-button width-2" onClick={handleInput} label="0" value="0">0</button>
-                    <button className="calc-button" onClick={handleInput} label="." value=".">.</button>
-                    <button className="calc-button calc-button-op" onClick={calculateOperations} label="=" value="equal">=</button>
+                    <button className="calc-button width-2" onClick={handleInput} name="0" value="0">0</button>
+                    <button className="calc-button" onClick={handleInput} name="." value="decimal">.</button>
+                    <button className="calc-button calc-button-op" onClick={calculateOperations} name="=" value="equal">=</button>
                 </div>
             </div>
         </div>
