@@ -18,43 +18,75 @@ const Calculator = () => {
     // this is for the onClick events for each button
     ////////////////////////////////////////////////
 
+    // const handleInput = (e) => {
+    //     if (e.target.value !== '0' || num1 !== '') {
+    //         setNum1(num1 + e.target.value)
+    //         // console.log('this was clicked', e.target.value)
+    //     }
+    // }
+
     const handleInput = (e) => {
         if (e.target.value !== '0' || num1 !== '') {
-            setNum1(num1 + e.target.value)
-            // console.log('this was clicked', e.target.value)
+            return {
+                [e.target.name]: e.target.value
+            }
         }
     }
 
     // Operator Logic
+    // const calculateOperations = (e) => {
+    //     e.preventDefault()
+        
+    //     if (isNaN(num1) || isNaN(num2)) 
+    //         return 
+    //             switch (operator) {
+    //             case '+':
+    //                 // return (Number(num1) + Number(num2)).toString()
+    //                 console.log('+')
+    //                 break
+    //             case '-':
+    //                 // return (Number(num1) - Number(num2)).toString()
+    //                 console.log('-')
+    //                 break
+    //             case '*':
+    //                 // return (Number(num1) * Number(num2)).toString()
+    //                 console.log('*')
+    //                 break
+    //             case '/':
+    //                 // return (Number(num1) / Number(num2)).toString()
+    //                 console.log('/')
+    //                 break
+    //             case '%':
+    //                 console.log('%')
+    //                 break
+    //             default:
+    //     }
+    //   }
+
     const calculateOperations = (e) => {
         e.preventDefault()
-        
-        if (isNaN(num1) || isNaN(num2)) 
-            return 
-                switch (operator) {
-                case '+':
-                    // return (Number(num1) + Number(num2)).toString()
-                    console.log('+')
-                    break
-                case '-':
-                    // return (Number(num1) - Number(num2)).toString()
-                    console.log('-')
-                    break
-                case '*':
-                    // return (Number(num1) * Number(num2)).toString()
-                    console.log('*')
-                    break
-                case '/':
-                    // return (Number(num1) / Number(num2)).toString()
-                    console.log('/')
-                    break
-                case '%':
-                    console.log('%')
-                    break
-                default:
-        }
-      }
 
+        if (isNaN(num1) || isNaN(num2)) {
+                return {
+                    result: 'User error: did not put in a number'
+                }
+
+        } else if (e.target.value = '+') {
+            result = num1 + num2
+            console.log(num1, 'is first')
+            console.log(num2, 'is second')
+            console.log(result, 'result')
+                return {
+                    result
+                }
+        } else if (e.target.value= '-') {
+            result = num1 - num2
+                return {
+                    result
+                }
+        }
+
+    }
 
       // Equation equals
     //   const calculateOperations = () => {
