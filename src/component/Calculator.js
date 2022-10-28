@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-// import OperatorLogic from './OperatorLogic'
-// import Buttons from './Buttons.js
 
 const Calculator = () => {
     // Declare state variables
@@ -71,7 +69,7 @@ const Calculator = () => {
                     result: 'User error: did not put in a number'
                 }
 
-        } else if (e.target.value = '+') {
+        } else if (operator = '+') {
             result = num1 + num2
             console.log(num1, 'is first')
             console.log(num2, 'is second')
