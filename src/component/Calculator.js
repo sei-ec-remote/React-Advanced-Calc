@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Calculator = () => {
+const Calculator = (props) => {
     // Declare state variables
     // let state = {
     //     result: ' ',
@@ -12,6 +12,7 @@ const Calculator = () => {
     let [num1, setNum1] = useState('')
     let [num2, setNum2] = useState('')
     let [operator, setOperator] = useState('')
+    let [error, setError] = useState('')
 
     // this is for the onClick events for each button
     ////////////////////////////////////////////////
@@ -23,13 +24,82 @@ const Calculator = () => {
     //     }
     // }
 
+    // second number or current number
     const handleInput = (e) => {
-        if (e.target.value !== '0' || num1 !== '') {
-            return {
-                [e.target.name]: e.target.value
-            }
+        if (e.target.value !== '0' || num2 !== '') {
+            setNum2(num2 + e.target.value)
         }
     }
+
+    // decimal
+    const decimal = () => {
+        if (!num2) {
+            setNum2('0.')
+        }
+        else if (num2.indexOf('.') === -1) {
+            setNum2(num2 + '.')
+        }
+    }
+
+    // plus/minus button
+    const pm = () => {
+        console.log('plus/minus')
+    }
+
+    const calculateOperations = (e) => {
+        if (operator) {
+            setError('Operator has already been set. Press clear to reset.')
+        } else if (!num2 && e.target.value === '-') {
+            setError('')
+            setNum2(e.target.value)
+        } else if (!num2) {
+            setError('A numerical value must be set first')
+        } else {
+            setNum1(num2)
+            setOperator(e.target.value)
+            setError('')
+            setNum2('')
+        }
+    }
+
+    const calculate = (e) => {
+        e.preventDefault()
+
+    if(!num1 || !operator) {
+      setError('Please enter a valid expression')
+    }
+    else if(!num2) {
+      setError('Please select a second number')
+    }
+    else {
+      //Ideal case
+      let answer = ''
+
+      if(!operator || operator === '+') {
+        answer = (Number(num1) + Number(num2)).toString()
+      }
+      else if(operator === '-') {
+        answer = (Number(num1) - Number(num2)).toString()
+      }
+      else if(operator === '*') {
+        answer = (Number(num1) * Number(num2)).toString()
+      }
+      else if(operator === '/') {
+        answer = (Number(num1) / Number(num2)).toString()
+      }
+      else if(operator === '%') {
+        answer = (Number(num1) % Number(num2)).toString()
+      }
+
+      //Set the answer to display
+      let newResult = answer.slice(0, 10)
+
+      // Update state
+      setResult(newResult)
+      setError('')
+    }
+    }
+
 
     // Operator Logic
     // const calculateOperations = (e) => {
@@ -61,30 +131,30 @@ const Calculator = () => {
     //     }
     //   }
 
-    const calculateOperations = (e) => {
-        e.preventDefault()
+    // const calculateOperations = (e) => {
+    //     e.preventDefault()
 
-        if (isNaN(num1) || isNaN(num2)) {
-                return {
-                    result: 'User error: did not put in a number'
-                }
+    //     if (isNaN(num1) || isNaN(num2)) {
+    //             return {
+    //                 result: 'User error: did not put in a number'
+    //             }
 
-        } else if (operator = '+') {
-            result = num1 + num2
-            console.log(num1, 'is first')
-            console.log(num2, 'is second')
-            console.log(result, 'result')
-                return {
-                    result
-                }
-        } else if (e.target.value= '-') {
-            result = num1 - num2
-                return {
-                    result
-                }
-        }
+    //     } else if (operator = '+') {
+    //         result = num1 + num2
+    //         console.log(num1, 'is first')
+    //         console.log(num2, 'is second')
+    //         console.log(result, 'result')
+    //             return {
+    //                 result
+    //             }
+    //     } else if (e.target.value= '-') {
+    //         result = num1 - num2
+    //             return {
+    //                 result
+    //             }
+    //     }
 
-    }
+    // }
 
       // Equation equals
     //   const calculateOperations = () => {
@@ -171,7 +241,7 @@ const Calculator = () => {
                 <div className="answer-box">{result}</div>
                 <div className="calc-row">
                     <button className="calc-button calc-button-top" onClick={handleClear} name="C" value=" ">AC</button>
-                    <button className="calc-button calc-button-top" onClick={handleInput} name="plusMinus" value="+/-">+/-</button>
+                    <button className="calc-button calc-button-top" onClick={pm} name="plusMinus" value="+/-">+/-</button>
                     <button className="calc-button calc-button-top" onClick={calculateOperations} name="%" value="%">%</button>
                     <button className="calc-button calc-button-op" onClick={calculateOperations} name="divide" value="/">/</button>
                 </div>
@@ -195,10 +265,11 @@ const Calculator = () => {
                 </div>
                 <div className="calc-row">
                     <button className="calc-button width-2" onClick={handleInput} name="0" value="0">0</button>
-                    <button className="calc-button" onClick={handleInput} name="." value="decimal">.</button>
-                    <button className="calc-button calc-button-op" onClick={calculateOperations} name="=" value="equal">=</button>
+                    <button className="calc-button" onClick={decimal} name="." value="decimal">.</button>
+                    <button className="calc-button calc-button-op" onClick={calculate} name="=" value="equal">=</button>
                 </div>
             </div>
+            <p className='error'>{error}</p>
         </div>
     )
 }
